@@ -302,6 +302,9 @@ button, a {
 #main-content.hidden { display: none; }
 
 /* --- HERO --- */
+body.country-view .hero {
+    display: none;
+}
 .hero {
     min-height: 60vh;
     display: flex;
@@ -1219,6 +1222,24 @@ body.theme-srilanka .package-card {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-end;
+}
+
+.currency-switcher-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #8e44ad; /* A distinct purple color */
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
+    transition: transform 0.2s ease, background-color var(--transition-slow);
+}
+.currency-switcher-btn:hover {
+    transform: scale(1.1);
 }
 
 .contact-sticky-btn, .chatbot-sticky-btn {

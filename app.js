@@ -40,6 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotQuestions = document.getElementById('chatbot-questions');
     // Music elements
     const backgroundMusic = document.getElementById('background-music');
+    // Currency elements
+    const currencySwitcherBtn = document.getElementById('currency-switcher-btn');
+
 
     // Package Controls
     const packageControls = document.getElementById('package-controls');
@@ -61,7 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLayout = '2';
     let currentSort = 'default';
     let currentDurationFilter = 'all';
-
+    // Currency state
+    const currencies = Object.keys(config.CURRENCIES);
+    let currentCurrencyIndex = 0;
 
     // --- Background Canvas Animation ---
     const canvas = document.getElementById('background-canvas');
@@ -185,6 +190,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
+    
+    // --- Currency Functions ---
+    const formatPrice = (baseUsd) => {
+        const currencyCode = currencies[currentCurrencyIndex];
+        const currency = config.CURRENCIES[currencyCode];
+        const converted = baseUsd * currency.rate;
+        return `${currency.symbol} ${Math.round(converted).toLocaleString()}`;
+    };
+
+    const updateAllPrices = () => {
+        const priceElements = document.querySelectorAll('[data-base-usd]');
+        priceElements.forEach(el => {
+            const baseUsd = parseFloat(el.dataset.baseUsd);
+            el.textContent = formatPrice(baseUsd);
+        });
+        currencySwitcherBtn.textContent = currencies[currentCurrencyIndex];
+    };
 
     // --- Core App Functions ---
     const showPreloader = () => {
@@ -259,13 +281,15 @@ document.addEventListener('DOMContentLoaded', () => {
             packagesToRender.sort((a, b) => {
                 const priceA = parseInt(a.price_from.replace(/[^0-9]/g, ''));
                 const priceB = parseInt(b.price_from.replace(/[^0-9]/g, ''));
-                return currentSort === 'asc' ? priceA - priceB : priceB - a.price_from.localeCompare(b.price_from, undefined, {numeric: true});
+                return currentSort === 'asc' ? priceA - priceB : priceB - priceA;
             });
         }
             
         packagesToRender.forEach(pkg => {
             const card = document.createElement('div');
             card.className = 'package-card animate-in';
+            const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
+            
             card.innerHTML = `
                 <div class="card-image-container">
                     <img src="${pkg.images[0]}" alt="${pkg[`title_${currentLang}`]}" class="card-image" loading="lazy">
@@ -273,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card-content">
                     <p class="card-country">${pkg.country}</p>
                     <h3 class="card-title">${pkg[`title_${currentLang}`]}</h3>
-                    <p class="card-price">${pkg.price_from}</p>
+                    <p class="card-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>
                     <div class="card-details">
                         <span>${pkg.duration}</span>
                         <span class="card-rating">
@@ -445,13 +469,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const whatsappMessage = config.STRINGS[currentLang].whatsappMsg(pkg[`title_${currentLang}`]);
         const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
-        
+        const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
+
         packageModalBody.innerHTML = `
             <div class="modal-image-carousel">
                 ${pkg.images.map(img => `<img src="${img}" alt="${pkg[`title_${currentLang}`]}" class="modal-image">`).join('')}
             </div>
             <h2 id="package-modal-title">${pkg[`title_${currentLang}`]}</h2>
-            <p class="modal-price">${pkg.price_from}</p>
+            <p class="modal-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>
             <p class="modal-desc">${pkg[`desc_${currentLang}`]}</p>
             <a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactWhatsApp}</a>
         `;
@@ -894,6 +919,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if(chatbotStickyBtn) chatbotStickyBtn.addEventListener('click', () => chatbotModal.classList.remove('hidden'));
     if(chatbotCloseBtn) chatbotCloseBtn.addEventListener('click', () => chatbotModal.classList.add('hidden'));
     if(chatbotQuestions) chatbotQuestions.addEventListener('click', handleQuestionClick);
+    
+    // Currency Switcher Listener
+    if (currencySwitcherBtn) {
+        currencySwitcherBtn.addEventListener('click', () => {
+            currentCurrencyIndex = (currentCurrencyIndex + 1) % currencies.length;
+            updateAllPrices();
+        });
+    }
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
