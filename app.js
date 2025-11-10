@@ -172,16 +172,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const setLanguage = (lang) => {
         currentLang = lang;
         
-        // Start app after language selection
         preloader.classList.add('fade-out');
         setTimeout(() => preloader.classList.add('hidden'), 500);
         appWrapper.classList.remove('hidden');
 
         // Play background music on first user interaction
         if (backgroundMusic && backgroundMusic.paused) {
-            backgroundMusic.play().catch(error => {
-                console.warn("Background music autoplay failed. User interaction is required.", error);
-            });
+            console.log("User interaction detected. Attempting to play background music...");
+            const playPromise = backgroundMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    console.log("🎵 Background music started successfully.");
+                }).catch(error => {
+                    console.error("❌ Error playing background music:", error);
+                    if (error.name === 'NotSupportedError') {
+                        console.error("Audio source might be invalid, not loaded, or unsupported.");
+                    }
+                });
+            }
         }
         
         translateUI(currentLang);
@@ -643,6 +651,17 @@ document.addEventListener('DOMContentLoaded', () => {
         shadowColor: [255, 112, 67, 0.4]
     };
 
+    const midTheme = {
+        bg: [[58, 90, 155], [44, 72, 123], [30, 53, 90]], // Dusk blues
+        accent: [167, 119, 227], // Lavender
+        textPrimary: [224, 216, 245], // Light lavender
+        textSecondary: [168, 178, 209], // Grey-blue
+        cardBg: [29, 53, 87, 0.8],
+        cardBorder: [167, 119, 227, 0.2],
+        buttonText: [255, 255, 255],
+        shadowColor: [167, 119, 227, 0.3]
+    };
+
     const darkTheme = {
         bg: [[10, 25, 47], [2, 12, 27], [3, 11, 22]],
         accent: [100, 255, 218],
@@ -671,21 +690,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentView !== 'Dashboard') return;
         
         const scrollY = window.scrollY;
-        const scrollThreshold = window.innerHeight * 0.7;
+        const scrollThreshold = window.innerHeight * 1.5;
         const progress = Math.min(scrollY / scrollThreshold, 1);
 
-        const bg1 = lerpColor(lightTheme.bg[0], darkTheme.bg[0], progress);
-        const bg2 = lerpColor(lightTheme.bg[1], darkTheme.bg[1], progress);
-        const bg3 = lerpColor(lightTheme.bg[2], darkTheme.bg[2], progress);
+        let theme1, theme2, adjustedProgress;
+
+        if (progress < 0.5) {
+            theme1 = lightTheme;
+            theme2 = midTheme;
+            adjustedProgress = progress * 2;
+        } else {
+            theme1 = midTheme;
+            theme2 = darkTheme;
+            adjustedProgress = (progress - 0.5) * 2;
+        }
+
+        const bg1 = lerpColor(theme1.bg[0], theme2.bg[0], adjustedProgress);
+        const bg2 = lerpColor(theme1.bg[1], theme2.bg[1], adjustedProgress);
+        const bg3 = lerpColor(theme1.bg[2], theme2.bg[2], adjustedProgress);
 
         document.documentElement.style.setProperty('--bg', `linear-gradient(170deg, ${bg1}, ${bg2}, ${bg3})`);
-        document.documentElement.style.setProperty('--accent', lerpColor(lightTheme.accent, darkTheme.accent, progress));
-        document.documentElement.style.setProperty('--text-primary', lerpColor(lightTheme.textPrimary, darkTheme.textPrimary, progress));
-        document.documentElement.style.setProperty('--text-secondary', lerpColor(lightTheme.textSecondary, darkTheme.textSecondary, progress));
-        document.documentElement.style.setProperty('--card-bg', lerpColor(lightTheme.cardBg, darkTheme.cardBg, progress));
-        document.documentElement.style.setProperty('--card-border', lerpColor(lightTheme.cardBorder, darkTheme.cardBorder, progress));
-        document.documentElement.style.setProperty('--button-text', lerpColor(lightTheme.buttonText, darkTheme.buttonText, progress));
-        document.documentElement.style.setProperty('--shadow-color', lerpColor(lightTheme.shadowColor, darkTheme.shadowColor, progress));
+        document.documentElement.style.setProperty('--accent', lerpColor(theme1.accent, theme2.accent, adjustedProgress));
+        document.documentElement.style.setProperty('--text-primary', lerpColor(theme1.textPrimary, theme2.textPrimary, adjustedProgress));
+        document.documentElement.style.setProperty('--text-secondary', lerpColor(theme1.textSecondary, theme2.textSecondary, adjustedProgress));
+        document.documentElement.style.setProperty('--card-bg', lerpColor(theme1.cardBg, theme2.cardBg, adjustedProgress));
+        document.documentElement.style.setProperty('--card-border', lerpColor(theme1.cardBorder, theme2.cardBorder, adjustedProgress));
+        document.documentElement.style.setProperty('--button-text', lerpColor(theme1.buttonText, theme2.buttonText, adjustedProgress));
+        document.documentElement.style.setProperty('--shadow-color', lerpColor(theme1.shadowColor, theme2.shadowColor, adjustedProgress));
     };
 
 
