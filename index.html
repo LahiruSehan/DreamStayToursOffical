@@ -28,6 +28,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Merriweather:ital,wght@0,400;1,700&family=Pacifico&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/css/flag-icons.min.css"/>
   <link rel="stylesheet" href="styles.css">
 
   <!-- ⚙️ Scripts -->
@@ -36,6 +37,9 @@
 </head>
 
 <body>
+    <!-- Background Music -->
+    <audio id="background-music" src="backgroundmusic.mp3" loop></audio>
+
     <!-- Preloader and Language Selection -->
     <div id="preloader">
         <div class="preloader-content">
@@ -91,23 +95,23 @@
                             <span data-lang-key="filterDashboard">Dashboard</span>
                         </button>
                         <button class="filter-tab" data-country="Sri Lanka">
-                           🇱🇰
+                           <span class="fi fi-lk"></span>
                             <span data-lang-key="filterSriLanka">Sri Lanka</span>
                         </button>
                         <button class="filter-tab" data-country="Thailand">
-                            🇹🇭
+                            <span class="fi fi-th"></span>
                             <span data-lang-key="filterThailand">Thailand</span>
                         </button>
                         <button class="filter-tab" data-country="Japan">
-                             🇯🇵
+                             <span class="fi fi-jp"></span>
                             <span data-lang-key="filterJapan">Japan</span>
                         </button>
                         <button class="filter-tab" data-country="Malaysia">
-                            🇲🇾
+                            <span class="fi fi-my"></span>
                             <span data-lang-key="filterMalaysia">Malaysia</span>
                         </button>
                         <button class="filter-tab" data-country="India">
-                            🇮🇳
+                            <span class="fi fi-in"></span>
                             <span data-lang-key="filterIndia">India</span>
                         </button>
                     </nav>

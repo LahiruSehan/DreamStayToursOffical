@@ -7,7 +7,7 @@
     --font-quote-4: 'Pacifico', cursive;
     
     /* NEW: Default Theme (Dashboard) - Natural Day Theme */
-    --bg: linear-gradient(180deg, #f0f9ff, #cce7ff);
+    --bg: linear-gradient(170deg, #f0f9ff, #cce7ff, #e3f2fd);
     --accent: #ff7043; /* Deep Orange */
     --text-primary: #0d47a1; /* Dark Blue */
     --text-secondary: #1565c0; /* Medium Blue */
@@ -24,13 +24,16 @@
 }
 
 body.scrolled-theme {
-    --bg: linear-gradient(180deg, #f4f2f7, #e8f5e9); /* Lavender to Mint */
-    --accent: #673ab7; /* Deep Purple */
-    --text-primary: #333333;
-    --text-secondary: #555555;
-    --card-bg: rgba(255, 255, 255, 0.8);
-    --shadow-color: rgba(103, 58, 183, 0.3);
+    --bg: linear-gradient(170deg, #e3f2fd, #64b5f6, #1976d2); /* Light to dark blue */
+    --accent: #ffc107; /* Yellow accent for contrast */
+    --text-primary: #ffffff;
+    --text-secondary: #e3f2fd;
+    --card-bg: rgba(255, 255, 255, 0.15);
+    --card-border: rgba(255, 255, 255, 0.25);
+    --button-text: #0d47a1;
+    --shadow-color: rgba(255, 193, 7, 0.4);
 }
+
 
 body.theme-srilanka {
     --bg: linear-gradient(180deg, #1e3a8a, #172554);
@@ -98,8 +101,10 @@ body {
     font-family: var(--font-primary);
     background-image: var(--bg);
     color: var(--text-primary);
-    transition: background-image var(--transition-slow);
+    transition: background-image var(--transition-slow), color var(--transition-slow);
     overflow-x: hidden;
+    background-size: 200% 200%;
+    animation: gradientShift 15s ease infinite;
 }
 
 body.modal-open {
@@ -164,10 +169,25 @@ button, a {
     50% { transform: scale(1.05); box-shadow: 0 0 20px 10px rgba(0,0,0,0); }
 }
 
-@keyframes shake {
+@keyframes continuous-shake {
     0%, 100% { transform: rotate(0); }
-    10%, 30%, 50%, 70%, 90% { transform: rotate(-3deg); }
-    20%, 40%, 60%, 80% { transform: rotate(3deg); }
+    25% { transform: rotate(-2.5deg); }
+    75% { transform: rotate(2.5deg); }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 10px -5px var(--shadow-color), 0 0 0 2px var(--card-border);
+  }
+  to {
+    box-shadow: 0 0 25px 8px var(--shadow-color), 0 0 0 2px var(--accent);
+  }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .animate-in {
@@ -293,6 +313,8 @@ button, a {
     position: absolute;
     inset: 0;
     background: rgba(15, 18, 38, 0.7);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     z-index: 1;
 }
 #hero-particles-canvas {
@@ -412,6 +434,12 @@ body:not([class*="theme-"]) #filters {
     flex-shrink: 0;
 }
 
+.filter-tab .fi {
+    font-size: 1.2rem;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
 .filter-tab:hover {
     color: var(--text-primary);
     background: var(--card-border);
@@ -507,15 +535,13 @@ body.country-view #packages { display: block; }
     align-items: center;
     justify-content: center;
     color: var(--accent);
-    box-shadow: 0 0 15px var(--shadow-color), 0 0 0 2px var(--card-border);
     transition: all var(--transition-fast);
     font-size: 2rem;
+    animation: continuous-shake 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
 }
 
 .service-item:hover .service-icon {
     transform: scale(1.1);
-    box-shadow: 0 0 25px var(--shadow-color), 0 0 0 2px var(--accent);
-    animation: shake 0.8s ease-in-out;
 }
 
 .service-icon svg {

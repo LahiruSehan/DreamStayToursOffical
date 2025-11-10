@@ -37,9 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
     const chatbotMessages = document.getElementById('chatbot-messages');
     const chatbotQuestions = document.getElementById('chatbot-questions');
+    // Music element
+    const backgroundMusic = document.getElementById('background-music');
 
     // --- State ---
-    let currentLang = localStorage.getItem('dreamstay_lang') || null;
+    let currentLang = null;
     let currentView = 'Dashboard';
     let heroQuoteIntervalId;
     let reviewCarouselIntervalId;
@@ -153,35 +155,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Functions ---
     const initApp = () => {
-        if (!currentLang) {
-            preloader.classList.remove('hidden');
-            langModal.classList.remove('hidden');
-        } else {
-            preloader.classList.add('fade-out');
-            setTimeout(() => preloader.classList.add('hidden'), 500);
-            appWrapper.classList.remove('hidden');
-            
-            const savedView = localStorage.getItem('dreamstay_view') || 'Dashboard';
-            translateUI(currentLang);
-            renderFAQ();
-            renderReviews();
-            renderDashboard();
-            switchView(savedView, true); // Pass true to force particle creation on initial load
-            startHeroQuoteAnimation();
-            startReviewCarousel();
-            renderChatbot();
-
-            resizeHeroCanvas();
-            createHeroParticles();
-            animateHeroParticles();
-        }
+        preloader.classList.remove('hidden');
+        langModal.classList.remove('hidden');
     };
     
     const setLanguage = (lang) => {
         currentLang = lang;
-        localStorage.setItem('dreamstay_lang', lang);
-        // Re-initialize app to apply language everywhere
-        initApp();
+        
+        // Start app after language selection
+        preloader.classList.add('fade-out');
+        setTimeout(() => preloader.classList.add('hidden'), 500);
+        appWrapper.classList.remove('hidden');
+
+        // Play background music
+        if (backgroundMusic && backgroundMusic.paused) {
+            backgroundMusic.play().catch(error => {
+                console.warn("Background music autoplay failed:", error);
+            });
+        }
+        
+        translateUI(currentLang);
+        renderFAQ();
+        renderReviews();
+        renderDashboard();
+        switchView('Dashboard', true);
+        startHeroQuoteAnimation();
+        startReviewCarousel();
+        renderChatbot();
+
+        resizeHeroCanvas();
+        createHeroParticles();
+        animateHeroParticles();
     };
     
     const translateUI = (lang) => {
@@ -237,7 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('scrolled-theme'); // Reset scroll theme on any view switch
         const oldView = currentView;
         currentView = view;
-        localStorage.setItem('dreamstay_view', view);
 
         filterTabs.forEach(tab => {
             tab.classList.toggle('active', tab.dataset.country === view);
@@ -247,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.className = `country-view ${themeClass}`;
         if (view === 'Dashboard') {
             document.body.classList.remove('country-view');
-            // Re-check scroll position in case the page is already scrolled down
             handleDashboardScroll();
         } else {
             renderPackages(view);
@@ -256,10 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Only recreate particles if the view has changed
         if (oldView !== view || forceParticles) {
-            cancelAnimationFrame(animationFrameId);
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
             animationFrameId = null; // Reset animation ID
             const particleConfig = themeParticles[view];
-            if (particleConfig) {
+            if (particleConfig && particleConfig.count > 0) {
                 createParticles(particleConfig);
                 animateParticles();
             } else {
