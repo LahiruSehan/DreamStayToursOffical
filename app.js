@@ -293,6 +293,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.className = ``; // Reset all classes first
         if (view !== 'Dashboard') {
             document.body.classList.add('country-view', themeClass);
+            
+            // Reset layout to default 2x when switching country
+            currentLayout = '2';
+            packagesGrid.className = 'packages-grid'; // Reset class
+            packagesGrid.classList.add(`columns-${currentLayout}`);
+            layoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            layoutControls.querySelector(`button[data-layout='2']`).classList.add('active');
+
             renderPackages(view);
             setupIntersectionObserver('.package-card.animate-in');
         } else {
