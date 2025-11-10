@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const preloader = document.getElementById('preloader');
     const langModal = document.getElementById('language-modal');
     const langButtons = document.querySelectorAll('.lang-btn');
+    const musicButtons = document.querySelectorAll('.music-btn');
     const appWrapper = document.getElementById('app-wrapper');
     const mainContent = document.getElementById('main-content');
     const galleryPage = document.getElementById('gallery-page');
@@ -46,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterDurationSelect = document.getElementById('filter-duration');
 
     // --- State ---
-    let currentLang = null;
+    let currentLang = 'en';
+    let selectedLang = 'en';
     let currentView = 'Dashboard';
     let heroQuoteIntervalId;
     let reviewCarouselIntervalId;
@@ -164,35 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Functions ---
-    const initApp = () => {
+    const showPreloader = () => {
         preloader.classList.remove('hidden');
         langModal.classList.remove('hidden');
     };
-    
-    const setLanguage = (lang) => {
-        currentLang = lang;
-        
+
+    const startApp = () => {
         preloader.classList.add('fade-out');
         setTimeout(() => preloader.classList.add('hidden'), 500);
         appWrapper.classList.remove('hidden');
 
-        // Play background music on first user interaction
-        if (backgroundMusic && backgroundMusic.paused) {
-            console.log("User interaction detected. Attempting to play background music...");
-            const playPromise = backgroundMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    console.log("🎵 Background music started successfully.");
-                }).catch(error => {
-                    console.error("❌ Error playing background music:", error);
-                    if (error.name === 'NotSupportedError') {
-                        console.error("Audio source might be invalid, not loaded, or unsupported.");
-                    }
-                });
-            }
-        }
-        
-        translateUI(currentLang);
+        setLanguage(selectedLang);
+
         renderFAQ();
         renderReviews();
         renderDashboard();
@@ -206,16 +191,21 @@ document.addEventListener('DOMContentLoaded', () => {
         animateHeroParticles();
     };
     
-    const translateUI = (lang) => {
+    const setLanguage = (lang) => {
+        currentLang = lang;
         document.documentElement.lang = lang;
+        translateUI(currentLang);
+        updateWhatsappLinks();
+    };
+
+    const translateUI = (lang) => {
         const elements = document.querySelectorAll('[data-lang-key]');
         elements.forEach(el => {
             const key = el.dataset.langKey;
-            if (config.STRINGS[lang][key]) {
+            if (config.STRINGS[lang] && config.STRINGS[lang][key]) {
                 el.textContent = config.STRINGS[lang][key];
             }
         });
-        updateWhatsappLinks();
     };
 
     const updateWhatsappLinks = () => {
@@ -246,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             packagesToRender.sort((a, b) => {
                 const priceA = parseInt(a.price_from.replace(/[^0-9]/g, ''));
                 const priceB = parseInt(b.price_from.replace(/[^0-9]/g, ''));
-                return currentSort === 'asc' ? priceA - priceB : priceB - priceA;
+                return currentSort === 'asc' ? priceA - priceB : priceB - a.price_from.localeCompare(b.price_from, undefined, {numeric: true});
             });
         }
             
@@ -301,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             layoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
             layoutControls.querySelector(`button[data-layout='2']`).classList.add('active');
 
-            renderPackages(view);
+            renderPackages();
             setupIntersectionObserver('.package-card.animate-in');
         } else {
              handleDashboardScroll(); // Set initial theme for dashboard
@@ -773,7 +763,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners ---
     langButtons.forEach(btn => {
-        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+        btn.addEventListener('click', () => {
+            selectedLang = btn.dataset.lang;
+            // Visually mark the selected language
+            langButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            // Translate the modal itself
+            translateUI(selectedLang);
+        });
+    });
+
+    musicButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const musicChoice = btn.dataset.music;
+            if (musicChoice === 'on') {
+                console.log("User chose to play music. Attempting to play...");
+                const playPromise = backgroundMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        console.log("🎵 Background music started successfully.");
+                    }).catch(error => {
+                        console.error("❌ Error playing background music:", error);
+                    });
+                }
+            } else {
+                console.log("User chose not to play music.");
+            }
+            startApp();
+        });
     });
     
     filterTabs.forEach(tab => {
@@ -897,6 +914,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentLangIndex = langs.indexOf(currentLang);
         const nextLang = langs[(currentLangIndex + 1) % langs.length];
         setLanguage(nextLang);
+        // Also need to re-render dynamic content
+        renderFAQ();
+        renderReviews();
+        if (currentView === 'Dashboard') {
+            renderDashboard();
+        } else {
+            renderPackages();
+        }
     });
 
     window.addEventListener('scroll', handleDashboardScroll);
@@ -908,5 +933,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial Load ---
     resizeCanvas();
-    initApp();
+    showPreloader();
 });
