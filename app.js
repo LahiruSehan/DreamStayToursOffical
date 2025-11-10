@@ -39,6 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotQuestions = document.getElementById('chatbot-questions');
     // Music element
     const backgroundMusic = document.getElementById('background-music');
+    // Package Controls
+    const packageControls = document.getElementById('package-controls');
+    const layoutControls = document.querySelector('.layout-controls');
+    const sortPriceSelect = document.getElementById('sort-price');
+    const filterDurationSelect = document.getElementById('filter-duration');
 
     // --- State ---
     let currentLang = null;
@@ -48,6 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentReviewIndex = 0;
     const heroFonts = ['var(--font-quote-1)', 'var(--font-quote-2)', 'var(--font-quote-3)', 'var(--font-quote-4)'];
     let fontIndex = 0;
+    // Package filter state
+    let currentLayout = '2';
+    let currentSort = 'default';
+    let currentDurationFilter = 'all';
+
 
     // --- Background Canvas Animation ---
     const canvas = document.getElementById('background-canvas');
@@ -167,10 +177,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => preloader.classList.add('hidden'), 500);
         appWrapper.classList.remove('hidden');
 
-        // Play background music
+        // Play background music on first user interaction
         if (backgroundMusic && backgroundMusic.paused) {
             backgroundMusic.play().catch(error => {
-                console.warn("Background music autoplay failed:", error);
+                console.warn("Background music autoplay failed. User interaction is required.", error);
             });
         }
         
@@ -207,11 +217,32 @@ document.addEventListener('DOMContentLoaded', () => {
         heroWhatsappBtn.href = url;
     };
     
-    const renderPackages = (country) => {
+    const renderPackages = () => {
         packagesGrid.innerHTML = '';
-        const filteredPackages = config.PACKAGES.filter(p => p.country === country);
+        
+        let packagesToRender = config.PACKAGES.filter(p => p.country === currentView);
+
+        // Filter by duration
+        if (currentDurationFilter !== 'all') {
+            packagesToRender = packagesToRender.filter(p => {
+                const days = parseInt(p.duration.split('D')[0]);
+                if (currentDurationFilter === '1-3') return days >= 1 && days <= 3;
+                if (currentDurationFilter === '4-5') return days >= 4 && days <= 5;
+                if (currentDurationFilter === '6+') return days >= 6;
+                return false;
+            });
+        }
+        
+        // Sort by price
+        if (currentSort !== 'default') {
+            packagesToRender.sort((a, b) => {
+                const priceA = parseInt(a.price_from.replace(/[^0-9]/g, ''));
+                const priceB = parseInt(b.price_from.replace(/[^0-9]/g, ''));
+                return currentSort === 'asc' ? priceA - priceB : priceB - priceA;
+            });
+        }
             
-        filteredPackages.forEach(pkg => {
+        packagesToRender.forEach(pkg => {
             const card = document.createElement('div');
             card.className = 'package-card animate-in';
             card.innerHTML = `
@@ -235,10 +266,14 @@ document.addEventListener('DOMContentLoaded', () => {
             card.querySelector('.card-button').addEventListener('click', () => openPackageModal(pkg.id));
             packagesGrid.appendChild(card);
         });
+
+        if (packagesToRender.length === 0) {
+            packagesGrid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; padding: 2rem;">No packages match the current filters.</p>`;
+        }
     };
     
     const switchView = (view, forceParticles = false) => {
-        document.body.classList.remove('scrolled-theme'); // Reset scroll theme on any view switch
+        document.documentElement.style.cssText = ''; // Reset inline styles from scroll
         const oldView = currentView;
         currentView = view;
 
@@ -247,13 +282,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         const themeClass = view === 'Dashboard' ? '' : `theme-${view.toLowerCase().replace(' ', '')}`;
-        document.body.className = `country-view ${themeClass}`;
-        if (view === 'Dashboard') {
-            document.body.classList.remove('country-view');
-            handleDashboardScroll();
-        } else {
+        document.body.className = ``; // Reset all classes first
+        if (view !== 'Dashboard') {
+            document.body.classList.add('country-view', themeClass);
             renderPackages(view);
             setupIntersectionObserver('.package-card.animate-in');
+        } else {
+             handleDashboardScroll(); // Set initial theme for dashboard
         }
 
         // Only recreate particles if the view has changed
@@ -596,15 +631,63 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(reviewCarouselIntervalId);
     };
     
-    const handleDashboardScroll = () => {
-        if (currentView === 'Dashboard') {
-            if (window.scrollY > 100) {
-                document.body.classList.add('scrolled-theme');
-            } else {
-                document.body.classList.remove('scrolled-theme');
-            }
-        }
+    // --- Dynamic Dashboard Theme on Scroll ---
+    const lightTheme = {
+        bg: [[240, 249, 255], [204, 231, 255], [227, 242, 253]],
+        accent: [255, 112, 67],
+        textPrimary: [13, 71, 161],
+        textSecondary: [21, 101, 192],
+        cardBg: [255, 255, 255, 0.7],
+        cardBorder: [0, 0, 0, 0.1],
+        buttonText: [255, 255, 255],
+        shadowColor: [255, 112, 67, 0.4]
     };
+
+    const darkTheme = {
+        bg: [[10, 25, 47], [2, 12, 27], [3, 11, 22]],
+        accent: [100, 255, 218],
+        textPrimary: [204, 214, 246],
+        textSecondary: [136, 146, 176],
+        cardBg: [17, 34, 64, 0.85],
+        cardBorder: [100, 255, 218, 0.1],
+        buttonText: [10, 25, 47],
+        shadowColor: [100, 255, 218, 0.2]
+    };
+    
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    const lerpColor = (c1, c2, t) => {
+        const r = Math.round(lerp(c1[0], c2[0], t));
+        const g = Math.round(lerp(c1[1], c2[1], t));
+        const b = Math.round(lerp(c1[2], c2[2], t));
+        if (c1.length === 4 || c2.length === 4) {
+            const a = lerp(c1[3] ?? 1, c2[3] ?? 1, t);
+            return `rgba(${r}, ${g}, ${b}, ${a})`;
+        }
+        return `rgb(${r}, ${g}, ${b})`;
+    };
+
+    const handleDashboardScroll = () => {
+        if (currentView !== 'Dashboard') return;
+        
+        const scrollY = window.scrollY;
+        const scrollThreshold = window.innerHeight * 0.7;
+        const progress = Math.min(scrollY / scrollThreshold, 1);
+
+        const bg1 = lerpColor(lightTheme.bg[0], darkTheme.bg[0], progress);
+        const bg2 = lerpColor(lightTheme.bg[1], darkTheme.bg[1], progress);
+        const bg3 = lerpColor(lightTheme.bg[2], darkTheme.bg[2], progress);
+
+        document.documentElement.style.setProperty('--bg', `linear-gradient(170deg, ${bg1}, ${bg2}, ${bg3})`);
+        document.documentElement.style.setProperty('--accent', lerpColor(lightTheme.accent, darkTheme.accent, progress));
+        document.documentElement.style.setProperty('--text-primary', lerpColor(lightTheme.textPrimary, darkTheme.textPrimary, progress));
+        document.documentElement.style.setProperty('--text-secondary', lerpColor(lightTheme.textSecondary, darkTheme.textSecondary, progress));
+        document.documentElement.style.setProperty('--card-bg', lerpColor(lightTheme.cardBg, darkTheme.cardBg, progress));
+        document.documentElement.style.setProperty('--card-border', lerpColor(lightTheme.cardBorder, darkTheme.cardBorder, progress));
+        document.documentElement.style.setProperty('--button-text', lerpColor(lightTheme.buttonText, darkTheme.buttonText, progress));
+        document.documentElement.style.setProperty('--shadow-color', lerpColor(lightTheme.shadowColor, darkTheme.shadowColor, progress));
+    };
+
 
     // --- Chatbot Functions ---
     const addMessageToChat = (text, type = 'bot') => {
@@ -655,7 +738,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     filterTabs.forEach(tab => {
-        tab.addEventListener('click', () => switchView(tab.dataset.country));
+        tab.addEventListener('click', () => {
+            // Reset filters when switching views
+            sortPriceSelect.value = 'default';
+            filterDurationSelect.value = 'all';
+            currentSort = 'default';
+            currentDurationFilter = 'all';
+            switchView(tab.dataset.country);
+        });
     });
 
     packageModal.addEventListener('click', (e) => {
@@ -690,6 +780,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     if(customPlanForm) customPlanForm.addEventListener('submit', handleCustomPlanSubmit);
+    
+    // Package Controls Listeners
+    if(layoutControls) {
+        layoutControls.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                currentLayout = e.target.dataset.layout;
+                layoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                packagesGrid.className = 'packages-grid'; // Reset classes
+                packagesGrid.classList.add(`columns-${currentLayout}`);
+            }
+        });
+    }
+    if (sortPriceSelect) {
+        sortPriceSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            renderPackages();
+        });
+    }
+    if (filterDurationSelect) {
+         filterDurationSelect.addEventListener('change', (e) => {
+            currentDurationFilter = e.target.value;
+            renderPackages();
+        });
+    }
 
     // Chatbot Listeners
     if(chatbotStickyBtn) chatbotStickyBtn.addEventListener('click', () => chatbotModal.classList.remove('hidden'));

@@ -38,7 +38,7 @@
 
 <body>
     <!-- Background Music -->
-    <audio id="background-music" src="backgroundmusic.mp3" loop></audio>
+    <audio id="background-music" src="https://raw.githubusercontent.com/LahiruSehan/DreamStayToursOffical/main/backgroundmusic.mp3" loop></audio>
 
     <!-- Preloader and Language Selection -->
     <div id="preloader">
@@ -122,6 +122,12 @@
                     <div class="details-grid">
                         <!-- Stat cards will be injected here by JS -->
                     </div>
+                    
+                    <div class="visa-promo-section animate-in">
+                        <h3>WE DO JAPAN WORK VISA TOO! 🇯🇵💼✈️</h3>
+                        <p>Turn your Japan dream into a reality. Contact us for professional visa assistance.</p>
+                    </div>
+
                     <div id="services-section-container">
                         <!-- Services section will be injected here by JS -->
                     </div>
@@ -135,6 +141,26 @@
 
                 <!-- Packages Grid -->
                 <section id="packages">
+                     <div id="package-controls" class="package-controls">
+                        <div class="filter-controls">
+                            <select id="sort-price" aria-label="Sort by price">
+                                <option value="default">Sort by Price</option>
+                                <option value="asc">Low to High</option>
+                                <option value="desc">High to Low</option>
+                            </select>
+                            <select id="filter-duration" aria-label="Filter by duration">
+                                <option value="all">All Durations</option>
+                                <option value="1-3">1-3 Days</option>
+                                <option value="4-5">4-5 Days</option>
+                                <option value="6+">6+ Days</option>
+                            </select>
+                        </div>
+                        <div class="layout-controls">
+                            <button data-layout="1" aria-label="Show 1 column">1x</button>
+                            <button data-layout="2" class="active" aria-label="Show 2 columns">2x</button>
+                            <button data-layout="3" aria-label="Show 3 columns">3x</button>
+                        </div>
+                    </div>
                     <div id="packages-grid" class="packages-grid">
                         <!-- Package cards will be injected here by JS -->
                     </div>

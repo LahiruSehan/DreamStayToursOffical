@@ -6,7 +6,7 @@
     --font-quote-3: 'Lobster', cursive;
     --font-quote-4: 'Pacifico', cursive;
     
-    /* NEW: Default Theme (Dashboard) - Natural Day Theme */
+    /* Default Theme (Dashboard) - Natural Day Theme */
     --bg: linear-gradient(170deg, #f0f9ff, #cce7ff, #e3f2fd);
     --accent: #ff7043; /* Deep Orange */
     --text-primary: #0d47a1; /* Dark Blue */
@@ -22,18 +22,6 @@
     --transition-fast: 0.3s ease;
     --transition-slow: 0.6s ease;
 }
-
-body.scrolled-theme {
-    --bg: linear-gradient(170deg, #e3f2fd, #64b5f6, #1976d2); /* Light to dark blue */
-    --accent: #ffc107; /* Yellow accent for contrast */
-    --text-primary: #ffffff;
-    --text-secondary: #e3f2fd;
-    --card-bg: rgba(255, 255, 255, 0.15);
-    --card-border: rgba(255, 255, 255, 0.25);
-    --button-text: #0d47a1;
-    --shadow-color: rgba(255, 193, 7, 0.4);
-}
-
 
 body.theme-srilanka {
     --bg: linear-gradient(180deg, #1e3a8a, #172554);
@@ -101,7 +89,7 @@ body {
     font-family: var(--font-primary);
     background-image: var(--bg);
     color: var(--text-primary);
-    transition: background-image var(--transition-slow), color var(--transition-slow);
+    /* Transition is removed for JS-driven smooth scrolling effect */
     overflow-x: hidden;
     background-size: 200% 200%;
     animation: gradientShift 15s ease infinite;
@@ -405,6 +393,7 @@ button, a {
     backdrop-filter: blur(10px);
     z-index: 100;
     border-bottom: 1px solid var(--card-border);
+    transition: background var(--transition-slow), border-color var(--transition-slow);
 }
 
 body:not([class*="theme-"]) #filters {
@@ -483,6 +472,7 @@ body.country-view #packages { display: block; }
     padding: 1.5rem 1rem;
     text-align: center;
     backdrop-filter: blur(10px);
+    transition: background var(--transition-slow), border-color var(--transition-slow);
 }
 
 .stat-number {
@@ -490,12 +480,40 @@ body.country-view #packages { display: block; }
     font-weight: 700;
     color: var(--accent);
     line-height: 1;
+    transition: color var(--transition-slow);
 }
 
 .stat-label {
     font-size: 0.9rem;
     color: var(--text-secondary);
     margin-top: 0.5rem;
+    transition: color var(--transition-slow);
+}
+
+/* Japan Visa Promo Section */
+.visa-promo-section {
+    background: linear-gradient(45deg, var(--accent), #ff9800);
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+    margin: 3rem auto;
+    max-width: 900px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 30px -10px var(--shadow-color);
+    animation: pulse 2.5s infinite;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.visa-promo-section h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+.visa-promo-section p {
+    font-size: 1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 /* Services Section */
@@ -584,13 +602,54 @@ body.country-view #packages { display: block; }
     filter: grayscale(0%) opacity(1);
 }
 
-/* --- PACKAGES GRID --- */
+/* --- PACKAGES GRID & CONTROLS --- */
+#package-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem 1rem 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.layout-controls, .filter-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.layout-controls button, .filter-controls select {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    color: var(--text-secondary);
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.filter-controls select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1em 1em;
+    padding-right: 2rem;
+}
+
+.layout-controls button.active {
+    background: var(--accent);
+    color: var(--button-text);
+    border-color: var(--accent);
+}
+
 .packages-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
     padding: 1rem;
+    grid-template-columns: 1fr; /* Default mobile */
 }
+.packages-grid.columns-1 { grid-template-columns: 1fr; }
+.packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
+.packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
 
 .package-card {
     background: var(--card-bg);
@@ -920,7 +979,7 @@ body.theme-srilanka .package-card {
 }
 
 .modal-content {
-    background: var(--bg);
+    background-image: var(--bg);
     border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
     width: 100%;
@@ -930,7 +989,7 @@ body.theme-srilanka .package-card {
     position: relative;
     padding: 2rem;
     transform: scale(0.95);
-    transition: transform var(--transition-fast);
+    transition: transform var(--transition-fast), background-image var(--transition-slow);
 }
 .modal-overlay:not(.hidden) .modal-content {
     transform: scale(1);
@@ -1121,7 +1180,7 @@ body.theme-srilanka .package-card {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, background-color var(--transition-slow);
 }
 .contact-sticky-btn:hover, .chatbot-sticky-btn:hover {
     transform: scale(1.1);
@@ -1149,7 +1208,7 @@ body.theme-srilanka .package-card {
     max-width: 350px;
     height: 70vh;
     max-height: 500px;
-    background: var(--bg);
+    background-image: var(--bg);
     border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
     z-index: 400;
@@ -1159,7 +1218,7 @@ body.theme-srilanka .package-card {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     transform: translateY(20px) scale(0.95);
     opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-image var(--transition-slow);
     transform-origin: bottom right;
 }
 .chatbot-modal:not(.hidden) {
@@ -1234,6 +1293,7 @@ footer {
     text-align: center;
     font-size: 0.9rem;
     color: var(--text-secondary);
+    transition: background-color var(--transition-slow), color var(--transition-slow);
 }
 .footer-content {
     display: flex;
@@ -1251,6 +1311,11 @@ footer {
 
 
 /* --- RESPONSIVE ADJUSTMENTS --- */
+@media (min-width: 640px) {
+    .packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
+    .packages-grid.columns-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (min-width: 768px) {
     .hero-logo {
         height: 50px;
@@ -1275,6 +1340,11 @@ footer {
     .back-btn {
         position: static;
     }
+     .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* --- ACCESSIBILITY --- */
