@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DreamStay Tours - Travel Like It's Another Universe</title>
+
+  <!-- 🪄 Open Graph Meta (for WhatsApp, Facebook, etc.) -->
+  <meta property="og:title" content="DreamStay Tours - Travel Like It's Another Universe" />
+  <meta property="og:description" content="Experience the magic of Thailand, Japan, Malaysia, and Sri Lanka – all in one dreamlike journey with DreamStay Tours 🌏✨" />
+  <meta property="og:image" content="https://i.ibb.co/PvThZqQF/Travel.png" />
+  <meta property="og:url" content="https://dreamstaytours.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="DreamStay Tours" />
+
+  <!-- 🐦 Twitter Card (for X / Twitter) -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DreamStay Tours - Travel Like It's Another Universe" />
+  <meta name="twitter:description" content="Plan your next cosmic vacation — from the beaches of Thailand to the mountains of Japan 🌸🌴" />
+  <meta name="twitter:image" content="https://i.ibb.co/PvThZqQF/Travel.png" />
+  <meta name="twitter:site" content="@DreamStayTours" />
+
+  <!-- ✅ SEO Boost -->
+  <meta name="description" content="DreamStay Tours lets you explore Thailand, Malaysia, Japan, and Sri Lanka in a magical, cinematic experience. Travel like it's another universe." />
+  <meta name="keywords" content="travel, tours, Japan, Thailand, Sri Lanka, Malaysia, DreamStay Tours, vacation, adventure" />
+
+  <!-- 🖋 Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Merriweather:ital,wght@0,400;1,700&family=Pacifico&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- ⚙️ Scripts -->
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+    <!-- Preloader and Language Selection -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="floating-islands">
+                <p>DreamStay</p>
+            </div>
+            <div id="language-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="lang-modal-title">
+                <h2 id="lang-modal-title" data-lang-key="chooseLangTitle">Choose Language / භාෂාව තෝරන්න</h2>
+                <div class="lang-buttons">
+                    <button class="lang-btn" data-lang="en">
+                        <span class="lang-preview">English</span>
+                        English
+                    </button>
+                    <button class="lang-btn" data-lang="si">
+                        <span class="lang-preview">සිංහල</span>
+                        සිංහල
+                    </button>
+                    <button class="lang-btn" data-lang="ja">
+                        <span class="lang-preview">日本語</span>
+                        日本語
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Background effects canvas -->
+    <canvas id="background-canvas"></canvas>
+
+    <!-- Main Application Wrapper -->
+    <div id="app-wrapper" class="hidden">
+        <div id="main-content">
+            <header class="hero">
+                <canvas id="hero-particles-canvas"></canvas>
+                <div class="hero-content">
+                    <img src="https://i.ibb.co/r2L2HNW8/Logo-DREAMFLIGHT2.png" alt="DreamStay Tours Logo" class="hero-logo">
+                    <h1 class="hero-title" data-lang-key="heroTitle">DreamStay Tours — Travel like it’s another universe</h1>
+                    <div class="hero-buttons">
+                        <button class="cta-primary" id="custom-plan-btn" data-lang-key="createCustomPlan">Create a Custom Plan</button>
+                        <button class="cta-secondary" id="gallery-btn" data-lang-key="seeAllMedia">See All Photos & Videos</button>
+                        <a href="#" class="cta-secondary" data-lang-key="contactWhatsApp" id="hero-whatsapp-btn" target="_blank" rel="noopener noreferrer">Contact via WhatsApp</a>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <!-- Filters / Theme Tabs -->
+                <section id="filters" aria-labelledby="filter-heading">
+                    <h2 id="filter-heading" class="sr-only">Filter Packages by Country</h2>
+                    <nav class="filter-nav">
+                        <button class="filter-tab active" data-country="Dashboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            <span data-lang-key="filterDashboard">Dashboard</span>
+                        </button>
+                        <button class="filter-tab" data-country="Sri Lanka">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span data-lang-key="filterSriLanka">Sri Lanka</span>
+                        </button>
+                        <button class="filter-tab" data-country="Thailand">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.88 5.72L20 9l-5.22 3.5L16.28 18 12 15.28 7.72 18l1.5-5.5L4 9l6.12-1.28L12 2z"></path><path d="M12 2v20"></path></svg>
+                            <span data-lang-key="filterThailand">Thailand</span>
+                        </button>
+                        <button class="filter-tab" data-country="Japan">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0-10 10c0 4.42 2.87 8.17 6.84 9.5.6.11.82-.26.82-.57v-2.1c-2.78.6-3.37-1.34-3.37-1.34-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.84 2.81 1.31 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.46-1.33-5.46-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23.95-.26 1.98-.4 3-.4s2.05.13 3 .4c2.28-1.55 3.28-1.23 3.28-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.28c0 .31.22.69.83.57A10 10 0 0 0 12 2z"></path></svg>
+                            <span data-lang-key="filterJapan">Japan</span>
+                        </button>
+                        <button class="filter-tab" data-country="Malaysia">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+                            <span data-lang-key="filterMalaysia">Malaysia</span>
+                        </button>
+                        <button class="filter-tab" data-country="India">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.94 14.06a9 9 0 1 1-11.88-11.88"></path></svg>
+                            <span data-lang-key="filterIndia">India</span>
+                        </button>
+                    </nav>
+                </section>
+
+                <!-- Details/Dashboard Section -->
+                <section id="details-section">
+                    <div class="details-grid">
+                        <!-- Stat cards will be injected here by JS -->
+                    </div>
+                    <div id="services-section-container">
+                        <!-- Services section will be injected here by JS -->
+                    </div>
+                    <div class="sponsors-section">
+                        <h3 class="sponsors-title" data-lang-key="sponsorsTitle">Our Valued Partners</h3>
+                        <div class="sponsors-grid">
+                            <!-- Sponsor logos will be injected here by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Packages Grid -->
+                <section id="packages">
+                    <div id="packages-grid" class="packages-grid">
+                        <!-- Package cards will be injected here by JS -->
+                    </div>
+                </section>
+
+                <!-- Customer Feedback Section -->
+                <section id="reviews" class="reviews-section" aria-labelledby="reviews-heading">
+                    <h2 id="reviews-heading" data-lang-key="reviewsTitle" class="section-title">From Our Travellers</h2>
+                    <div class="reviews-carousel-wrapper">
+                        <div id="reviews-grid" class="reviews-grid">
+                            <!-- Review cards will be injected here by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                 <!-- FAQ Section -->
+                <section id="faq" class="faq-section" aria-labelledby="faq-heading">
+                    <h2 id="faq-heading" data-lang-key="faqTitle" class="section-title">Frequently Asked Questions</h2>
+                    <div class="faq-accordion">
+                        <!-- FAQ items will be injected here by JS -->
+                    </div>
+                </section>
+            </main>
+            
+            <footer>
+                <div class="footer-content">
+                    <p>&copy; 2024 DreamStay Tours. All rights reserved.</p>
+                    <div class="footer-links">
+                        <a href="#" data-lang-key="footerPrivacy">Privacy Policy</a>
+                        <a href="#" data-lang-key="footerTerms">Terms of Service</a>
+                    </div>
+                     <button id="footer-lang-toggle" data-lang-key="toggleLang">Switch Language</button>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Media Gallery Page -->
+        <div id="gallery-page" class="hidden">
+            <header class="gallery-header">
+                <button id="back-to-main-btn" class="back-btn" aria-label="Go back">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span data-lang-key="backToHome">Back to Home</span>
+                </button>
+                <h1 data-lang-key="galleryTitle">Our Photo & Video Gallery</h1>
+                <div class="gallery-filters">
+                    <button class="gallery-filter-btn active" data-filter="all" data-lang-key="filterAll">All</button>
+                    <button class="gallery-filter-btn" data-filter="photo" data-lang-key="filterPhotos">Photos</button>
+                    <button class="gallery-filter-btn" data-filter="video" data-lang-key="filterVideos">Videos</button>
+                </div>
+            </header>
+            <main>
+                <div id="gallery-grid" class="gallery-grid">
+                    <!-- Media items will be injected here -->
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Package Detail Modal -->
+    <div id="package-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="package-modal-title">
+        <div class="modal-content">
+            <button class="modal-close-btn" aria-label="Close package details">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div id="package-modal-body">
+                <!-- Modal content will be injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Media Lightbox -->
+    <div id="media-lightbox" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="media-lightbox-title">
+        <div class="lightbox-content">
+            <button class="modal-close-btn" aria-label="Close media viewer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div id="media-lightbox-body" class="media-lightbox-body">
+                <!-- Image or Video will be injected here -->
+            </div>
+            <h3 id="media-lightbox-title" class="lightbox-title"></h3>
+        </div>
+    </div>
+
+    <!-- Custom Plan Modal -->
+    <div id="custom-plan-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="custom-plan-title">
+        <div class="modal-content">
+            <button class="modal-close-btn" aria-label="Close custom plan form">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <h2 id="custom-plan-title" data-lang-key="customPlanTitle">Create Your Custom Dream Trip</h2>
+            <form id="custom-plan-form" novalidate>
+                <div class="form-group">
+                    <label for="name" data-lang-key="formName">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="travelers" data-lang-key="formTravelers">Number of Travelers</label>
+                    <input type="number" id="travelers" name="travelers" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="destinations" data-lang-key="formDestinations">Desired Destinations</label>
+                    <input type="text" id="destinations" name="destinations" required>
+                </div>
+                <div class="form-group">
+                    <label for="budget" data-lang-key="formBudget">Budget per Person (USD)</label>
+                    <input type="text" id="budget" name="budget">
+                </div>
+                <div class="form-group">
+                    <label for="dates" data-lang-key="formDates">Preferred Travel Dates</label>
+                    <input type="text" id="dates" name="dates">
+                </div>
+                <div class="form-group">
+                    <label for="notes" data-lang-key="formNotes">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="3"></textarea>
+                </div>
+                <button type="submit" class="cta-primary" data-lang-key="formSubmitBtn" style="width:100%; margin-top: 1rem;">Get a Quote</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="chatbot-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chatbot-title">
+        <div class="chatbot-header">
+            <h3 id="chatbot-title" data-lang-key="chatbotTitle">DreamStay Assistant</h3>
+            <button id="chatbot-close-btn" class="chatbot-close-btn" aria-label="Close chat">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div id="chatbot-messages" class="chatbot-messages">
+            <!-- Messages will be injected here -->
+        </div>
+        <div id="chatbot-questions" class="chatbot-questions">
+            <!-- Question buttons will be injected here -->
+        </div>
+    </div>
+
+    <!-- Sticky Action Buttons -->
+    <div class="sticky-actions-container">
+        <button id="chatbot-sticky-btn" class="chatbot-sticky-btn" aria-label="Open chatbot">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9.45 12.75L8.25 15l-1.2-2.25L4.5 10.5l2.25-1.2L9 7l2.25 2.25L13.5 7l2.25 2.25 2.25 1.2-2.25 2.25L15.75 15l-2.25-2.25L11.25 15l-1.8-2.25z"/></svg>
+        </button>
+        <a href="#" id="contact-sticky-btn" class="contact-sticky-btn" target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.885-.002 2.024.63 3.965 1.739 5.618l-1.18 4.34a.5.5 0 0 0 .63.629l4.396-1.149z"></path></svg>
+        </a>
+    </div>
+</body>
+</html>
