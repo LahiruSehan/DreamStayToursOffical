@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const themeParticles = {
-        Dashboard: { count: 25, vx: [-0.2, 0.2], vy: [-0.5, -0.2], size: [15, 25], chars: ['☀️', '✈️', '🌴'], color: 'rgba(255, 112, 67, 0.6)' },
+        Dashboard: { count: 0 },
         Japan: { count: 30, vx: [-0.2, 0.2], vy: [0.3, 0.8], size: [10, 20], char: '🌸', color: 'rgba(255, 182, 193, 0.5)' },
         Thailand: { count: 20, vx: [-0.1, 0.1], vy: [-0.5, -0.2], size: [15, 25], char: '🏮', color: 'rgba(255, 184, 77, 0.4)' },
         Malaysia: { count: 40, vx: [-0.3, 0.3], vy: [0.1, 0.5], size: [10, 20], char: '🌙', color: 'rgba(230, 230, 250, 0.6)' },
@@ -234,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const switchView = (view, forceParticles = false) => {
+        document.body.classList.remove('scrolled-theme'); // Reset scroll theme on any view switch
         const oldView = currentView;
         currentView = view;
         localStorage.setItem('dreamstay_view', view);
@@ -246,6 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.className = `country-view ${themeClass}`;
         if (view === 'Dashboard') {
             document.body.classList.remove('country-view');
+            // Re-check scroll position in case the page is already scrolled down
+            handleDashboardScroll();
         } else {
             renderPackages(view);
             setupIntersectionObserver('.package-card.animate-in');
@@ -291,33 +294,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3 class="services-title animate-in">${config.STRINGS[currentLang].servicesTitle}</h3>
                 <div class="services-grid">
                     <div class="service-item animate-in">
-                        <div class="service-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1.5-1.5-3-1-4.5-.5L13 6 5 4.2 3.2 6l3.5 9.1L12 18l5.8 1.2zM21 3l-1.5 1.5M12.4 12.4 4 20"/></svg>
-                        </div>
+                        <div class="service-icon">✈️</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceAirTickets}</p>
                     </div>
                     <div class="service-item animate-in">
-                        <div class="service-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1Z"/><path d="m9 12 2 2 4-4"/></svg>
-                        </div>
+                        <div class="service-icon">🛂</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceVisa}</p>
                     </div>
                     <div class="service-item animate-in">
-                        <div class="service-icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 22v-6.57"/><path d="M12 11h.01"/><path d="M12 7h.01"/><path d="M14 15.43V22"/><path d="M15 16h-6"/><path d="M20 22v-6"/><path d="M18 11h.01"/><path d="M18 7h.01"/><path d="M22 19H8.3a1 1 0 0 1-.9-1.42l1.1-2.04a1 1 0 0 0-.9-1.55H2V4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v15a3 3 0 0 1-3 3Z"/></svg>
-                        </div>
-                        <p class="service-label">${config.STRINGS[currentLang].serviceHotel}</p>
-                    </div>
-                    <div class="service-item animate-in">
-                        <div class="service-icon">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M3 11V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5"/><path d="M8 16h8"/><circle cx="8" cy="20" r="2"/><circle cx="16" cy="20" r="2"/></svg>
-                        </div>
+                        <div class="service-icon">🚌</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceTransport}</p>
                     </div>
                     <div class="service-item animate-in">
-                        <div class="service-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5h.01"/><path d="M15 5h-1.5a1.5 1.5 0 0 0 0 3h1.5v5.5a3.5 3.5 0 0 1-3.5 3.5h-1a3.5 3.5 0 0 1-3.5-3.5V5H4"/><path d="M6 5v5.5A1.5 1.5 0 0 0 7.5 12h1a1.5 1.5 0 0 0 1.5-1.5V5"/></svg>
-                        </div>
+                        <div class="service-icon">🥐</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceBreakfast}</p>
                     </div>
                 </div>
@@ -605,6 +594,16 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(reviewCarouselIntervalId);
     };
     
+    const handleDashboardScroll = () => {
+        if (currentView === 'Dashboard') {
+            if (window.scrollY > 100) {
+                document.body.classList.add('scrolled-theme');
+            } else {
+                document.body.classList.remove('scrolled-theme');
+            }
+        }
+    };
+
     // --- Chatbot Functions ---
     const addMessageToChat = (text, type = 'bot') => {
         const messageEl = document.createElement('div');
@@ -743,6 +742,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextLang = langs[(currentLangIndex + 1) % langs.length];
         setLanguage(nextLang);
     });
+
+    window.addEventListener('scroll', handleDashboardScroll);
 
     window.addEventListener('resize', () => {
         resizeCanvas();
