@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DOM Elements ---
     const preloader = document.getElementById('preloader');
     const langModal = document.getElementById('language-modal');
+    const langButtonsContainer = document.querySelector('.lang-buttons');
     const langButtons = document.querySelectorAll('.lang-btn');
+    const musicButtonsContainer = document.querySelector('.music-buttons');
     const musicButtons = document.querySelectorAll('.music-btn');
     const appWrapper = document.getElementById('app-wrapper');
     const mainContent = document.getElementById('main-content');
@@ -38,8 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
     const chatbotMessages = document.getElementById('chatbot-messages');
     const chatbotQuestions = document.getElementById('chatbot-questions');
-    // Music element
+    // Music elements
     const backgroundMusic = document.getElementById('background-music');
+    const tempMusicBtn = document.getElementById('temp-music-btn');
     // Package Controls
     const packageControls = document.getElementById('package-controls');
     const layoutControls = document.querySelector('.layout-controls');
@@ -49,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- State ---
     let currentLang = 'en';
     let selectedLang = 'en';
+    let musicEnabled = true; // Default to on
     let currentView = 'Dashboard';
     let heroQuoteIntervalId;
     let reviewCarouselIntervalId;
@@ -762,35 +766,76 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Event Listeners ---
-    langButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            selectedLang = btn.dataset.lang;
-            // Visually mark the selected language
-            langButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            // Translate the modal itself
-            translateUI(selectedLang);
-        });
+    
+    // In Preloader: Handle music preference toggle (doesn't start app)
+    musicButtonsContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.music-btn');
+        if (!btn) return;
+
+        musicButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        musicEnabled = btn.dataset.music === 'on';
+        console.log(`[Preloader] Music preference changed to: ${musicEnabled ? 'ON' : 'OFF'}. App will start after language selection.`);
     });
 
-    musicButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const musicChoice = btn.dataset.music;
-            if (musicChoice === 'on') {
-                console.log("User chose to play music. Attempting to play...");
-                const playPromise = backgroundMusic.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        console.log("🎵 Background music started successfully.");
-                    }).catch(error => {
-                        console.error("❌ Error playing background music:", error);
-                    });
-                }
-            } else {
-                console.log("User chose not to play music.");
+    // In Preloader: Handle language selection, which NOW starts the app and music.
+    langButtonsContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.lang-btn');
+        if (!btn) return;
+
+        selectedLang = btn.dataset.lang;
+        langButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        translateUI(selectedLang);
+
+        // This is the main user interaction that starts everything.
+        if (musicEnabled) {
+            console.log("[Language Button Click] User wants music. Attempting to play...");
+            const playPromise = backgroundMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    console.log("✅ [Language Button Click] Background music started successfully.");
+                }).catch(error => {
+                    console.error("❌ [Language Button Click] Error playing background music:", error);
+                });
             }
-            startApp();
+        } else {
+            console.log("[Language Button Click] User has music turned OFF.");
+        }
+        startApp();
+    });
+
+    // Temporary Hero Music Button
+    if (tempMusicBtn) {
+        tempMusicBtn.addEventListener('click', () => {
+            if (backgroundMusic.paused) {
+                console.log("[Hero Button] Music is paused. Attempting to play...");
+                backgroundMusic.play().catch(e => console.error("❌ [Hero Button] Playback failed:", e));
+            } else {
+                console.log("[Hero Button] Music is playing. Pausing...");
+                backgroundMusic.pause();
+            }
         });
+    }
+
+    // Comprehensive Music Logging & Button Sync
+    backgroundMusic.addEventListener('play', () => {
+        console.log("EVENT: Audio started playing.");
+        if (tempMusicBtn) tempMusicBtn.textContent = "Stop Music 🔇";
+    });
+
+    backgroundMusic.addEventListener('pause', () => {
+        console.log("EVENT: Audio paused.");
+        if (tempMusicBtn) tempMusicBtn.textContent = "Play Music 🎵";
+    });
+
+    backgroundMusic.addEventListener('volumechange', () => {
+        console.log(`EVENT: Volume changed to ${backgroundMusic.volume}`);
+    });
+
+    backgroundMusic.addEventListener('error', (e) => {
+        console.error("EVENT: Audio element error occurred.", e);
     });
     
     filterTabs.forEach(tab => {

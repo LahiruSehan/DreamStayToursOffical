@@ -299,6 +299,11 @@ button, a {
     border-color: var(--accent);
 }
 
+.music-btn.active {
+    box-shadow: 0 0 0 3px var(--accent) !important;
+    transform: translateY(-2px);
+}
+
 .music-btn[data-music="on"] {
     background-color: rgba(46, 204, 113, 0.2);
     color: #27ae60;
