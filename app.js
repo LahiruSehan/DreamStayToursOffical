@@ -40,9 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotQuestions = document.getElementById('chatbot-questions');
     // Music elements
     const backgroundMusic = document.getElementById('background-music');
-    const audioModal = document.getElementById('audio-modal');
-    const enableAudioBtn = document.getElementById('enable-audio-btn');
-    const disableAudioBtn = document.getElementById('disable-audio-btn');
     const audioToggleBtn = document.getElementById('audio-toggle-btn');
     const audioIconOn = document.getElementById('audio-icon-on');
     const audioIconOff = document.getElementById('audio-icon-off');
@@ -176,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Audio Functions ---
     const updateAudioIcons = () => {
-        if (backgroundMusic.paused || !audioEnabled) {
+        if (backgroundMusic.paused) {
             audioIconOn.classList.add('hidden');
             audioIconOff.classList.remove('hidden');
         } else {
@@ -186,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const playAudio = () => {
-        if (!audioEnabled || !audioContextUnlocked) {
-            console.log("Audio not enabled or context not unlocked. Cannot play.");
+        if (!audioContextUnlocked) {
+            console.log("Audio context not unlocked. Cannot play.");
             return;
         }
         if (backgroundMusic.paused) {
@@ -196,8 +193,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     console.log("✅ Audio playback started successfully.");
+                    audioEnabled = true;
                 }).catch(error => {
                     console.error("❌ Audio playback failed:", error);
+                    audioEnabled = false;
                 });
             }
         }
@@ -206,58 +205,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const pauseAudio = () => {
         if (!backgroundMusic.paused) {
             backgroundMusic.pause();
-        }
-    };
-
-    const handleAudioConsent = (consent) => {
-        audioModal.classList.add('hidden');
-        document.body.classList.remove('modal-open');
-        if (consent) {
-            console.log("User consented to audio.");
-            localStorage.setItem('audioConsent', 'enabled');
-            audioEnabled = true;
-            audioContextUnlocked = true; // The click that gave consent unlocks it.
-            playAudio();
-        } else {
-            console.log("User denied audio consent.");
-            localStorage.setItem('audioConsent', 'disabled');
             audioEnabled = false;
-            pauseAudio();
-        }
-        updateAudioIcons();
-    };
-
-    const checkAudioConsent = () => {
-        const consent = localStorage.getItem('audioConsent');
-        if (consent === 'enabled') {
-            console.log("User previously enabled audio. Will attempt to play on next interaction.");
-            audioEnabled = true;
-            updateAudioIcons();
-            const unlockAudio = () => {
-                if (audioContextUnlocked) return;
-                console.log("First user interaction detected. Unlocking and playing audio.");
-                audioContextUnlocked = true;
-                playAudio();
-            };
-            // Use { once: true } to automatically remove the listener after it runs.
-            document.body.addEventListener('click', unlockAudio, { once: true });
-            document.body.addEventListener('touchend', unlockAudio, { once: true });
-            document.body.addEventListener('keydown', unlockAudio, { once: true });
-
-        } else if (consent === 'disabled') {
-            console.log("User previously disabled audio.");
-            audioEnabled = false;
-            updateAudioIcons();
-        } else {
-            // First time visit, show the modal.
-            console.log("First visit. Showing audio consent modal.");
-            setTimeout(() => { // Short delay to allow page transition
-                audioModal.classList.remove('hidden');
-                document.body.classList.add('modal-open');
-            }, 300);
         }
     };
-
 
     // --- Core App Functions ---
     const showPreloader = () => {
@@ -269,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
         preloader.classList.add('fade-out');
         setTimeout(() => {
             preloader.classList.add('hidden');
-            checkAudioConsent(); // Check for audio consent AFTER preloader is gone.
         }, 500);
 
         appWrapper.classList.remove('hidden');
@@ -863,6 +812,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = e.target.closest('.lang-btn');
         if (!btn) return;
         
+        // This click now serves as the user interaction to unlock and play audio.
+        if (!audioContextUnlocked) {
+            console.log("Language selected. Unlocking and enabling audio.");
+            audioContextUnlocked = true;
+            playAudio();
+        }
+
         selectedLang = btn.dataset.lang;
         langButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -871,22 +827,19 @@ document.addEventListener('DOMContentLoaded', () => {
         startApp();
     });
     
-    // New Audio Listeners
-    enableAudioBtn.addEventListener('click', () => handleAudioConsent(true));
-    disableAudioBtn.addEventListener('click', () => handleAudioConsent(false));
-    
     audioToggleBtn.addEventListener('click', () => {
-        // This button can also serve as the first interaction to unlock audio
         if (!audioContextUnlocked) {
+            // This is an edge case if the user finds a way to click this first.
+            // Let's unlock and play, as it's a clear intent for audio.
             audioContextUnlocked = true;
-        }
-        audioEnabled = !backgroundMusic.paused; // Check current state
-        if (audioEnabled) {
-            pauseAudio();
-            audioEnabled = false;
-        } else {
-            audioEnabled = true;
             playAudio();
+            return;
+        }
+
+        if (backgroundMusic.paused) {
+            playAudio();
+        } else {
+            pauseAudio();
         }
     });
 
@@ -982,7 +935,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!mediaLightbox.classList.contains('hidden')) closeMediaLightbox();
             if (!customPlanModal.classList.contains('hidden')) closeCustomPlanModal();
             if (!chatbotModal.classList.contains('hidden')) chatbotModal.classList.add('hidden');
-            if (!audioModal.classList.contains('hidden')) handleAudioConsent(false);
         }
     });
 
@@ -1044,4 +996,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initial Load ---
     resizeCanvas();
     showPreloader();
+    updateAudioIcons(); // Set initial icon state
 });
