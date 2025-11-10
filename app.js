@@ -7,8 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const langModal = document.getElementById('language-modal');
     const langButtonsContainer = document.querySelector('.lang-buttons');
     const langButtons = document.querySelectorAll('.lang-btn');
-    const musicButtonsContainer = document.querySelector('.music-buttons');
-    const musicButtons = document.querySelectorAll('.music-btn');
     const appWrapper = document.getElementById('app-wrapper');
     const mainContent = document.getElementById('main-content');
     const galleryPage = document.getElementById('gallery-page');
@@ -42,7 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotQuestions = document.getElementById('chatbot-questions');
     // Music elements
     const backgroundMusic = document.getElementById('background-music');
-    const tempMusicBtn = document.getElementById('temp-music-btn');
+    const audioModal = document.getElementById('audio-modal');
+    const enableAudioBtn = document.getElementById('enable-audio-btn');
+    const disableAudioBtn = document.getElementById('disable-audio-btn');
+    const audioToggleBtn = document.getElementById('audio-toggle-btn');
+    const audioIconOn = document.getElementById('audio-icon-on');
+    const audioIconOff = document.getElementById('audio-icon-off');
+
     // Package Controls
     const packageControls = document.getElementById('package-controls');
     const layoutControls = document.querySelector('.layout-controls');
@@ -52,7 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- State ---
     let currentLang = 'en';
     let selectedLang = 'en';
-    let musicEnabled = true; // Default to on, matching the UI
+    let audioEnabled = false;
+    let audioContextUnlocked = false;
     let currentView = 'Dashboard';
     let heroQuoteIntervalId;
     let reviewCarouselIntervalId;
@@ -169,7 +174,92 @@ document.addEventListener('DOMContentLoaded', () => {
         "Sri Lanka": { count: 30, vx: [-0.2, 0.2], vy: [0.3, 0.8], size: [15, 25], char: '🌊', color: 'rgba(96, 165, 250, 0.5)' }
     };
 
-    // --- Functions ---
+    // --- Audio Functions ---
+    const updateAudioIcons = () => {
+        if (backgroundMusic.paused || !audioEnabled) {
+            audioIconOn.classList.add('hidden');
+            audioIconOff.classList.remove('hidden');
+        } else {
+            audioIconOff.classList.add('hidden');
+            audioIconOn.classList.remove('hidden');
+        }
+    };
+
+    const playAudio = () => {
+        if (!audioEnabled || !audioContextUnlocked) {
+            console.log("Audio not enabled or context not unlocked. Cannot play.");
+            return;
+        }
+        if (backgroundMusic.paused) {
+            backgroundMusic.volume = 0.3; // A safe, non-jarring volume
+            const playPromise = backgroundMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("✅ Audio playback started successfully.");
+                }).catch(error => {
+                    console.error("❌ Audio playback failed:", error);
+                });
+            }
+        }
+    };
+
+    const pauseAudio = () => {
+        if (!backgroundMusic.paused) {
+            backgroundMusic.pause();
+        }
+    };
+
+    const handleAudioConsent = (consent) => {
+        audioModal.classList.add('hidden');
+        document.body.classList.remove('modal-open');
+        if (consent) {
+            console.log("User consented to audio.");
+            localStorage.setItem('audioConsent', 'enabled');
+            audioEnabled = true;
+            audioContextUnlocked = true; // The click that gave consent unlocks it.
+            playAudio();
+        } else {
+            console.log("User denied audio consent.");
+            localStorage.setItem('audioConsent', 'disabled');
+            audioEnabled = false;
+            pauseAudio();
+        }
+        updateAudioIcons();
+    };
+
+    const checkAudioConsent = () => {
+        const consent = localStorage.getItem('audioConsent');
+        if (consent === 'enabled') {
+            console.log("User previously enabled audio. Will attempt to play on next interaction.");
+            audioEnabled = true;
+            updateAudioIcons();
+            const unlockAudio = () => {
+                if (audioContextUnlocked) return;
+                console.log("First user interaction detected. Unlocking and playing audio.");
+                audioContextUnlocked = true;
+                playAudio();
+            };
+            // Use { once: true } to automatically remove the listener after it runs.
+            document.body.addEventListener('click', unlockAudio, { once: true });
+            document.body.addEventListener('touchend', unlockAudio, { once: true });
+            document.body.addEventListener('keydown', unlockAudio, { once: true });
+
+        } else if (consent === 'disabled') {
+            console.log("User previously disabled audio.");
+            audioEnabled = false;
+            updateAudioIcons();
+        } else {
+            // First time visit, show the modal.
+            console.log("First visit. Showing audio consent modal.");
+            setTimeout(() => { // Short delay to allow page transition
+                audioModal.classList.remove('hidden');
+                document.body.classList.add('modal-open');
+            }, 300);
+        }
+    };
+
+
+    // --- Core App Functions ---
     const showPreloader = () => {
         preloader.classList.remove('hidden');
         langModal.classList.remove('hidden');
@@ -177,9 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const startApp = () => {
         preloader.classList.add('fade-out');
-        setTimeout(() => preloader.classList.add('hidden'), 500);
-        appWrapper.classList.remove('hidden');
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+            checkAudioConsent(); // Check for audio consent AFTER preloader is gone.
+        }, 500);
 
+        appWrapper.classList.remove('hidden');
         setLanguage(selectedLang);
 
         renderFAQ();
@@ -766,76 +859,45 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Event Listeners ---
-    
-    // In Preloader: Music buttons DIRECTLY control the audio. This is the key change.
-    musicButtonsContainer.addEventListener('click', (e) => {
-        const btn = e.target.closest('.music-btn');
-        if (!btn) return;
-
-        musicButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        musicEnabled = btn.dataset.music === 'on';
-
-        if (musicEnabled) {
-            console.log("[Preloader Music Button] 'On' clicked. Attempting to play audio...");
-            const playPromise = backgroundMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.error("❌ [Preloader Music Button] Audio play failed. This often happens if it's not the first user interaction on the page. Error:", error);
-                });
-            }
-        } else {
-            console.log("[Preloader Music Button] 'Off' clicked. Pausing audio.");
-            backgroundMusic.pause();
-        }
-    });
-
-    // In Preloader: Language buttons ONLY start the app. Music state is preserved.
     langButtonsContainer.addEventListener('click', (e) => {
         const btn = e.target.closest('.lang-btn');
         if (!btn) return;
         
-        console.log("[Language Button Click] Language selected. Starting the application.");
         selectedLang = btn.dataset.lang;
         langButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        // Translate the preloader text while it's still visible
         translateUI(selectedLang);
-
-        // Music is already handled by the music buttons. We just start the app.
         startApp();
     });
+    
+    // New Audio Listeners
+    enableAudioBtn.addEventListener('click', () => handleAudioConsent(true));
+    disableAudioBtn.addEventListener('click', () => handleAudioConsent(false));
+    
+    audioToggleBtn.addEventListener('click', () => {
+        // This button can also serve as the first interaction to unlock audio
+        if (!audioContextUnlocked) {
+            audioContextUnlocked = true;
+        }
+        audioEnabled = !backgroundMusic.paused; // Check current state
+        if (audioEnabled) {
+            pauseAudio();
+            audioEnabled = false;
+        } else {
+            audioEnabled = true;
+            playAudio();
+        }
+    });
 
-    // Temporary Hero Music Button
-    if (tempMusicBtn) {
-        tempMusicBtn.addEventListener('click', () => {
-            if (backgroundMusic.paused) {
-                console.log("[Hero Button] Music is paused. Attempting to play...");
-                backgroundMusic.play().catch(e => console.error("❌ [Hero Button] Playback failed:", e));
-            } else {
-                console.log("[Hero Button] Music is playing. Pausing...");
-                backgroundMusic.pause();
-            }
-        });
-    }
-
-    // Comprehensive Music Logging & Button Sync
     backgroundMusic.addEventListener('play', () => {
-        console.log("✅ EVENT: Audio started playing successfully.");
-        if (tempMusicBtn) tempMusicBtn.textContent = "Stop Music 🔇";
+        console.log("EVENT: Audio is playing.");
+        updateAudioIcons();
     });
-
     backgroundMusic.addEventListener('pause', () => {
-        console.log(" MUTE EVENT: Audio paused.");
-        if (tempMusicBtn) tempMusicBtn.textContent = "Play Music 🎵";
+        console.log("EVENT: Audio is paused.");
+        updateAudioIcons();
     });
-
-    backgroundMusic.addEventListener('volumechange', () => {
-        console.log(`ℹ️ INFO: Volume changed to ${backgroundMusic.volume}`);
-    });
-
     backgroundMusic.addEventListener('error', (e) => {
         console.error("❌ EVENT: An error occurred with the audio element.", e);
     });
@@ -920,6 +982,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!mediaLightbox.classList.contains('hidden')) closeMediaLightbox();
             if (!customPlanModal.classList.contains('hidden')) closeCustomPlanModal();
             if (!chatbotModal.classList.contains('hidden')) chatbotModal.classList.add('hidden');
+            if (!audioModal.classList.contains('hidden')) handleAudioConsent(false);
         }
     });
 

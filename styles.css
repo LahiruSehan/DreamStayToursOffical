@@ -259,18 +259,14 @@ button, a {
     color: var(--text-primary);
 }
 
-#music-modal-title {
-    margin-top: 1.5rem;
-}
-
-.lang-buttons, .music-buttons {
+.lang-buttons {
     display: flex;
     gap: 0.75rem;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.lang-btn, .music-btn {
+.lang-btn {
     padding: 0.6rem 1.2rem;
     border-radius: var(--radius-md);
     background-color: rgba(255,255,255,0.2);
@@ -288,34 +284,15 @@ button, a {
     font-size: 1.2rem;
 }
 
-.lang-btn:hover, .music-btn:hover {
+.lang-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 15px var(--shadow-color);
 }
 
-.lang-btn.active, .music-btn.active {
+.lang-btn.active {
     background-color: var(--accent);
     color: var(--button-text);
     border-color: var(--accent);
-}
-
-.music-btn:not(.active)[data-music="on"]:hover {
-     background-color: #2ecc71;
-     color: white;
-     border-color: #2ecc71;
-}
-
-.music-btn:not(.active)[data-music="off"]:hover {
-    background-color: #e74c3c;
-    color: white;
-    border-color: #e74c3c;
-}
-
-.modal-divider {
-    height: 1px;
-    background-color: var(--card-border);
-    width: 80%;
-    margin: 1.5rem auto 0;
 }
 
 /* --- MAIN APP WRAPPER --- */
@@ -1054,6 +1031,18 @@ body.theme-srilanka .package-card {
     transform: scale(1);
 }
 
+.modal-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
 .modal-close-btn {
     position: absolute;
     top: 1rem;
@@ -1251,12 +1240,16 @@ body.theme-srilanka .package-card {
     animation: pulse 2s infinite;
 }
 
+#audio-toggle-btn,
 .chatbot-sticky-btn {
     background-color: var(--accent);
     color: var(--button-text);
     box-shadow: 0 4px 15px var(--shadow-color);
 }
-
+#audio-toggle-btn svg {
+    width: 24px;
+    height: 24px;
+}
 
 /* Chatbot Modal */
 .chatbot-modal {
