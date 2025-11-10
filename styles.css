@@ -293,35 +293,22 @@ button, a {
     box-shadow: 0 4px 15px var(--shadow-color);
 }
 
-.lang-btn.active {
+.lang-btn.active, .music-btn.active {
     background-color: var(--accent);
     color: var(--button-text);
     border-color: var(--accent);
 }
 
-.music-btn.active {
-    box-shadow: 0 0 0 3px var(--accent) !important;
-    transform: translateY(-2px);
-}
-
-.music-btn[data-music="on"] {
-    background-color: rgba(46, 204, 113, 0.2);
-    color: #27ae60;
-    border-color: rgba(46, 204, 113, 0.5);
-}
-.music-btn[data-music="on"]:hover {
+.music-btn:not(.active)[data-music="on"]:hover {
      background-color: #2ecc71;
      color: white;
+     border-color: #2ecc71;
 }
 
-.music-btn[data-music="off"] {
-    background-color: rgba(231, 76, 60, 0.2);
-    color: #c0392b;
-    border-color: rgba(231, 76, 60, 0.5);
-}
-.music-btn[data-music="off"]:hover {
+.music-btn:not(.active)[data-music="off"]:hover {
     background-color: #e74c3c;
     color: white;
+    border-color: #e74c3c;
 }
 
 .modal-divider {

@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- State ---
     let currentLang = 'en';
     let selectedLang = 'en';
-    let musicEnabled = true; // Default to on
+    let musicEnabled = true; // Default to on, matching the UI
     let currentView = 'Dashboard';
     let heroQuoteIntervalId;
     let reviewCarouselIntervalId;
@@ -767,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Event Listeners ---
     
-    // In Preloader: Handle music preference toggle (doesn't start app)
+    // In Preloader: Music buttons DIRECTLY control the audio. This is the key change.
     musicButtonsContainer.addEventListener('click', (e) => {
         const btn = e.target.closest('.music-btn');
         if (!btn) return;
@@ -776,33 +776,35 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.classList.add('active');
         
         musicEnabled = btn.dataset.music === 'on';
-        console.log(`[Preloader] Music preference changed to: ${musicEnabled ? 'ON' : 'OFF'}. App will start after language selection.`);
-    });
 
-    // In Preloader: Handle language selection, which NOW starts the app and music.
-    langButtonsContainer.addEventListener('click', (e) => {
-        const btn = e.target.closest('.lang-btn');
-        if (!btn) return;
-
-        selectedLang = btn.dataset.lang;
-        langButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        translateUI(selectedLang);
-
-        // This is the main user interaction that starts everything.
         if (musicEnabled) {
-            console.log("[Language Button Click] User wants music. Attempting to play...");
+            console.log("[Preloader Music Button] 'On' clicked. Attempting to play audio...");
             const playPromise = backgroundMusic.play();
             if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    console.log("✅ [Language Button Click] Background music started successfully.");
-                }).catch(error => {
-                    console.error("❌ [Language Button Click] Error playing background music:", error);
+                playPromise.catch(error => {
+                    console.error("❌ [Preloader Music Button] Audio play failed. This often happens if it's not the first user interaction on the page. Error:", error);
                 });
             }
         } else {
-            console.log("[Language Button Click] User has music turned OFF.");
+            console.log("[Preloader Music Button] 'Off' clicked. Pausing audio.");
+            backgroundMusic.pause();
         }
+    });
+
+    // In Preloader: Language buttons ONLY start the app. Music state is preserved.
+    langButtonsContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.lang-btn');
+        if (!btn) return;
+        
+        console.log("[Language Button Click] Language selected. Starting the application.");
+        selectedLang = btn.dataset.lang;
+        langButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Translate the preloader text while it's still visible
+        translateUI(selectedLang);
+
+        // Music is already handled by the music buttons. We just start the app.
         startApp();
     });
 
@@ -821,21 +823,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Comprehensive Music Logging & Button Sync
     backgroundMusic.addEventListener('play', () => {
-        console.log("EVENT: Audio started playing.");
+        console.log("✅ EVENT: Audio started playing successfully.");
         if (tempMusicBtn) tempMusicBtn.textContent = "Stop Music 🔇";
     });
 
     backgroundMusic.addEventListener('pause', () => {
-        console.log("EVENT: Audio paused.");
+        console.log(" MUTE EVENT: Audio paused.");
         if (tempMusicBtn) tempMusicBtn.textContent = "Play Music 🎵";
     });
 
     backgroundMusic.addEventListener('volumechange', () => {
-        console.log(`EVENT: Volume changed to ${backgroundMusic.volume}`);
+        console.log(`ℹ️ INFO: Volume changed to ${backgroundMusic.volume}`);
     });
 
     backgroundMusic.addEventListener('error', (e) => {
-        console.error("EVENT: Audio element error occurred.", e);
+        console.error("❌ EVENT: An error occurred with the audio element.", e);
     });
     
     filterTabs.forEach(tab => {
