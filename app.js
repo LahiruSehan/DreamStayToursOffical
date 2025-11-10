@@ -810,12 +810,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     filterTabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            const selectedCountry = tab.dataset.country;
+
+            // --- Scroll Logic ---
+            // If switching from Dashboard to a country view, scroll down to hide the hero.
+            if (currentView === 'Dashboard' && selectedCountry !== 'Dashboard') {
+                document.getElementById('filters').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } 
+            // If switching to the Dashboard view, scroll to the top to reveal the hero.
+            else if (selectedCountry === 'Dashboard') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            // --- End Scroll Logic ---
+
             // Reset filters when switching views
             sortPriceSelect.value = 'default';
             filterDurationSelect.value = 'all';
             currentSort = 'default';
             currentDurationFilter = 'all';
-            switchView(tab.dataset.country);
+            switchView(selectedCountry);
         });
     });
 
