@@ -40,9 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotQuestions = document.getElementById('chatbot-questions');
     // Music elements
     const backgroundMusic = document.getElementById('background-music');
-    const audioToggleBtn = document.getElementById('audio-toggle-btn');
-    const audioIconOn = document.getElementById('audio-icon-on');
-    const audioIconOff = document.getElementById('audio-icon-off');
 
     // Package Controls
     const packageControls = document.getElementById('package-controls');
@@ -53,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- State ---
     let currentLang = 'en';
     let selectedLang = 'en';
-    let audioEnabled = false;
     let audioContextUnlocked = false;
     let currentView = 'Dashboard';
     let heroQuoteIntervalId;
@@ -172,16 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Audio Functions ---
-    const updateAudioIcons = () => {
-        if (backgroundMusic.paused) {
-            audioIconOn.classList.add('hidden');
-            audioIconOff.classList.remove('hidden');
-        } else {
-            audioIconOff.classList.add('hidden');
-            audioIconOn.classList.remove('hidden');
-        }
-    };
-
     const playAudio = () => {
         if (!audioContextUnlocked) {
             console.log("Audio context not unlocked. Cannot play.");
@@ -193,19 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     console.log("✅ Audio playback started successfully.");
-                    audioEnabled = true;
                 }).catch(error => {
                     console.error("❌ Audio playback failed:", error);
-                    audioEnabled = false;
                 });
             }
-        }
-    };
-
-    const pauseAudio = () => {
-        if (!backgroundMusic.paused) {
-            backgroundMusic.pause();
-            audioEnabled = false;
         }
     };
 
@@ -827,30 +804,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startApp();
     });
     
-    audioToggleBtn.addEventListener('click', () => {
-        if (!audioContextUnlocked) {
-            // This is an edge case if the user finds a way to click this first.
-            // Let's unlock and play, as it's a clear intent for audio.
-            audioContextUnlocked = true;
-            playAudio();
-            return;
-        }
-
-        if (backgroundMusic.paused) {
-            playAudio();
-        } else {
-            pauseAudio();
-        }
-    });
-
-    backgroundMusic.addEventListener('play', () => {
-        console.log("EVENT: Audio is playing.");
-        updateAudioIcons();
-    });
-    backgroundMusic.addEventListener('pause', () => {
-        console.log("EVENT: Audio is paused.");
-        updateAudioIcons();
-    });
     backgroundMusic.addEventListener('error', (e) => {
         console.error("❌ EVENT: An error occurred with the audio element.", e);
     });
@@ -996,5 +949,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initial Load ---
     resizeCanvas();
     showPreloader();
-    updateAudioIcons(); // Set initial icon state
 });

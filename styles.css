@@ -1240,15 +1240,10 @@ body.theme-srilanka .package-card {
     animation: pulse 2s infinite;
 }
 
-#audio-toggle-btn,
 .chatbot-sticky-btn {
     background-color: var(--accent);
     color: var(--button-text);
     box-shadow: 0 4px 15px var(--shadow-color);
-}
-#audio-toggle-btn svg {
-    width: 24px;
-    height: 24px;
 }
 
 /* Chatbot Modal */
