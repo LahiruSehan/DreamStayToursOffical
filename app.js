@@ -279,16 +279,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sort by price
         if (currentSort !== 'default') {
             packagesToRender.sort((a, b) => {
+                if (a.price_from === 'COMING_SOON') return 1;
+                if (b.price_from === 'COMING_SOON') return -1;
                 const priceA = parseInt(a.price_from.replace(/[^0-9]/g, ''));
                 const priceB = parseInt(b.price_from.replace(/[^0-9]/g, ''));
-                return currentSort === 'asc' ? priceA - priceB : priceB - priceA;
+                return currentSort === 'asc' ? priceA - priceB : priceB - a;
             });
         }
             
         packagesToRender.forEach(pkg => {
             const card = document.createElement('div');
             card.className = 'package-card animate-in';
-            const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
+
+            const isComingSoon = pkg.price_from === 'COMING_SOON';
+            let priceOrStatusHTML = '';
+            let buttonHTML = '';
+
+            if (isComingSoon) {
+                priceOrStatusHTML = `<div class="coming-soon">COMING SOON</div>`;
+                 // No button for coming soon packages
+            } else {
+                const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
+                priceOrStatusHTML = `<p class="card-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>`;
+                buttonHTML = `<button class="card-button" data-id="${pkg.id}">${config.STRINGS[currentLang].viewDetails}</button>`;
+            }
             
             card.innerHTML = `
                 <div class="card-image-container">
@@ -297,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card-content">
                     <p class="card-country">${pkg.country}</p>
                     <h3 class="card-title">${pkg[`title_${currentLang}`]}</h3>
-                    <p class="card-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>
+                    ${priceOrStatusHTML}
                     <div class="card-details">
                         <span>${pkg.duration}</span>
                         <span class="card-rating">
@@ -305,10 +319,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${pkg.rating}
                         </span>
                     </div>
-                    <button class="card-button" data-id="${pkg.id}">${config.STRINGS[currentLang].viewDetails}</button>
+                    ${buttonHTML}
                 </div>
             `;
-            card.querySelector('.card-button').addEventListener('click', () => openPackageModal(pkg.id));
+            if (!isComingSoon) {
+                card.querySelector('.card-button').addEventListener('click', () => openPackageModal(pkg.id));
+            }
             packagesGrid.appendChild(card);
         });
 
@@ -837,23 +853,25 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.addEventListener('click', () => {
             const selectedCountry = tab.dataset.country;
 
-            // --- Scroll Logic ---
-            // If switching from Dashboard to a country view, scroll down to hide the hero.
-            if (currentView === 'Dashboard' && selectedCountry !== 'Dashboard') {
-                document.getElementById('filters').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } 
-            // If switching to the Dashboard view, scroll to the top to reveal the hero.
-            else if (selectedCountry === 'Dashboard') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            // --- End Scroll Logic ---
+            if (selectedCountry === currentView) return;
 
             // Reset filters when switching views
             sortPriceSelect.value = 'default';
             filterDurationSelect.value = 'all';
             currentSort = 'default';
             currentDurationFilter = 'all';
-            switchView(selectedCountry);
+
+            if (currentView === 'Dashboard' && selectedCountry !== 'Dashboard') {
+                document.getElementById('filters').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => {
+                    switchView(selectedCountry);
+                }, 500); // Wait for scroll to finish
+            } else if (selectedCountry === 'Dashboard') {
+                switchView(selectedCountry);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else { // Switching between countries
+                switchView(selectedCountry);
+            }
         });
     });
 
