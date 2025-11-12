@@ -92,6 +92,7 @@ window.config = {
       {"id":"th-loc-024", "country":"Thailand", "city":"Pattaya", "title_en":"Frost Magical Ice of Siam", "title_si":"ෆ්‍රොස්ට් මැජිකල් අයිස් ඔෆ් සියම්", "title_ja":"フロスト・マジカル・アイス・オブ・サイアム", "short_desc_en":"Escape the heat in a -10°C dome of ice sculptures.", "short_desc_si":"අයිස් මූර්තිවල -10°C ගෝලාකාරයේ තාපයෙන් ගැලවෙන්න.", "short_desc_ja":"氷の彫刻の-10°Cのドームで暑さから逃れます。", "rating":4.1, "desc_en":"Experience a taste of the arctic in tropical Pattaya. Frost Magical Ice of Siam features a huge indoor dome kept at -10°C, filled with intricate ice sculptures depicting Thai literature and landmarks. There's also an outdoor area with white sand sculptures.", "desc_si":"නිවර්තන පතායා හි ආක්ටික් රසයක් අත්විඳින්න. ෆ්‍රොස්ට් මැජිකල් අයිස් ඔෆ් සියම් හි -10°C හි තබා ඇති විශාල ගෘහස්ථ ගෝලාකාරයක් ඇත, එය තායි සාහිත්‍යය සහ සන්ධිස්ථාන නිරූපණය කරන සංකීර්ණ අයිස් මූර්තිවලින් පිරී ඇත. සුදු වැලි මූර්ති සහිත එළිමහන් ප්‍රදේශයක් ද ඇත.", "desc_ja":"熱帯のパタヤで北極の味を体験してください。フロスト・マジカル・アイス・オブ・サイアムは、-10°Cに保たれた巨大な屋内ドームを特徴とし、タイ文学やランドマークを描いた複雑な氷の彫刻で満たされています。白い砂の彫刻がある屋外エリアもあります。" },
       {"id":"th-loc-025", "country":"Thailand", "city":"Pattaya", "title_en":"Million Year Stone Park & Crocodile Farm", "title_si":"මිලියන වසරක ගල් උද්‍යානය සහ කිඹුල් ගොවිපල", "title_ja":"百万年石公園＆クロコダイルファーム", "short_desc_en":"See ancient rock formations and thrilling crocodile shows.", "short_desc_si":"පුරාණ පාෂාණ සැකැස්ම සහ ත්‍රාසජනක කිඹුල් සංදර්ශන බලන්න.", "short_desc_ja":"古代の岩石層とスリリングなワニのショーをご覧ください。", "rating":4.2, "desc_en":"A unique park that combines beautiful gardens with exotic petrified wood formations, some over a million years old. The park is also home to a large crocodile farm where you can watch exciting shows featuring crocodile wrestling and feeding.", "desc_si":"ලක්ෂ සංඛ්‍යාත වසරකට වඩා පැරණි විදේශීය ගල් බවට පත් වූ ලී සැකැස්ම සමඟ සුන්දර උද්‍යාන ඒකාබද්ධ කරන අද්විතීය උද්‍යානයකි. මෙම උද්‍යානය කිඹුල් පොරබැදීම සහ පෝෂණය ඇතුළත් උද්වේගකර සංදර්ශන නැරඹිය හැකි විශාල කිඹුල් ගොවිපලකට ද නිවහන වේ.", "desc_ja":"美しい庭園と、数百万年以上前のものもあるエキゾチックな珪化木の形成物を組み合わせたユニークな公園です。この公園には大規模なワニ園もあり、ワニのレスリングや餌やりなどのエキサイティングなショーを見ることができます。" },
 
+
       // Malaysia (New List)
       { id:"my-loc-001", country:"Malaysia", city:"Kuala Lumpur", rating:4.8, title_en:"Petronas Twin Towers", short_desc_en:"Iconic twin skyscrapers with a sky bridge.", desc_en:"The jewel of Kuala Lumpur's skyline, these 88-story twin structures are an architectural marvel. Visit the Skybridge and Observation Deck for stunning city views.", title_si:"පෙට්‍රෝනාස් නිවුන් කුළුණු", short_desc_si:"අහස් පාලමක් සහිත සංකේතාත්මක නිවුන් අහස් ගොඩනැගිලි.", desc_si:"ක්වාලාලම්පූර් අහස් තලයේ මැණික වන මෙම තට්ටු 88 කින් යුත් නිවුන් ව්‍යුහයන් වාස්තු විද්‍යාත්මක ආශ්චර්යයකි. විශ්මයජනක නගර දර්ශන සඳහා Skybridge සහ Observation Deck වෙත පිවිසෙන්න.", title_ja:"ペトロナスツインタワー", short_desc_ja:"スカイブリッジのある象徴的なツインタワー。", desc_ja:"クアラルンプールのスカイラインの宝石であるこれらの88階建てのツイン構造は、建築の驚異です。スカイブリッジと展望台を訪れて、素晴らしい街の景色をお楽しみください。" },
       { id:"my-loc-002", country:"Malaysia", city:"Near KL", rating:4.7, title_en:"Batu Caves", short_desc_en:"A limestone hill with a series of caves and temples.", desc_en:"A sacred Hindu site featuring a giant golden statue of Lord Murugan at the entrance. Climb the 272 colorful steps to explore the main temple cave.", title_si:"බටු ලෙන්", short_desc_si:"ලෙන් සහ කෝවිල් මාලාවක් සහිත හුණුගල් කන්දක්.", desc_si:"ඇතුල්වීමේ දොරටුවේ මුරුගන් දෙවියන්ගේ යෝධ රන් පිළිමයක් සහිත පූජනීය හින්දු සිද්ධස්ථානයකි. ප්‍රධාන පන්සල් ගුහාව ගවේෂණය කිරීමට වර්ණවත් පඩි 272 ක් නගින්න.", title_ja:"バトゥ洞窟", short_desc_ja:"一連の洞窟と寺院がある石灰岩の丘。", desc_ja:"入り口にムルガン卿の巨大な黄金像がある神聖なヒンドゥー教の場所。272段のカラフルな階段を登って、本堂の洞窟を探検してください。" },
@@ -134,46 +135,51 @@ window.config = {
       "jp-loc-009": ['https://cdn.gaijinpot.com/app/uploads/sites/6/2016/01/Miyajima-Floating-shrine.jpg'],
       "jp-loc-010": ['https://www.go-nagano.net/hs-fs/hubfs/Imported_Blog_Media/201909271346_1.jpg?width=800&height=533&name=201909271346_1.jpg'],
       
-      // Thailand
-      "th-loc-001": ["https://images.unsplash.com/photo-1582962275424-5cb278775438?q=80&w=1935&auto=format&fit=crop"],
-      "th-loc-002": ["https://images.unsplash.com/photo-1596701975713-3302d1a37a7b?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-003": ["https://images.unsplash.com/photo-1620766165535-364278477610?q=80&w=1935&auto=format&fit=crop"],
-      "th-loc-004": ["https://images.unsplash.com/photo-1552601369-1c93a099d356?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-005": ["https://images.unsplash.com/photo-1625413346939-242371a58010?q=80&w=1964&auto=format&fit=crop"],
-      "th-loc-006": ["https://source.unsplash.com/800x600/?movie,theme-park"],
-      "th-loc-007": ["https://images.unsplash.com/photo-1536319159939-20f540114093?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-008": ["https://images.unsplash.com/photo-1549137426-389f4b1a4613?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-009": ["https://images.unsplash.com/photo-1596522538962-0f560e2e9a5d?q=80&w=1974&auto=format&fit=crop"],
-      "th-loc-010": ["https://images.unsplash.com/photo-1563503200-a657e05633a5?q=80&w=1964&auto=format&fit=crop"],
-      "th-loc-011": ["https://source.unsplash.com/800x600/?cabaret,show"],
-      "th-loc-012": ["https://images.unsplash.com/photo-1616052737153-29f86027a2c4?q=80&w=1931&auto=format&fit=crop"],
-      "th-loc-013": ["https://images.unsplash.com/photo-1593669399434-a6c8b34336c2?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-014": ["https://images.unsplash.com/photo-1581132649023-e139459a7216?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-015": ["https://images.unsplash.com/photo-1591942153392-14a04d5a92a2?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-016": ["https://images.unsplash.com/photo-1647718320141-59157b019b88?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-017": ["https://images.unsplash.com/photo-1592813589998-d36a63a56667?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-018": ["https://images.unsplash.com/photo-1601736284144-55276d6b2cbe?q=80&w=1939&auto=format&fit=crop"],
-      "th-loc-019": ["https://images.unsplash.com/photo-1555691179-8442a5a04f25?q=80&w=1931&auto=format&fit=crop"],
-      "th-loc-020": ["https://images.unsplash.com/photo-1594254924295-8c24f6050b10?q=80&w=2070&auto=format&fit=crop"],
-      "th-loc-021": ["https://source.unsplash.com/800x600/?bangkok,skyline,dinner"],
-      "th-loc-022": ["https://source.unsplash.com/800x600/?bangkok,asiatique"],
-      "th-loc-023": ["https://source.unsplash.com/800x600/?amusement,park,roller-coaster"],
-      "th-loc-024": ["https://source.unsplash.com/800x600/?ice,sculpture"],
-      "th-loc-025": ["https://images.unsplash.com/photo-1608754483803-9fe560248231?q=80&w=2070&auto=format&fit=crop"],
+      
+
+// Thailand
+      "th-loc-001": ["https://cdn-imgix.headout.com/tour/19441/TOUR-IMAGE/6a96dc12-2988-45db-9b8f-cfb24e65451b-10473-bangkok-mahanakhon-skywalk-indoor-and-outdoor-access-tickets-02.jpg?auto=format&w=900&h=562.5&q=90&ar=16%3A10&fit=crop"],
+      "th-loc-002": ["https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/07/32/cc/3e.jpg"],
+      "th-loc-003": ["https://www.agoda.com/wp-content/uploads/2024/07/Featured-image-the-Sanctuary-of-Truth-in-Pattaya-Thailand.jpg"],
+      "th-loc-004": ["https://media1.thrillophilia.com/filestore/g6z64ey6b5kiupei0mcx9nfs4469_Chao_phraya_IC_4d5b175a55.jpg"],
+      "th-loc-005": ["https://www.world-tourism.org/wp-content/uploads/2025/11/admission-ticket-to-ramayana-water-park-in-pattaya.jpg"],
+      "th-loc-006": ["https://columbiapicturesaquaverse.com/en/wp-content/uploads/2024/01/kvdesktop1.jpg"],
+      "th-loc-007": ["https://cdn-imgix.headout.com/media/images/a66e7a9c-ba89-431a-bd6d-1ea48407b787-1752564848128-292047.jpg?auto=compress%2Cformat&w=1216.3200000000002&h=760.2&q=210&ar=16%3A10&crop=faces&fit=crop"],
+      "th-loc-008": ["https://i.ytimg.com/vi/XzkSjIg0Bn4/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAEZxxqfdEkcviOw1T84R6-kEVrHQ"],
+      "th-loc-009": ["https://www.orientalescape.com/images/attraction/pty-nongnooch-02.webp"],
+      "th-loc-010": ["https://res.klook.com/image/upload/activities/nc9o7ax1zgwy9toop2uy.jpg"],
+      "th-loc-011": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQtlZgZ_YyxC8nholvgkIOGpKB_gtB7Yl_GA&s"],
+      "th-loc-012": ["https://www.agoda.com/wp-content/uploads/2020/02/Coral-island-Tourists-snorkeling.jpg"],
+      "th-loc-013": ["https://product-image.globaltix.com/live-gtImage/31030c44-a247-4674-8265-13dadc1c7a41"],
+      "th-loc-014": ["https://media1.thrillophilia.com/filestore/15ftiamxmj7mtipyj00iq2bhmser_shutterstock_312230294.jpg"],
+      "th-loc-015": ["https://d2d3n9ufwugv3m.cloudfront.net/w1200-h900-cfill/topics/OqH7x-20161020160200_0.jpg"],
+      "th-loc-016": ["https://tours.co.th/wp-content/uploads/2022/08/private-erawan-museum-and-ancient-city.jpeg"],
+      "th-loc-017": ["https://tigertopiasrirachazoo.com/wp-content/uploads/2025/02/Tiger-Topia-Ticket-1.png"],
+      "th-loc-018": ["https://cdn-imgix.headout.com/media/images/08778ab8bdb17667f9d2ec1f35cff6ed-1878-dubai-dubai-dolphinarium-tickets--dolphin---seal-show-03.jpg"],
+      "th-loc-019": ["https://www.pelago.com/img/products/TH-Thailand/underwater-world-pattaya-experience-thailand/9673eb27-908c-4d52-8640-f39fd11d5ce6_underwater-world-pattaya-experience-thailand-xlarge.webp"],
+      "th-loc-020": ["https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/0a/f3/5f/1d.jpg"],
+      "th-loc-021": ["https://baiyokesky.baiyokehotel.com/images/breakfast/BF2.jpg"],
+      "th-loc-022": ["https://www.thailandholidaygroup.com/app/uploads/2020/11/calypso3-1.jpg"],
+      "th-loc-023": ["https://i.ytimg.com/vi/0CfNwv9ga0I/maxresdefault.jpg"],
+      "th-loc-024": ["https://yourthaiguide.com/wp-content/uploads/2025/08/Frost-Magical-Ice-of-Siam-2.webp"],
+      "th-loc-025": ["https://pattayacitytourcoltd.com/uploads/SightSeenImage/the-million-years-stone-park-pattaya-crocodile-farm-3686.jpg"],
+
+
+
 
       // Malaysia
-      "my-loc-001": ['https://source.unsplash.com/800x600/?petronas-towers,kuala-lumpur'],
-      "my-loc-002": ['https://source.unsplash.com/800x600/?batu-caves,malaysia'],
-      "my-loc-003": ['https://source.unsplash.com/800x600/?genting-highlands,cable-car'],
-      "my-loc-004": ['https://source.unsplash.com/800x600/?sunway-lagoon,water-park'],
+      "my-loc-001": ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkJ_JzvtjMnQnOFsF4z9u19uH3TUl05NMcxdc1HNCh6QupzFFQmAb5pLnjuBilJg4ItVE&usqp=CAU'],
+      "my-loc-002": ['https://upload.wikimedia.org/wikipedia/commons/8/8f/Batu_Caves_stairs_2022-05.jpg'],
+      "my-loc-003": ['https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/1f/13/c2/breathtaking-views.jpg?w=900&h=-1&s=1'],
+      "my-loc-004": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
 
       // India
-      "in-loc-001": ['https://source.unsplash.com/800x600/?san-thome-basilica,chennai'],
-      "in-loc-002": ['https://source.unsplash.com/800x600/?marina-beach,chennai'],
+      "in-loc-001": ['https://www.reviewofreligions.org/wp-content/uploads/2022/11/shutterstock_1219753852.jpeg'],
+      "in-loc-002": ['https://chennaitourism.travel/images/places-to-visit/headers/marina-beach-chennai-tourism-entry-fee-timings-holidays-reviews-header.jpg'],
       "in-loc-003": ['https://source.unsplash.com/800x600/?st-thomas-mount,chennai'],
-      "in-loc-004": ['https://source.unsplash.com/800x600/?ashtalakshmi-temple,chennai'],
-      "in-loc-005": ['https://source.unsplash.com/800x600/?tirupati,temple'],
-      "in-loc-006": ['https://source.unsplash.com/800x600/?govindarajaswami-temple,tirupati']
+      "in-loc-004": ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSanmPbpW1q1xU6qKX3zdUR-VUG8FizwhRF-Q&s'],
+      "in-loc-005": ['https://images.hindustantimes.com/img/2022/11/06/1600x900/_098bfa70-ba9b-11e9-ab59-a9539248f706_1667733284898_1667733284898.png'],
+      "in-loc-006": ['https://www.poojn.in/wp-content/uploads/2025/02/Govindaraja-Temple-Tirupati-Your-Complete-Visit-Guide.jpeg.jpg']
     },
 
     // --- REVIEWS ---
