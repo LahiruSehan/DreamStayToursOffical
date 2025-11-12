@@ -13,10 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryBtn = document.getElementById('gallery-btn');
     const backToMainBtn = document.getElementById('back-to-main-btn');
     const galleryGrid = document.getElementById('gallery-grid');
-    const galleryFilterBtns = document.querySelectorAll('.gallery-filter-btn');
+    const galleryFilterCountry = document.getElementById('gallery-filter-country');
+    const galleryFilterType = document.getElementById('gallery-filter-type');
     const detailsSection = document.getElementById('details-section');
     const packagesGrid = document.getElementById('packages-grid');
+    const mainFilterNav = document.querySelector('.filter-nav');
     const filterTabs = document.querySelectorAll('.filter-tab');
+    const thailandNav = document.getElementById('thailand-nav');
+    const thailandNavDashboard = document.getElementById('thailand-nav-dashboard');
+    const thailandNavHotels = document.getElementById('thailand-nav-hotels');
+    const thailandNavOther = document.getElementById('thailand-nav-other');
     const packageModal = document.getElementById('package-modal');
     const packageModalBody = document.getElementById('package-modal-body');
     const stickyContactBtn = document.getElementById('contact-sticky-btn');
@@ -53,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const packageControls = document.getElementById('package-controls');
     const layoutControls = document.querySelector('.layout-controls');
     const filterCitySelect = document.getElementById('filter-city');
+    const sortPackagesSelect = document.getElementById('sort-packages');
 
     // --- State ---
     let currentLang = 'en';
@@ -64,14 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentReviewIndex = 0;
     const heroFonts = ['var(--font-quote-1)', 'var(--font-quote-2)', 'var(--font-quote-3)', 'var(--font-quote-4)'];
     let fontIndex = 0;
-    // Location filter state
     let currentLayout = '2';
     let currentCityFilter = 'all';
-    // Currency state
+    let currentSort = 'default';
     const currencies = Object.keys(config.CURRENCIES);
     let currentCurrencyIndex = 0;
-    // Hotel State
     let hotelsRendered = false;
+    let allMediaCache = [];
+    let galleryFiltersPopulated = false;
 
     // --- Background Canvas Animation ---
     const canvas = document.getElementById('background-canvas');
@@ -270,9 +277,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let packagesToRender = config.PACKAGES.filter(p => p.country === currentView);
     
-        // Filter by city (only for Thailand view)
         if (currentView === 'Thailand' && currentCityFilter !== 'all') {
             packagesToRender = packagesToRender.filter(p => p.city === currentCityFilter);
+        }
+
+        if (currentSort === 'popularity') {
+            packagesToRender.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         }
 
         packagesToRender.forEach(pkg => {
@@ -287,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
                 packagesGrid.appendChild(card);
-                return; // Skip to the next item in the loop
+                return;
             }
 
             card.className = 'package-card animate-in';
@@ -323,8 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             
             card.addEventListener('click', (e) => {
-                // Open modal only if the click is not on the "Contact Us" button or "Coming Soon" notice
-                if (!e.target.classList.contains('card-button') && !e.target.classList.contains('card-notice-coming-soon')) {
+                if (!e.target.closest('.card-button') && !e.target.closest('.card-notice-coming-soon')) {
                     openPackageModal(pkg.id);
                 }
             });
@@ -339,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const switchView = (view, forceParticles = false) => {
-        document.documentElement.style.cssText = ''; // Reset inline styles from scroll
+        document.documentElement.style.cssText = '';
         const oldView = currentView;
         currentView = view;
 
@@ -348,22 +357,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         const themeClass = view === 'Dashboard' ? '' : `theme-${view.toLowerCase().replace(' ', '')}`;
-        document.body.className = ``; // Reset all classes first
+        document.body.className = ``; 
         if (view !== 'Dashboard') {
             document.body.classList.add('country-view', themeClass);
             
             packageControls.classList.remove('hidden');
+            mainFilterNav.classList.toggle('hidden', view === 'Thailand');
+            thailandNav.classList.toggle('hidden', view !== 'Thailand');
             filterCitySelect.classList.toggle('hidden', view !== 'Thailand');
+            sortPackagesSelect.classList.toggle('hidden', view === 'Thailand');
             
-            // Show/hide hotel toggle button
             hotelToggleContainer.classList.toggle('hidden', view !== 'Thailand');
             if (view !== 'Thailand') {
                 thailandHotelsSection.classList.add('hidden');
                 showHotelsBtn.textContent = config.STRINGS[currentLang].seeThailandHotels;
             }
-
+            
             filterCitySelect.value = 'all';
             currentCityFilter = 'all';
+            sortPackagesSelect.value = 'default';
+            currentSort = 'default';
             
             currentLayout = '2';
             packagesGrid.className = 'packages-grid'; 
@@ -376,6 +389,8 @@ document.addEventListener('DOMContentLoaded', () => {
              packageControls.classList.add('hidden');
              hotelToggleContainer.classList.add('hidden');
              thailandHotelsSection.classList.add('hidden');
+             mainFilterNav.classList.remove('hidden');
+             thailandNav.classList.add('hidden');
              handleDashboardScroll();
         }
 
@@ -553,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const openMediaLightbox = (mediaItem) => {
-        mediaLightboxBody.innerHTML = ''; // Clear previous content
+        mediaLightboxBody.innerHTML = ''; 
 
         if (mediaItem.type === 'photo') {
             const img = document.createElement('img');
@@ -580,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('modal-open');
         const iframe = mediaLightboxBody.querySelector('iframe');
         if (iframe) {
-            iframe.src = iframe.src; // This reloads the iframe, stopping video playback
+            iframe.src = iframe.src; 
         }
         mediaLightboxBody.innerHTML = '';
     };
@@ -670,9 +685,73 @@ document.addEventListener('DOMContentLoaded', () => {
         setupIntersectionObserver('.hotel-card.animate-in');
     };
 
-    const renderGallery = (filter = 'all') => {
+    const aggregateAllMedia = () => {
+        if (allMediaCache.length > 0) return allMediaCache;
+
+        let allMedia = [];
+        config.MEDIA_GALLERY.forEach(item => allMedia.push({ ...item, category: item.type === 'video' ? 'video' : 'gallery' }));
+
+        config.PACKAGES.forEach(pkg => {
+            if (config.LOCATION_IMAGES[pkg.id] && !pkg.comingSoon) {
+                config.LOCATION_IMAGES[pkg.id].forEach(imgUrl => {
+                    allMedia.push({
+                        type: 'photo',
+                        url: imgUrl,
+                        thumbnailUrl: imgUrl,
+                        title_en: pkg.title_en, title_si: pkg.title_si, title_ja: pkg.title_ja,
+                        country: pkg.country,
+                        category: 'location'
+                    });
+                });
+            }
+        });
+
+        config.THAILAND_HOTELS.forEach(hotel => {
+            hotel.images.forEach(imgUrl => {
+                allMedia.push({
+                    type: 'photo',
+                    url: imgUrl,
+                    thumbnailUrl: imgUrl,
+                    title_en: hotel.name, title_si: hotel.name, title_ja: hotel.name,
+                    country: 'Thailand',
+                    category: 'hotel'
+                });
+            });
+        });
+        allMediaCache = allMedia;
+        return allMedia;
+    };
+
+    const populateGalleryFilters = () => {
+        if (galleryFiltersPopulated) return;
+
+        const allMedia = aggregateAllMedia();
+        const countries = [...new Set(allMedia.map(item => item.country).filter(Boolean))];
+        
+        galleryFilterCountry.innerHTML = `<option value="all" data-lang-key="filterAllCountries">${config.STRINGS[currentLang].filterAllCountries}</option>`;
+        countries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country;
+            option.textContent = country;
+            galleryFilterCountry.appendChild(option);
+        });
+        galleryFiltersPopulated = true;
+    };
+
+    const renderGallery = () => {
         galleryGrid.innerHTML = '';
-        const filteredMedia = config.MEDIA_GALLERY.filter(item => filter === 'all' || item.type === filter);
+        const allMedia = aggregateAllMedia();
+        const countryFilter = galleryFilterCountry.value;
+        const typeFilter = galleryFilterType.value;
+
+        let filteredMedia = allMedia;
+
+        if (countryFilter !== 'all') {
+            filteredMedia = filteredMedia.filter(item => item.country === countryFilter);
+        }
+        if (typeFilter !== 'all') {
+            filteredMedia = filteredMedia.filter(item => item.category === typeFilter);
+        }
 
         filteredMedia.forEach(item => {
             const galleryItem = document.createElement('div');
@@ -698,6 +777,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showGalleryPage = () => {
         mainContent.classList.add('hidden');
         galleryPage.classList.remove('hidden');
+        populateGalleryFilters();
         renderGallery();
         window.scrollTo(0, 0);
     };
@@ -756,7 +836,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentReviewIndex === totalReviews -1) {
                 setTimeout(() => {
                     reviewsGrid.style.transition = 'none';
-                    currentReviewIndex = -1; // Prepare for next cycle reset
+                    currentReviewIndex = -1;
                 }, 800);
                  setTimeout(() => {
                     reviewsGrid.style.transform = `translateX(0)`;
@@ -860,7 +940,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messageEl.className = `chat-message ${type}`;
         messageEl.textContent = text;
         chatbotMessages.appendChild(messageEl);
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight; // Auto-scroll to bottom
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     };
 
     const renderChatbot = () => {
@@ -903,7 +983,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!btn) return;
         
         if (!audioContextUnlocked) {
-            console.log("Language selected. Unlocking and enabling audio.");
             audioContextUnlocked = true;
             playAudio();
         }
@@ -923,21 +1002,30 @@ document.addEventListener('DOMContentLoaded', () => {
     filterTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const selectedCountry = tab.dataset.country;
-
             if (selectedCountry === currentView) return;
 
-            if (currentView === 'Dashboard' && selectedCountry !== 'Dashboard') {
+            const shouldScroll = (currentView === 'Dashboard' && selectedCountry !== 'Dashboard');
+            if (shouldScroll) {
                 document.getElementById('filters').scrollIntoView({ behavior: 'smooth', block: 'start' });
-                setTimeout(() => {
-                    switchView(selectedCountry);
-                }, 500); // Wait for scroll to finish
-            } else if (selectedCountry === 'Dashboard') {
-                switchView(selectedCountry);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else { // Switching between countries
-                switchView(selectedCountry);
             }
+
+            setTimeout(() => {
+                switchView(selectedCountry);
+                 if (!shouldScroll && selectedCountry === 'Dashboard') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, shouldScroll ? 300 : 0);
         });
+    });
+
+    thailandNavDashboard.addEventListener('click', () => switchView('Dashboard'));
+    thailandNavOther.addEventListener('click', () => switchView('Dashboard'));
+    thailandNavHotels.addEventListener('click', () => {
+        if (thailandHotelsSection.classList.contains('hidden')) {
+            showHotelsBtn.click();
+        } else {
+             thailandHotelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     });
 
     packageModal.addEventListener('click', (e) => {
@@ -955,13 +1043,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if(galleryBtn) galleryBtn.addEventListener('click', showGalleryPage);
     if(backToMainBtn) backToMainBtn.addEventListener('click', hideGalleryPage);
     
-    galleryFilterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            galleryFilterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            renderGallery(btn.dataset.filter);
-        });
-    });
+    galleryFilterCountry.addEventListener('change', renderGallery);
+    galleryFilterType.addEventListener('change', renderGallery);
 
     if(customPlanBtn) customPlanBtn.addEventListener('click', openCustomPlanModal);
     if(customPlanModal) {
@@ -984,9 +1067,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
     if (filterCitySelect) {
          filterCitySelect.addEventListener('change', (e) => {
             currentCityFilter = e.target.value;
+            renderPackages();
+        });
+    }
+
+    if (sortPackagesSelect) {
+        sortPackagesSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
             renderPackages();
         });
     }
@@ -1072,7 +1163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             renderPackages();
             if(currentView === 'Thailand' && hotelsRendered){
-                renderHotels(); // Re-render hotels if visible and language changes
+                renderHotels();
             }
         }
     });

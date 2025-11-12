@@ -113,6 +113,11 @@
                             <span data-lang-key="filterIndia">India</span>
                         </button>
                     </nav>
+                    <nav id="thailand-nav" class="filter-nav hidden">
+                        <button id="thailand-nav-dashboard" data-lang-key="filterDashboard">📊 <span data-lang-key="filterDashboard">Dashboard</span></button>
+                        <button id="thailand-nav-hotels" class="cta-danger" data-lang-key="seeThailandHotels">See Thailand Hotels</button>
+                        <button id="thailand-nav-other" data-lang-key="otherCountries">🌍 <span data-lang-key="otherCountries">Other Countries</span></button>
+                    </nav>
                 </section>
 
                 <!-- Details/Dashboard Section -->
@@ -146,6 +151,10 @@
                                 <option value="Bangkok">Bangkok</option>
                                 <option value="Pattaya">Pattaya</option>
                                 <option value="Near Bangkok">Near Bangkok</option>
+                           </select>
+                            <select id="sort-packages" class="hidden" aria-label="Sort packages">
+                                <option value="default" data-lang-key="sortDefault">Sort: Default</option>
+                                <option value="popularity" data-lang-key="sortPopularity">Sort: Popularity</option>
                            </select>
                         </div>
                         <div class="layout-controls">
@@ -211,10 +220,17 @@
                     <span data-lang-key="backToHome">Back to Home</span>
                 </button>
                 <h1 data-lang-key="galleryTitle">Our Photo & Video Gallery</h1>
-                <div class="gallery-filters">
-                    <button class="gallery-filter-btn active" data-filter="all" data-lang-key="filterAll">All</button>
-                    <button class="gallery-filter-btn" data-filter="photo" data-lang-key="filterPhotos">Photos</button>
-                    <button class="gallery-filter-btn" data-filter="video" data-lang-key="filterVideos">Videos</button>
+                <div id="gallery-controls" class="gallery-controls">
+                    <select id="gallery-filter-country" aria-label="Filter by country">
+                        <option value="all" data-lang-key="filterAllCountries">All Countries</option>
+                    </select>
+                    <select id="gallery-filter-type" aria-label="Filter by type">
+                        <option value="all" data-lang-key="filterAllTypes">All Types</option>
+                        <option value="location" data-lang-key="filterLocations">Locations</option>
+                        <option value="hotel" data-lang-key="filterHotels">Hotels</option>
+                        <option value="video" data-lang-key="filterVideos">Videos</option>
+                         <option value="gallery" data-lang-key="filterGallery">Gallery</option>
+                    </select>
                 </div>
             </header>
             <main>

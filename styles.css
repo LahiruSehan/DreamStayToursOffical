@@ -85,14 +85,35 @@ body.theme-india {
     padding: 0;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: var(--font-primary);
     background-image: var(--bg);
     color: var(--text-primary);
-    /* Transition is removed for JS-driven smooth scrolling effect */
     overflow-x: hidden;
     background-size: 200% 200%;
     animation: gradientShift 15s ease infinite;
+    min-height: 100vh; /* Fallback for older browsers */
+    min-height: 100svh; /* More accurate viewport height for mobile */
+    display: flex;
+    flex-direction: column;
+}
+
+#app-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+#main-content, #gallery-page {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+#gallery-page > main {
+    flex-grow: 1;
 }
 
 body.modal-open {
@@ -406,6 +427,17 @@ body.country-view .hero {
     color: var(--button-text);
 }
 
+.cta-danger {
+    background-color: #e74c3c;
+    color: white;
+    border: 1px solid #c0392b;
+}
+.cta-danger:hover {
+    background-color: #c0392b;
+    border-color: #a52f22;
+}
+
+
 /* --- FILTERS --- */
 #filters {
     padding: 1rem 0;
@@ -430,7 +462,7 @@ body:not([class*="theme-"]) #filters {
     padding: 0 1rem;
 }
 
-.filter-tab {
+.filter-tab, #thailand-nav button {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -451,7 +483,7 @@ body:not([class*="theme-"]) #filters {
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-.filter-tab:hover {
+.filter-tab:hover, #thailand-nav button:hover {
     color: var(--text-primary);
     background: var(--card-border);
 }
@@ -465,12 +497,25 @@ body:not([class*="theme-"]) #filters {
     stroke: var(--button-text);
 }
 
+#thailand-nav button.cta-danger {
+    color: white;
+}
+#thailand-nav button.cta-danger:hover {
+    color: white;
+    background-color: #c0392b;
+}
+
+
 /* --- VIEW TOGGLING (DASHBOARD VS PACKAGES) --- */
 #details-section { display: block; }
 #packages { display: none; }
 
 body.country-view #details-section { display: none; }
 body.country-view #packages { display: block; }
+
+body.theme-thailand .filter-nav:not(#thailand-nav) {
+    display: none !important;
+}
 
 /* --- DASHBOARD --- */
 #details-section {
@@ -660,9 +705,15 @@ body.country-view #packages { display: block; }
     background-position: right 0.5rem center;
     background-size: 1em 1em;
     padding-right: 2rem;
-    width: 100%;
     max-width: 200px;
 }
+#filter-city {
+    width: 100%;
+}
+#sort-packages {
+    flex-shrink: 0;
+}
+
 
 .layout-controls button.active {
     background: var(--accent);
@@ -1028,35 +1079,40 @@ body.theme-srilanka .package-card {
 .gallery-header h1 {
     font-size: 1.8rem;
     color: var(--accent);
+    text-align: center;
 }
-.gallery-filters {
+.gallery-controls {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.gallery-controls select {
     background: var(--card-bg);
-    padding: 0.5rem;
-    border-radius: 50px;
-}
-.gallery-filter-btn {
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
+    border: 1px solid var(--card-border);
     color: var(--text-secondary);
-    font-weight: 500;
-    transition: all var(--transition-fast);
-}
-.gallery-filter-btn.active {
-    background: var(--accent);
-    color: var(--button-text);
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1em 1em;
+    padding-right: 2rem;
 }
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
     padding: 1rem;
     max-width: 1400px;
     margin: 0 auto;
+    column-gap: 1rem;
+    column-count: 1;
 }
 .gallery-item {
-    aspect-ratio: 16 / 10;
+    margin-bottom: 1rem;
+    break-inside: avoid;
     border-radius: var(--radius-md);
     overflow: hidden;
     position: relative;
@@ -1486,6 +1542,7 @@ footer {
     font-size: 0.9rem;
     color: var(--text-secondary);
     transition: background-color var(--transition-slow), color var(--transition-slow);
+    margin-top: auto; /* Pushes footer to bottom */
 }
 .footer-content {
     display: flex;
@@ -1507,6 +1564,7 @@ footer {
     .packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
     .packages-grid.columns-3 { grid-template-columns: repeat(2, 1fr); }
     .hotel-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { column-count: 2; }
 }
 
 @media (min-width: 768px) {
@@ -1538,6 +1596,7 @@ footer {
 
 @media (min-width: 1024px) {
     .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
+    .gallery-grid { column-count: 3; }
 }
 
 /* --- ACCESSIBILITY --- */
