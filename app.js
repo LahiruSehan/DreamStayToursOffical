@@ -42,6 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const backgroundMusic = document.getElementById('background-music');
     // Currency elements
     const currencySwitcherBtn = document.getElementById('currency-switcher-btn');
+    // Hotel elements
+    const hotelToggleContainer = document.getElementById('hotel-toggle-container');
+    const showHotelsBtn = document.getElementById('show-hotels-btn');
+    const thailandHotelsSection = document.getElementById('thailand-hotels');
+    const hotelGrid = document.getElementById('hotel-grid');
 
 
     // Package Controls
@@ -65,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Currency state
     const currencies = Object.keys(config.CURRENCIES);
     let currentCurrencyIndex = 0;
+    // Hotel State
+    let hotelsRendered = false;
 
     // --- Background Canvas Animation ---
     const canvas = document.getElementById('background-canvas');
@@ -345,17 +352,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (view !== 'Dashboard') {
             document.body.classList.add('country-view', themeClass);
             
-            // Show/hide package controls based on selection
             packageControls.classList.remove('hidden');
             filterCitySelect.classList.toggle('hidden', view !== 'Thailand');
+            
+            // Show/hide hotel toggle button
+            hotelToggleContainer.classList.toggle('hidden', view !== 'Thailand');
+            if (view !== 'Thailand') {
+                thailandHotelsSection.classList.add('hidden');
+                showHotelsBtn.textContent = config.STRINGS[currentLang].seeThailandHotels;
+            }
 
-            // Reset filters when switching views
             filterCitySelect.value = 'all';
             currentCityFilter = 'all';
             
-            // Reset layout to default 2x when switching country
             currentLayout = '2';
-            packagesGrid.className = 'packages-grid'; // Reset class
+            packagesGrid.className = 'packages-grid'; 
             packagesGrid.classList.add(`columns-${currentLayout}`);
             layoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
             layoutControls.querySelector(`button[data-layout='2']`).classList.add('active');
@@ -363,19 +374,20 @@ document.addEventListener('DOMContentLoaded', () => {
             renderPackages();
         } else {
              packageControls.classList.add('hidden');
-             handleDashboardScroll(); // Set initial theme for dashboard
+             hotelToggleContainer.classList.add('hidden');
+             thailandHotelsSection.classList.add('hidden');
+             handleDashboardScroll();
         }
 
-        // Only recreate particles if the view has changed
         if (oldView !== view || forceParticles) {
             if (animationFrameId) cancelAnimationFrame(animationFrameId);
-            animationFrameId = null; // Reset animation ID
+            animationFrameId = null;
             const particleConfig = themeParticles[view];
             if (particleConfig && particleConfig.count > 0) {
                 createParticles(particleConfig);
                 animateParticles();
             } else {
-                particles = []; // Clear particles if no config
+                particles = [];
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
         }
@@ -400,7 +412,6 @@ document.addEventListener('DOMContentLoaded', () => {
             detailsGrid.appendChild(card);
         });
         
-        // Render Services Section
         const servicesHTML = `
             <div class="services-section">
                 <h3 class="services-title animate-in">${config.STRINGS[currentLang].servicesTitle}</h3>
@@ -425,7 +436,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
         servicesContainer.innerHTML = servicesHTML;
-
 
         config.SPONSORS.forEach(sponsor => {
             const link = document.createElement('a');
@@ -498,7 +508,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `<span class="cta-primary" style="width:100%; text-align:center; display:block; background: #e74c3c; cursor: not-allowed;">${config.STRINGS[currentLang].comingSoonNotice}</span>`
             : `<a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactUs}</a>`;
 
-
         const modalContentHTML = `
             <div class="modal-image-carousel">
                 ${images.map(img => `<img src="${img}" alt="${pkg[`title_${currentLang}`]}" class="modal-image">`).join('')}
@@ -508,6 +517,31 @@ document.addEventListener('DOMContentLoaded', () => {
             ${modalButtonHTML}
         `;
         
+        packageModalBody.innerHTML = modalContentHTML;
+        packageModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
+    const openHotelModal = (hotelId) => {
+        const hotel = config.THAILAND_HOTELS.find(h => h.id === hotelId);
+        if (!hotel) return;
+    
+        const whatsappMessage = config.STRINGS[currentLang].whatsappHotelInquiry(hotel.name);
+        const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    
+        const modalContentHTML = `
+            <div class="modal-image-carousel">
+                ${hotel.images.map(img => `<img src="${img}" alt="${hotel.name}" class="modal-image">`).join('')}
+            </div>
+            <h2 id="package-modal-title">${hotel.name}</h2>
+            <div class="card-details" style="margin-bottom: 1.5rem; font-size: 1.1rem; justify-content: flex-start; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: gold;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                <b>${hotel.rating}</b>
+            </div>
+            <p class="modal-desc">${hotel[`desc_${currentLang}`]}</p>
+            <a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactUs}</a>
+        `;
+    
         packageModalBody.innerHTML = modalContentHTML;
         packageModal.classList.remove('hidden');
         document.body.classList.add('modal-open');
@@ -609,6 +643,31 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             reviewsGrid.appendChild(card);
         });
+    };
+
+    const renderHotels = () => {
+        hotelGrid.innerHTML = '';
+        config.THAILAND_HOTELS.forEach(hotel => {
+            const card = document.createElement('div');
+            card.className = 'hotel-card animate-in';
+            card.innerHTML = `
+                <div class="hotel-card-images">
+                    <img src="${hotel.images[0]}" alt="${hotel.name}" loading="lazy">
+                    <img src="${hotel.images[1]}" alt="${hotel.name}" loading="lazy">
+                    <img src="${hotel.images[2]}" alt="${hotel.name}" loading="lazy">
+                </div>
+                <div class="hotel-card-content">
+                    <h3 class="hotel-card-title">${hotel.name}</h3>
+                    <div class="hotel-card-rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: gold;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <b>${hotel.rating}</b>
+                    </div>
+                </div>
+            `;
+            card.addEventListener('click', () => openHotelModal(hotel.id));
+            hotelGrid.appendChild(card);
+        });
+        setupIntersectionObserver('.hotel-card.animate-in');
     };
 
     const renderGallery = (filter = 'all') => {
@@ -843,7 +902,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = e.target.closest('.lang-btn');
         if (!btn) return;
         
-        // This click now serves as the user interaction to unlock and play audio.
         if (!audioContextUnlocked) {
             console.log("Language selected. Unlocking and enabling audio.");
             audioContextUnlocked = true;
@@ -915,14 +973,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if(customPlanForm) customPlanForm.addEventListener('submit', handleCustomPlanSubmit);
     
-    // Package Controls Listeners
     if(layoutControls) {
         layoutControls.addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON') {
                 currentLayout = e.target.dataset.layout;
                 layoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
-                packagesGrid.className = 'packages-grid'; // Reset classes
+                packagesGrid.className = 'packages-grid';
                 packagesGrid.classList.add(`columns-${currentLayout}`);
             }
         });
@@ -934,16 +991,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Chatbot Listeners
     if(chatbotStickyBtn) chatbotStickyBtn.addEventListener('click', () => chatbotModal.classList.remove('hidden'));
     if(chatbotCloseBtn) chatbotCloseBtn.addEventListener('click', () => chatbotModal.classList.add('hidden'));
     if(chatbotQuestions) chatbotQuestions.addEventListener('click', handleQuestionClick);
     
-    // Currency Switcher Listener
     if (currencySwitcherBtn) {
         currencySwitcherBtn.addEventListener('click', () => {
             currentCurrencyIndex = (currentCurrencyIndex + 1) % currencies.length;
             updateAllPrices();
+        });
+    }
+
+    if (showHotelsBtn) {
+        showHotelsBtn.addEventListener('click', () => {
+            const isHidden = thailandHotelsSection.classList.toggle('hidden');
+            if (!isHidden) {
+                if (!hotelsRendered) {
+                    renderHotels();
+                    hotelsRendered = true;
+                }
+                showHotelsBtn.textContent = config.STRINGS[currentLang].hideThailandHotels;
+                thailandHotelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                showHotelsBtn.textContent = config.STRINGS[currentLang].seeThailandHotels;
+            }
         });
     }
 
@@ -994,13 +1065,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentLangIndex = langs.indexOf(currentLang);
         const nextLang = langs[(currentLangIndex + 1) % langs.length];
         setLanguage(nextLang);
-        // Also need to re-render dynamic content
         renderFAQ();
         renderReviews();
         if (currentView === 'Dashboard') {
             renderDashboard();
         } else {
             renderPackages();
+            if(currentView === 'Thailand' && hotelsRendered){
+                renderHotels(); // Re-render hotels if visible and language changes
+            }
         }
     });
 
