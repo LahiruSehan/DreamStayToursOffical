@@ -265,9 +265,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         let packagesToRender = config.PACKAGES.filter(p => p.country === currentView);
 
-        // Filter by duration
-        if (currentDurationFilter !== 'all') {
+        // Filter by duration (only for non-Thailand view)
+        if (currentView !== 'Thailand' && currentDurationFilter !== 'all') {
             packagesToRender = packagesToRender.filter(p => {
+                if (!p.duration) return false;
                 const days = parseInt(p.duration.split('D')[0]);
                 if (currentDurationFilter === '1-3') return days >= 1 && days <= 3;
                 if (currentDurationFilter === '4-5') return days >= 4 && days <= 5;
@@ -276,14 +277,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Sort by price
-        if (currentSort !== 'default') {
+        // Sort by price (only for non-Thailand view)
+        if (currentView !== 'Thailand' && currentSort !== 'default') {
             packagesToRender.sort((a, b) => {
-                if (a.price_from === 'COMING_SOON') return 1;
-                if (b.price_from === 'COMING_SOON') return -1;
+                if (a.price_from === 'COMING_SOON' || !a.price_from) return 1;
+                if (b.price_from === 'COMING_SOON' || !b.price_from) return -1;
                 const priceA = parseInt(a.price_from.replace(/[^0-9]/g, ''));
                 const priceB = parseInt(b.price_from.replace(/[^0-9]/g, ''));
-                return currentSort === 'asc' ? priceA - priceB : priceB - a;
+                return currentSort === 'asc' ? priceA - priceB : priceB - priceA;
             });
         }
             
@@ -291,26 +292,42 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'package-card animate-in';
 
-            const isComingSoon = pkg.price_from === 'COMING_SOON';
-            let priceOrStatusHTML = '';
-            let buttonHTML = '';
+            const isLocation = !pkg.price_from;
 
-            if (isComingSoon) {
-                priceOrStatusHTML = `<div class="coming-soon">COMING SOON</div>`;
-                 // No button for coming soon packages
+            let detailsAndButtonHTML;
+
+            if (isLocation) {
+                card.style.cursor = 'pointer';
+                const whatsappMessage = config.STRINGS[currentLang].whatsappInquiry(pkg[`title_${currentLang}`]);
+                const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+                detailsAndButtonHTML = `
+                    <p class="card-details-short">${pkg[`short_desc_${currentLang}`]}</p>
+                    <div class="card-details">
+                        <span>${pkg.city || ''}</span>
+                        <span class="card-rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: gold;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                            ${pkg.rating}
+                        </span>
+                    </div>
+                    <a href="${whatsappUrl}" class="card-button" target="_blank" rel="noopener noreferrer">${config.STRINGS[currentLang].contactUs}</a>
+                `;
+                card.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'A' && !e.target.closest('a')) {
+                        openPackageModal(pkg.id);
+                    }
+                });
             } else {
-                const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
-                priceOrStatusHTML = `<p class="card-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>`;
-                buttonHTML = `<button class="card-button" data-id="${pkg.id}">${config.STRINGS[currentLang].viewDetails}</button>`;
-            }
-            
-            card.innerHTML = `
-                <div class="card-image-container">
-                    <img src="${pkg.images[0]}" alt="${pkg[`title_${currentLang}`]}" class="card-image" loading="lazy">
-                </div>
-                <div class="card-content">
-                    <p class="card-country">${pkg.country}</p>
-                    <h3 class="card-title">${pkg[`title_${currentLang}`]}</h3>
+                const isComingSoon = pkg.price_from === 'COMING_SOON';
+                let priceOrStatusHTML = '';
+                let buttonHTML = '';
+                if (isComingSoon) {
+                    priceOrStatusHTML = `<div class="coming-soon">COMING SOON</div>`;
+                } else {
+                    const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
+                    priceOrStatusHTML = `<p class="card-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>`;
+                    buttonHTML = `<button class="card-button" data-id="${pkg.id}">${config.STRINGS[currentLang].viewDetails}</button>`;
+                }
+                detailsAndButtonHTML = `
                     ${priceOrStatusHTML}
                     <div class="card-details">
                         <span>${pkg.duration}</span>
@@ -320,11 +337,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         </span>
                     </div>
                     ${buttonHTML}
+                `;
+            }
+
+            card.innerHTML = `
+                <div class="card-image-container">
+                    <img src="${pkg.images[0]}" alt="${pkg[`title_${currentLang}`]}" class="card-image" loading="lazy">
+                </div>
+                <div class="card-content">
+                    <p class="card-country">${pkg.country}</p>
+                    <h3 class="card-title">${pkg[`title_${currentLang}`]}</h3>
+                    ${detailsAndButtonHTML}
                 </div>
             `;
-            if (!isComingSoon) {
-                card.querySelector('.card-button').addEventListener('click', () => openPackageModal(pkg.id));
+            
+            if (!isLocation && pkg.price_from !== 'COMING_SOON') {
+                 card.querySelector('.card-button').addEventListener('click', () => openPackageModal(pkg.id));
             }
+            
             packagesGrid.appendChild(card);
         });
 
@@ -483,19 +513,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const pkg = config.PACKAGES.find(p => p.id === packageId);
         if (!pkg) return;
 
-        const whatsappMessage = config.STRINGS[currentLang].whatsappMsg(pkg[`title_${currentLang}`]);
-        const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
-        const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
+        const isLocation = !pkg.price_from;
+        let modalContentHTML;
 
-        packageModalBody.innerHTML = `
-            <div class="modal-image-carousel">
-                ${pkg.images.map(img => `<img src="${img}" alt="${pkg[`title_${currentLang}`]}" class="modal-image">`).join('')}
-            </div>
-            <h2 id="package-modal-title">${pkg[`title_${currentLang}`]}</h2>
-            <p class="modal-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>
-            <p class="modal-desc">${pkg[`desc_${currentLang}`]}</p>
-            <a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactWhatsApp}</a>
-        `;
+        if (isLocation) {
+            const whatsappMessage = config.STRINGS[currentLang].whatsappInquiry(pkg[`title_${currentLang}`]);
+            const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+            modalContentHTML = `
+                <div class="modal-image-carousel">
+                    ${pkg.images.map(img => `<img src="${img}" alt="${pkg[`title_${currentLang}`]}" class="modal-image">`).join('')}
+                </div>
+                <h2 id="package-modal-title">${pkg[`title_${currentLang}`]}</h2>
+                <p class="modal-desc">${pkg[`desc_${currentLang}`]}</p>
+                <a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactUs}</a>
+            `;
+        } else {
+            const whatsappMessage = config.STRINGS[currentLang].whatsappMsg(pkg[`title_${currentLang}`]);
+            const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+            const basePrice = parseInt(pkg.price_from.replace(/[^0-9]/g, ''));
+
+            modalContentHTML = `
+                <div class="modal-image-carousel">
+                    ${pkg.images.map(img => `<img src="${img}" alt="${pkg[`title_${currentLang}`]}" class="modal-image">`).join('')}
+                </div>
+                <h2 id="package-modal-title">${pkg[`title_${currentLang}`]}</h2>
+                <p class="modal-price" data-base-usd="${basePrice}">${formatPrice(basePrice)}</p>
+                <p class="modal-desc">${pkg[`desc_${currentLang}`]}</p>
+                <a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactWhatsApp}</a>
+            `;
+        }
+        
+        packageModalBody.innerHTML = modalContentHTML;
         packageModal.classList.remove('hidden');
         document.body.classList.add('modal-open');
     };
@@ -854,6 +902,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedCountry = tab.dataset.country;
 
             if (selectedCountry === currentView) return;
+            
+            // Show/hide package controls based on selection
+            if(selectedCountry === 'Thailand') {
+                packageControls.classList.add('hidden');
+            } else {
+                packageControls.classList.remove('hidden');
+            }
 
             // Reset filters when switching views
             sortPriceSelect.value = 'default';

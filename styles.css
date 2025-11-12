@@ -772,6 +772,14 @@ body.country-view #packages { display: block; }
     margin-bottom: 0.75rem;
 }
 
+.card-details-short {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+}
+
 .card-rating {
     display: flex;
     align-items: center;
@@ -793,6 +801,8 @@ body.country-view #packages { display: block; }
     border-radius: var(--radius-md);
     transition: opacity var(--transition-fast);
     flex-shrink: 0;
+    text-align: center;
+    display: inline-block;
 }
 .card-button:hover {
     opacity: 0.9;
