@@ -640,7 +640,7 @@ body.country-view #packages { display: block; }
     align-items: center;
 }
 .filter-controls {
-    flex-shrink: 1;
+    flex-grow: 1;
     min-width: 0;
 }
 .layout-controls button, .filter-controls select {
@@ -653,7 +653,6 @@ body.country-view #packages { display: block; }
     font-family: inherit;
     -webkit-appearance: none;
     appearance: none;
-    flex-shrink: 1;
 }
 .filter-controls select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
@@ -662,6 +661,7 @@ body.country-view #packages { display: block; }
     background-size: 1em 1em;
     padding-right: 2rem;
     width: 100%;
+    max-width: 200px;
 }
 
 .layout-controls button.active {
@@ -691,6 +691,7 @@ body.country-view #packages { display: block; }
     -webkit-backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .package-card:hover {
@@ -743,26 +744,6 @@ body.country-view #packages { display: block; }
     margin-bottom: 0.5rem;
 }
 
-@keyframes pulse-red {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-}
-
-.coming-soon {
-    background-color: #e53935;
-    color: white;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-align: center;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: var(--radius-md);
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
-    animation: pulse-red 2s infinite ease-in-out;
-}
-
 .card-details {
     display: flex;
     justify-content: space-between;
@@ -803,9 +784,57 @@ body.country-view #packages { display: block; }
     flex-shrink: 0;
     text-align: center;
     display: inline-block;
+    cursor: pointer;
 }
 .card-button:hover {
     opacity: 0.9;
+}
+
+.card-notice-coming-soon {
+    width: 100%;
+    padding: 0.6rem;
+    margin-top: auto;
+    background: #e74c3c;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.coming-soon-card {
+    cursor: default;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--card-bg),
+        var(--card-bg) 10px,
+        rgba(0,0,0,0.05) 10px,
+        rgba(0,0,0,0.05) 20px
+    );
+    border-style: dashed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 290px;
+    pointer-events: none; /* Make it unclickable */
+    padding: 1rem;
+}
+
+.coming-soon-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.coming-soon-content h3 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.coming-soon-content p {
+    font-size: 2rem;
 }
 
 
@@ -818,9 +847,6 @@ body.theme-japan .package-card::after {
     font-size: 3rem;
     opacity: 0.1;
     transform: rotate(15deg);
-}
-body.theme-thailand .package-card {
-    border-image: linear-gradient(to right, var(--accent), transparent) 1;
 }
 body.theme-india .package-card {
     border-color: transparent;
