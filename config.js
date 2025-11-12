@@ -123,16 +123,16 @@ window.config = {
       "sl-loc-010": ['https://upload.wikimedia.org/wikipedia/commons/0/0a/Sri_Lankan_elephants_%28Elephas_maximus_maximus%29.jpg'],
       
       // Japan
-      "jp-loc-001": ['https://source.unsplash.com/800x600/?fushimi-inari,kyoto'],
-      "jp-loc-002": ['https://source.unsplash.com/800x600/?arashiyama-bamboo-grove'],
-      "jp-loc-003": ['https://source.unsplash.com/800x600/?shibuya-crossing,tokyo'],
-      "jp-loc-004": ['https://source.unsplash.com/800x600/?mount-fuji,hakone'],
-      "jp-loc-005": ['https://source.unsplash.com/800x600/?hiroshima-peace-park'],
-      "jp-loc-006": ['https://source.unsplash.com/800x600/?nara-park,deer'],
-      "jp-loc-007": ['https://source.unsplash.com/800x600/?dotonbori,osaka'],
-      "jp-loc-008": ['https://source.unsplash.com/800x600/?kinkaku-ji,golden-pavilion'],
-      "jp-loc-009": ['https://source.unsplash.com/800x600/?itsukushima-shrine,torii'],
-      "jp-loc-010": ['https://source.unsplash.com/800x600/?snow-monkey,nagano'],
+      "jp-loc-001": ['https://preparetravelplans.com/wp-content/uploads/2024/05/Fushimi-Inari-Shrine-Kyoto-FIS.jpg'],
+      "jp-loc-002": ['https://travel.rakuten.com/contents/sites/contents/files/styles/max_1300x1300/public/2024-06/arashiyama-bamboo-forest_3.jpg?itok=822ih-Jp'],
+      "jp-loc-003": ['https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/7c/eb/cb/photo0jpg.jpg?w=800&h=500&s=1'],
+      "jp-loc-004": ['https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2f/fe/0b/11/caption.jpg?w=500&h=400&s=1'],
+      "jp-loc-005": ['https://gdb.voanews.com/8385d460-4716-47bb-b0ce-dd421ee8a21f_cx0_cy2_cw0_w1080_h608_s.jpg'],
+      "jp-loc-006": ['https://i.ytimg.com/vi/QXnDG6K4m40/maxresdefault.jpg'],
+      "jp-loc-007": ['https://cdn.gaijinpot.com/app/uploads/sites/4/2014/04/dotonburi-690x460.jpg'],
+      "jp-loc-008": ['https://cdn.gaijinpot.com/app/uploads/sites/6/2016/05/kinkakuji-kyoto-golden-pavilion-1024x576.jpg'],
+      "jp-loc-009": ['https://cdn.gaijinpot.com/app/uploads/sites/6/2016/01/Miyajima-Floating-shrine.jpg'],
+      "jp-loc-010": ['https://www.go-nagano.net/hs-fs/hubfs/Imported_Blog_Media/201909271346_1.jpg?width=800&height=533&name=201909271346_1.jpg'],
       
       // Thailand
       "th-loc-001": ["https://images.unsplash.com/photo-1582962275424-5cb278775438?q=80&w=1935&auto=format&fit=crop"],
