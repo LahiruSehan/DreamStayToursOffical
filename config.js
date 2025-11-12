@@ -111,13 +111,13 @@ window.config = {
     // Central place to manage all location images. Use the location ID as the key.
     LOCATION_IMAGES: {
       // Sri Lanka
-      "sl-loc-001": ['https://www.google.com/url?sa=i&url=https%3A%2F%2Fwhenonearth.net%2Fancient-palace-sigiriya-sri-lanka%2F&psig=AOvVaw3xCNbJHXvZG_QkMDER5IPv&ust=1763038918239000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCOi2sYTW7JADFQAAAAAdAAAAABAE'],
+      "sl-loc-001": ['https://www.attractionsinsrilanka.com/wp-content/uploads/2019/09/sigiriya-rock.jpg'],
       "sl-loc-002": ['https://www.orienthotelsl.com/wp-content/uploads/2023/01/Nine-Arch-Bridge-Ella-1200x630-1.jpg'],
       "sl-loc-003": ['https://besttimetovisitsrilanka.com/wp-content/uploads/2021/04/Kandy-and-The-Temple.jpg'],
       "sl-loc-004": ['https://www.pelago.com/img/products/LK-Sri%20Lanka/half-day-safari-at-yala-national-park-from-yala--tissamaharama/f8b14175-caf5-4a48-abf7-96922d906fce_half-day-safari-at-yala-national-park-from-yala--tissamaharama.jpg'],
-      "sl-loc-005": ['https://source.unsplash.com/800x600/?galle-fort,sri-lanka'],
-      "sl-loc-006": ['https://source.unsplash.com/800x600/?whale-watching,mirissa'],
-      "sl-loc-007": ['https://do6raq9h04ex.cloudfront.net/sites/8/2021/07/galle-fort-1050x700-1.jpg'],
+      "sl-loc-005": ['https://www.attractionsinsrilanka.com/wp-content/uploads/2019/07/Galle-Dutch-Fort-1.jpg'],
+      "sl-loc-006": ['https://www.attractionsinsrilanka.com/wp-content/uploads/2019/07/Mirissa-Whale-Watching-1.jpg'],
+      "sl-loc-007": ['https://www.attractionsinsrilanka.com/wp-content/uploads/2019/09/dambulla.jpg'],
       "sl-loc-008": ['https://www.360view.lk/wp-content/uploads/2022/08/Anuradhapura-cover-scaled.jpg'],
       "sl-loc-009": ['https://travelwider.com/wp-content/uploads/2016/09/Polonnaruwa-Sri-Lanka-scaled.jpg'],
       "sl-loc-010": ['https://upload.wikimedia.org/wikipedia/commons/0/0a/Sri_Lankan_elephants_%28Elephas_maximus_maximus%29.jpg'],
