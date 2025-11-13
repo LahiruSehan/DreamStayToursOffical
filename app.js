@@ -514,9 +514,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const pkg = config.PACKAGES.find(p => p.id === packageId);
         if (!pkg) return;
 
+        const modalData = config.MODAL_CONTENT[packageId] || { smallImages: [], youtubeUrl: '' };
         const whatsappMessage = config.STRINGS[currentLang].whatsappInquiry(pkg[`title_${currentLang}`]);
         const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
         const images = config.LOCATION_IMAGES[pkg.id] || [];
+
+        let videoEmbedUrl = '';
+        if (modalData.youtubeUrl) {
+            const videoIdMatch = modalData.youtubeUrl.match(/(?:v=|\/embed\/|\/)([a-zA-Z0-9_-]{11})/);
+            if (videoIdMatch && videoIdMatch[1]) {
+                const videoId = videoIdMatch[1];
+                videoEmbedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1&loop=1&playlist=${videoId}`;
+            }
+        }
 
         const isComingSoon = pkg.country === 'Sri Lanka' || pkg.country === 'Japan';
         const modalButtonHTML = isComingSoon
@@ -527,8 +537,23 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="modal-image-carousel">
                 ${images.map(img => `<img src="${img}" alt="${pkg[`title_${currentLang}`]}" class="modal-image">`).join('')}
             </div>
+            
+            ${modalData.smallImages && modalData.smallImages.length > 0 ? `
+            <div class="modal-small-images-container">
+                ${modalData.smallImages.map(img => `<img src="${img}" alt="Detail view" class="modal-small-image" loading="lazy">`).join('')}
+            </div>
+            ` : ''}
+
+            ${videoEmbedUrl ? `
+            <div class="modal-video-container">
+                <iframe src="${videoEmbedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            ` : ''}
+
             <h2 id="package-modal-title">${pkg[`title_${currentLang}`]}</h2>
-            <p class="modal-desc">${pkg[`desc_${currentLang}`]}</p>
+            <p class="modal-desc">${pkg[`desc_en`].replace(/\n/g, '<br><br>')}</p>
+            <p class="modal-desc" style="font-style: italic; opacity: 0.7;">${pkg[`desc_si`]}</p>
+            <p class="modal-desc" style="font-style: italic; opacity: 0.7;">${pkg[`desc_ja`]}</p>
             ${modalButtonHTML}
         `;
         
@@ -565,6 +590,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const closePackageModal = () => {
         packageModal.classList.add('hidden');
         document.body.classList.remove('modal-open');
+        // Clear body to stop video playback
+        packageModalBody.innerHTML = '';
     };
     
     const openMediaLightbox = (mediaItem) => {

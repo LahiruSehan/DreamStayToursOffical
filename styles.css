@@ -1206,7 +1206,7 @@ body.theme-srilanka .package-card {
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    padding: 2rem;
+    padding: 1.5rem;
     transform: scale(0.95);
     transition: transform var(--transition-fast), background-image var(--transition-slow);
 }
@@ -1272,6 +1272,42 @@ body.theme-srilanka .package-card {
     color: var(--text-secondary);
     margin-bottom: 1.5rem;
 }
+
+/* New styles for updated modal */
+.modal-small-images-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.modal-small-image {
+    width: calc(50% - 0.5rem);
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}
+
+.modal-video-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius-md);
+}
+
+.modal-video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 
 /* Custom Plan Modal Form */
 #custom-plan-form {
@@ -1592,6 +1628,9 @@ footer {
         position: static;
     }
      .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
+     .modal-content {
+        padding: 2rem;
+    }
 }
 
 @media (min-width: 1024px) {
