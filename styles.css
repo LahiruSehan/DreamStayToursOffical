@@ -114,6 +114,7 @@ body {
 }
 #gallery-page > main {
     flex-grow: 1;
+    overflow-y: auto;
 }
 
 body.modal-open {
@@ -1050,18 +1051,21 @@ body.theme-srilanka .package-card {
 #gallery-page {
     animation: fadeIn 0.5s ease;
     padding-bottom: 2rem;
+    height: 100vh; /* Ensure it takes full viewport height to contain scrollable main */
 }
+
 .gallery-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem 1rem;
-    gap: 1.5rem;
+    padding: 2rem 1rem 1.5rem;
+    gap: 1rem;
     position: sticky;
     top: 0;
     background: rgba(15, 18, 38, 0.8);
     backdrop-filter: blur(10px);
     z-index: 100;
+    flex-shrink: 0;
 }
 .back-btn {
     position: absolute;
@@ -1080,6 +1084,7 @@ body.theme-srilanka .package-card {
     font-size: 1.8rem;
     color: var(--accent);
     text-align: center;
+    margin: 0;
 }
 .gallery-controls {
     display: flex;
@@ -1087,29 +1092,25 @@ body.theme-srilanka .package-card {
     flex-wrap: wrap;
     justify-content: center;
 }
-.gallery-controls select {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    color: var(--text-secondary);
-    padding: 0.4rem 0.8rem;
-    border-radius: var(--radius-md);
-    font-size: 0.8rem;
-    font-family: inherit;
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.5rem center;
-    background-size: 1em 1em;
-    padding-right: 2rem;
-}
 .gallery-grid {
     padding: 1rem;
     max-width: 1400px;
     margin: 0 auto;
     column-gap: 1rem;
-    column-count: 1;
+    column-count: 1; /* Mobile default */
 }
+.gallery-grid.columns-2 {
+    column-count: 2;
+}
+.gallery-grid.columns-3 {
+    column-count: 3;
+}
+@media (max-width: 639px) {
+    .gallery-grid.columns-3 {
+        column-count: 2;
+    }
+}
+
 .gallery-item {
     margin-bottom: 1rem;
     break-inside: avoid;
@@ -1137,7 +1138,7 @@ body.theme-srilanka .package-card {
     justify-content: flex-end;
     padding: 1rem;
     color: white;
-    opacity: 1;
+    opacity: 0;
     transition: opacity var(--transition-fast);
 }
 .gallery-item:hover .gallery-item-overlay {
@@ -1373,6 +1374,27 @@ body.theme-srilanka .package-card {
     justify-content: center;
     align-items: center;
     position: relative;
+}
+.lightbox-content .modal-close-btn {
+    color: white;
+}
+.lightbox-download-btn {
+    position: absolute;
+    top: 1rem;
+    right: 4rem;
+    color: white;
+    padding: 0.5rem;
+    z-index: 510;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.lightbox-download-btn:hover {
+    transform: scale(1.1);
+    background: rgba(0,0,0,0.5);
 }
 .media-lightbox-body {
     display: flex;
@@ -1622,7 +1644,6 @@ footer {
     .packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
     .packages-grid.columns-3 { grid-template-columns: repeat(2, 1fr); }
     .hotel-grid { grid-template-columns: repeat(2, 1fr); }
-    .gallery-grid { column-count: 2; }
 }
 
 @media (min-width: 768px) {
@@ -1644,10 +1665,20 @@ footer {
     .gallery-header {
         flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         padding: 1.5rem 2rem;
+        gap: 1.5rem;
     }
     .back-btn {
         position: static;
+        flex-shrink: 0;
+    }
+    .gallery-header h1 {
+        flex-grow: 1;
+        text-align: center;
+    }
+    .gallery-controls {
+        flex-shrink: 0;
     }
      .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
      .modal-content {
@@ -1657,7 +1688,6 @@ footer {
 
 @media (min-width: 1024px) {
     .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
-    .gallery-grid { column-count: 3; }
 }
 
 /* --- ACCESSIBILITY --- */

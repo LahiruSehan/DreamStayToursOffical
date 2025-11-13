@@ -77,7 +77,7 @@
                     <h1 class="hero-title" data-lang-key="heroTitle">DreamStay Tours — Travel like it’s another universe</h1>
                     <div class="hero-buttons">
                         <button class="cta-primary" id="custom-plan-btn" data-lang-key="createCustomPlan">Create a Custom Plan</button>
-                        <button class="cta-secondary" id="gallery-btn" data-lang-key="seeAllMedia">See All Photos & Videos</button>
+                        <button class="cta-secondary" id="gallery-btn" data-lang-key="seeOurTourPhotos">OUR TOUR PHOTOS</button>
                         <a href="#" class="cta-secondary" data-lang-key="contactWhatsApp" id="hero-whatsapp-btn" target="_blank" rel="noopener noreferrer">Contact via WhatsApp</a>
                     </div>
                 </div>
@@ -219,18 +219,13 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                     <span data-lang-key="backToHome">Back to Home</span>
                 </button>
-                <h1 data-lang-key="galleryTitle">Our Photo & Video Gallery</h1>
+                <h1 data-lang-key="galleryTitle">TOUR PHOTOS</h1>
                 <div id="gallery-controls" class="gallery-controls">
-                    <select id="gallery-filter-country" aria-label="Filter by country">
-                        <option value="all" data-lang-key="filterAllCountries">All Countries</option>
-                    </select>
-                    <select id="gallery-filter-type" aria-label="Filter by type">
-                        <option value="all" data-lang-key="filterAllTypes">All Types</option>
-                        <option value="location" data-lang-key="filterLocations">Locations</option>
-                        <option value="hotel" data-lang-key="filterHotels">Hotels</option>
-                        <option value="video" data-lang-key="filterVideos">Videos</option>
-                         <option value="gallery" data-lang-key="filterGallery">Gallery</option>
-                    </select>
+                    <div class="layout-controls">
+                        <button data-layout="1" aria-label="Show 1 column">1x</button>
+                        <button data-layout="2" aria-label="Show 2 columns">2x</button>
+                        <button data-layout="3" class="active" aria-label="Show 3 columns">3x</button>
+                    </div>
                 </div>
             </header>
             <main>
@@ -259,6 +254,9 @@
             <button class="modal-close-btn" aria-label="Close media viewer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
+             <a id="media-download-btn" class="lightbox-download-btn" href="#" download="dreamstay-tour-photo.jpg" aria-label="Download image" title="Download image">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </a>
             <div id="media-lightbox-body" class="media-lightbox-body">
                 <!-- Image or Video will be injected here -->
             </div>

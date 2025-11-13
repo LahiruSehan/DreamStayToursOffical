@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryBtn = document.getElementById('gallery-btn');
     const backToMainBtn = document.getElementById('back-to-main-btn');
     const galleryGrid = document.getElementById('gallery-grid');
-    const galleryFilterCountry = document.getElementById('gallery-filter-country');
-    const galleryFilterType = document.getElementById('gallery-filter-type');
+    const galleryLayoutControls = document.querySelector('#gallery-controls .layout-controls');
     const detailsSection = document.getElementById('details-section');
     const packagesGrid = document.getElementById('packages-grid');
     const mainFilterNav = document.querySelector('.filter-nav');
@@ -77,8 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const currencies = Object.keys(config.CURRENCIES);
     let currentCurrencyIndex = 0;
     let hotelsRendered = false;
-    let allMediaCache = [];
-    let galleryFiltersPopulated = false;
+
+    // --- New Gallery Data ---
+    const TOTAL_TOUR_IMAGES = 107;
+    const tourImages = [];
+    for (let i = 1; i <= TOTAL_TOUR_IMAGES; i++) {
+        tourImages.push({
+            url: `images/dreamstayimage (${i}).jpg`,
+            title_en: `Tour Photo ${i}`,
+            type: 'photo'
+        });
+    }
 
     // --- Background Canvas Animation ---
     const canvas = document.getElementById('background-canvas');
@@ -634,12 +642,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const openMediaLightbox = (mediaItem) => {
         mediaLightboxBody.innerHTML = ''; 
+        const downloadBtn = document.getElementById('media-download-btn');
 
         if (mediaItem.type === 'photo') {
             const img = document.createElement('img');
             img.src = mediaItem.url;
-            img.alt = mediaItem[`title_${currentLang}`];
+            img.alt = mediaItem.title_en; // Use a default title
             mediaLightboxBody.appendChild(img);
+            downloadBtn.href = mediaItem.url;
+            downloadBtn.classList.remove('hidden');
+            mediaLightboxTitle.textContent = '';
+            mediaLightboxTitle.classList.add('hidden');
         } else if (mediaItem.type === 'video') {
             const iframe = document.createElement('iframe');
             iframe.src = mediaItem.url;
@@ -648,9 +661,11 @@ document.addEventListener('DOMContentLoaded', () => {
             iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
             iframe.setAttribute('allowfullscreen', '');
             mediaLightboxBody.appendChild(iframe);
+            downloadBtn.classList.add('hidden');
+            mediaLightboxTitle.textContent = mediaItem[`title_${currentLang}`];
+            mediaLightboxTitle.classList.remove('hidden');
         }
 
-        mediaLightboxTitle.textContent = mediaItem[`title_${currentLang}`];
         mediaLightbox.classList.remove('hidden');
         document.body.classList.add('modal-open');
     };
@@ -750,88 +765,15 @@ document.addEventListener('DOMContentLoaded', () => {
         setupIntersectionObserver('.hotel-card.animate-in');
     };
 
-    const aggregateAllMedia = () => {
-        if (allMediaCache.length > 0) return allMediaCache;
-
-        let allMedia = [];
-        config.MEDIA_GALLERY.forEach(item => allMedia.push({ ...item, category: item.type === 'video' ? 'video' : 'gallery' }));
-
-        config.PACKAGES.forEach(pkg => {
-            if (config.LOCATION_IMAGES[pkg.id] && !pkg.comingSoon) {
-                config.LOCATION_IMAGES[pkg.id].forEach(imgUrl => {
-                    allMedia.push({
-                        type: 'photo',
-                        url: imgUrl,
-                        thumbnailUrl: imgUrl,
-                        title_en: pkg.title_en, title_si: pkg.title_si, title_ja: pkg.title_ja,
-                        country: pkg.country,
-                        category: 'location'
-                    });
-                });
-            }
-        });
-
-        config.THAILAND_HOTELS.forEach(hotel => {
-            hotel.images.forEach(imgUrl => {
-                allMedia.push({
-                    type: 'photo',
-                    url: imgUrl,
-                    thumbnailUrl: imgUrl,
-                    title_en: hotel.name, title_si: hotel.name, title_ja: hotel.name,
-                    country: 'Thailand',
-                    category: 'hotel'
-                });
-            });
-        });
-        allMediaCache = allMedia;
-        return allMedia;
-    };
-
-    const populateGalleryFilters = () => {
-        if (galleryFiltersPopulated) return;
-
-        const allMedia = aggregateAllMedia();
-        const countries = [...new Set(allMedia.map(item => item.country).filter(Boolean))];
-        
-        galleryFilterCountry.innerHTML = `<option value="all" data-lang-key="filterAllCountries">${config.STRINGS[currentLang].filterAllCountries}</option>`;
-        countries.forEach(country => {
-            const option = document.createElement('option');
-            option.value = country;
-            option.textContent = country;
-            galleryFilterCountry.appendChild(option);
-        });
-        galleryFiltersPopulated = true;
-    };
-
     const renderGallery = () => {
         galleryGrid.innerHTML = '';
-        const allMedia = aggregateAllMedia();
-        const countryFilter = galleryFilterCountry.value;
-        const typeFilter = galleryFilterType.value;
-
-        let filteredMedia = allMedia;
-
-        if (countryFilter !== 'all') {
-            filteredMedia = filteredMedia.filter(item => item.country === countryFilter);
-        }
-        if (typeFilter !== 'all') {
-            filteredMedia = filteredMedia.filter(item => item.category === typeFilter);
-        }
-
-        filteredMedia.forEach(item => {
+        tourImages.forEach(item => {
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item animate-in';
             galleryItem.dataset.type = item.type;
             galleryItem.innerHTML = `
-                <img src="${item.thumbnailUrl || item.url}" alt="${item[`title_${currentLang}`]}" loading="lazy">
-                <div class="gallery-item-overlay">
-                    <h4 class="gallery-item-title">${item[`title_${currentLang}`]}</h4>
-                </div>
-                ${item.type === 'video' ? `
-                    <div class="gallery-item-play-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>
-                    </div>
-                ` : ''}
+                <img src="${item.url}" alt="${item.title_en}" loading="lazy">
+                <div class="gallery-item-overlay"></div>
             `;
             galleryItem.addEventListener('click', () => openMediaLightbox(item));
             galleryGrid.appendChild(galleryItem);
@@ -842,14 +784,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const showGalleryPage = () => {
         mainContent.classList.add('hidden');
         galleryPage.classList.remove('hidden');
-        populateGalleryFilters();
+        galleryGrid.className = 'gallery-grid columns-3';
         renderGallery();
-        window.scrollTo(0, 0);
+        const galleryMain = galleryPage.querySelector('main');
+        galleryMain.addEventListener('scroll', handleGalleryScroll);
+        handleGalleryScroll(); // Set initial theme
+        galleryMain.scrollTo(0, 0);
     };
 
     const hideGalleryPage = () => {
         galleryPage.classList.add('hidden');
         mainContent.classList.remove('hidden');
+        
+        const galleryMain = galleryPage.querySelector('main');
+        galleryMain.removeEventListener('scroll', handleGalleryScroll);
+        
+        document.documentElement.style.cssText = '';
+        if (currentView !== 'Dashboard') {
+            const themeClass = `theme-${currentView.toLowerCase().replace(' ', '')}`;
+            document.body.className = `country-view ${themeClass}`;
+        } else {
+            document.body.className = '';
+            handleDashboardScroll();
+        }
         window.scrollTo(0, 0);
     };
 
@@ -918,38 +875,22 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(reviewCarouselIntervalId);
     };
     
-    // --- Dynamic Dashboard Theme on Scroll ---
+    // --- Dynamic THEME SCROLL LOGIC ---
     const lightTheme = {
         bg: [[240, 249, 255], [204, 231, 255], [227, 242, 253]],
-        accent: [255, 112, 67],
-        textPrimary: [13, 71, 161],
-        textSecondary: [21, 101, 192],
-        cardBg: [255, 255, 255, 0.7],
-        cardBorder: [0, 0, 0, 0.1],
-        buttonText: [255, 255, 255],
+        accent: [255, 112, 67], textPrimary: [13, 71, 161], textSecondary: [21, 101, 192],
+        cardBg: [255, 255, 255, 0.7], cardBorder: [0, 0, 0, 0.1], buttonText: [255, 255, 255],
         shadowColor: [255, 112, 67, 0.4]
     };
-
     const midTheme = {
-        bg: [[58, 90, 155], [44, 72, 123], [30, 53, 90]], // Dusk blues
-        accent: [167, 119, 227], // Lavender
-        textPrimary: [224, 216, 245], // Light lavender
-        textSecondary: [168, 178, 209], // Grey-blue
-        cardBg: [29, 53, 87, 0.8],
-        cardBorder: [167, 119, 227, 0.2],
-        buttonText: [255, 255, 255],
-        shadowColor: [167, 119, 227, 0.3]
+        bg: [[58, 90, 155], [44, 72, 123], [30, 53, 90]], accent: [167, 119, 227],
+        textPrimary: [224, 216, 245], textSecondary: [168, 178, 209], cardBg: [29, 53, 87, 0.8],
+        cardBorder: [167, 119, 227, 0.2], buttonText: [255, 255, 255], shadowColor: [167, 119, 227, 0.3]
     };
-
     const darkTheme = {
-        bg: [[10, 25, 47], [2, 12, 27], [3, 11, 22]],
-        accent: [100, 255, 218],
-        textPrimary: [204, 214, 246],
-        textSecondary: [136, 146, 176],
-        cardBg: [17, 34, 64, 0.85],
-        cardBorder: [100, 255, 218, 0.1],
-        buttonText: [10, 25, 47],
-        shadowColor: [100, 255, 218, 0.2]
+        bg: [[10, 25, 47], [2, 12, 27], [3, 11, 22]], accent: [100, 255, 218],
+        textPrimary: [204, 214, 246], textSecondary: [136, 146, 176], cardBg: [17, 34, 64, 0.85],
+        cardBorder: [100, 255, 218, 0.1], buttonText: [10, 25, 47], shadowColor: [100, 255, 218, 0.2]
     };
     
     const lerp = (a, b, t) => a + (b - a) * t;
@@ -965,39 +906,50 @@ document.addEventListener('DOMContentLoaded', () => {
         return `rgb(${r}, ${g}, ${b})`;
     };
 
+    const applyTheme = (theme1, theme2, progress) => {
+        const bg1 = lerpColor(theme1.bg[0], theme2.bg[0], progress);
+        const bg2 = lerpColor(theme1.bg[1], theme2.bg[1], progress);
+        const bg3 = lerpColor(theme1.bg[2], theme2.bg[2], progress);
+        document.documentElement.style.setProperty('--bg', `linear-gradient(170deg, ${bg1}, ${bg2}, ${bg3})`);
+        document.documentElement.style.setProperty('--accent', lerpColor(theme1.accent, theme2.accent, progress));
+        document.documentElement.style.setProperty('--text-primary', lerpColor(theme1.textPrimary, theme2.textPrimary, progress));
+        document.documentElement.style.setProperty('--text-secondary', lerpColor(theme1.textSecondary, theme2.textSecondary, progress));
+        document.documentElement.style.setProperty('--card-bg', lerpColor(theme1.cardBg, theme2.cardBg, progress));
+        document.documentElement.style.setProperty('--card-border', lerpColor(theme1.cardBorder, theme2.cardBorder, progress));
+        document.documentElement.style.setProperty('--button-text', lerpColor(theme1.buttonText, theme2.buttonText, progress));
+        document.documentElement.style.setProperty('--shadow-color', lerpColor(theme1.shadowColor, theme2.shadowColor, progress));
+    };
+
     const handleDashboardScroll = () => {
-        if (currentView !== 'Dashboard') return;
+        if (currentView !== 'Dashboard' || !mainContent.classList.contains('hidden')) return;
         
         const scrollY = window.scrollY;
         const scrollThreshold = window.innerHeight * 1.5;
         const progress = Math.min(scrollY / scrollThreshold, 1);
 
-        let theme1, theme2, adjustedProgress;
-
         if (progress < 0.5) {
-            theme1 = lightTheme;
-            theme2 = midTheme;
-            adjustedProgress = progress * 2;
+            applyTheme(lightTheme, midTheme, progress * 2);
         } else {
-            theme1 = midTheme;
-            theme2 = darkTheme;
-            adjustedProgress = (progress - 0.5) * 2;
+            applyTheme(midTheme, darkTheme, (progress - 0.5) * 2);
         }
-
-        const bg1 = lerpColor(theme1.bg[0], theme2.bg[0], adjustedProgress);
-        const bg2 = lerpColor(theme1.bg[1], theme2.bg[1], adjustedProgress);
-        const bg3 = lerpColor(theme1.bg[2], theme2.bg[2], adjustedProgress);
-
-        document.documentElement.style.setProperty('--bg', `linear-gradient(170deg, ${bg1}, ${bg2}, ${bg3})`);
-        document.documentElement.style.setProperty('--accent', lerpColor(theme1.accent, theme2.accent, adjustedProgress));
-        document.documentElement.style.setProperty('--text-primary', lerpColor(theme1.textPrimary, theme2.textPrimary, adjustedProgress));
-        document.documentElement.style.setProperty('--text-secondary', lerpColor(theme1.textSecondary, theme2.textSecondary, adjustedProgress));
-        document.documentElement.style.setProperty('--card-bg', lerpColor(theme1.cardBg, theme2.cardBg, adjustedProgress));
-        document.documentElement.style.setProperty('--card-border', lerpColor(theme1.cardBorder, theme2.cardBorder, adjustedProgress));
-        document.documentElement.style.setProperty('--button-text', lerpColor(theme1.buttonText, theme2.buttonText, adjustedProgress));
-        document.documentElement.style.setProperty('--shadow-color', lerpColor(theme1.shadowColor, theme2.shadowColor, adjustedProgress));
     };
 
+    const handleGalleryScroll = () => {
+        if (galleryPage.classList.contains('hidden')) return;
+        const galleryMain = galleryPage.querySelector('main');
+        const scrollableHeight = galleryMain.scrollHeight - galleryMain.clientHeight;
+        if (scrollableHeight <= 0) {
+             applyTheme(lightTheme, lightTheme, 0);
+             return;
+        }
+        const progress = Math.min(galleryMain.scrollTop / scrollableHeight, 1);
+
+        if (progress < 0.5) {
+            applyTheme(lightTheme, midTheme, progress * 2);
+        } else {
+            applyTheme(midTheme, darkTheme, (progress - 0.5) * 2);
+        }
+    };
 
     // --- Chatbot Functions ---
     const addMessageToChat = (text, type = 'bot') => {
@@ -1068,18 +1020,8 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.addEventListener('click', () => {
             const selectedCountry = tab.dataset.country;
             if (selectedCountry === currentView) return;
-
-            const wasOnDashboard = (currentView === 'Dashboard');
-            
             switchView(selectedCountry);
-
-            if (wasOnDashboard && selectedCountry !== 'Dashboard') {
-                // Instantly go to the top of the new content after view switch
-                window.scrollTo(0, 0); 
-            } else if (selectedCountry === 'Dashboard') {
-                // Smoothly scroll to top when returning to dashboard
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
@@ -1108,8 +1050,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if(galleryBtn) galleryBtn.addEventListener('click', showGalleryPage);
     if(backToMainBtn) backToMainBtn.addEventListener('click', hideGalleryPage);
     
-    galleryFilterCountry.addEventListener('change', renderGallery);
-    galleryFilterType.addEventListener('change', renderGallery);
+    if (galleryLayoutControls) {
+        galleryLayoutControls.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) {
+                const layout = btn.dataset.layout;
+                galleryLayoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                galleryGrid.className = 'gallery-grid'; // Reset
+                galleryGrid.classList.add(`columns-${layout}`);
+            }
+        });
+    }
 
     if(customPlanBtn) customPlanBtn.addEventListener('click', openCustomPlanModal);
     if(customPlanModal) {
