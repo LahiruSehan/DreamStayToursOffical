@@ -510,6 +510,42 @@ document.addEventListener('DOMContentLoaded', () => {
         animatedElements.forEach(el => observer.observe(el));
     };
 
+    const formatDescription = (text) => {
+        if (!text) return '';
+        let html = '';
+        const lines = text.split('\n');
+        let inList = false;
+
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('* ')) {
+                if (!inList) {
+                    html += '<ul>';
+                    inList = true;
+                }
+                const itemContent = trimmedLine.substring(2)
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                html += `<li>${itemContent}</li>`;
+            } else {
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                if (trimmedLine === '') {
+                    // We can ignore empty lines as the <p> tags will create space.
+                } else {
+                    const formattedLine = trimmedLine.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    html += `<p>${formattedLine}</p>`;
+                }
+            }
+        }
+
+        if (inList) {
+            html += '</ul>';
+        }
+        return html;
+    };
+
     const openPackageModal = (packageId) => {
         const pkg = config.PACKAGES.find(p => p.id === packageId);
         if (!pkg) return;
@@ -532,6 +568,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalButtonHTML = isComingSoon
             ? `<span class="cta-primary" style="width:100%; text-align:center; display:block; background: #e74c3c; cursor: not-allowed;">${config.STRINGS[currentLang].comingSoonNotice}</span>`
             : `<a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactUs}</a>`;
+        
+        const formattedDesc = formatDescription(pkg[`desc_en`]);
 
         const modalContentHTML = `
             <div class="modal-image-carousel">
@@ -551,7 +589,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ` : ''}
 
             <h2 id="package-modal-title">${pkg[`title_${currentLang}`]}</h2>
-            <p class="modal-desc">${pkg[`desc_en`].replace(/\n/g, '<br><br>')}</p>
+            <div class="modal-desc">${formattedDesc}</div>
             <p class="modal-desc" style="font-style: italic; opacity: 0.7;">${pkg[`desc_si`]}</p>
             <p class="modal-desc" style="font-style: italic; opacity: 0.7;">${pkg[`desc_ja`]}</p>
             ${modalButtonHTML}
@@ -1031,17 +1069,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedCountry = tab.dataset.country;
             if (selectedCountry === currentView) return;
 
-            const shouldScroll = (currentView === 'Dashboard' && selectedCountry !== 'Dashboard');
-            if (shouldScroll) {
-                document.getElementById('filters').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            const wasOnDashboard = (currentView === 'Dashboard');
+            
+            switchView(selectedCountry);
 
-            setTimeout(() => {
-                switchView(selectedCountry);
-                 if (!shouldScroll && selectedCountry === 'Dashboard') {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-            }, shouldScroll ? 300 : 0);
+            if (wasOnDashboard && selectedCountry !== 'Dashboard') {
+                // Instantly go to the top of the new content after view switch
+                window.scrollTo(0, 0); 
+            } else if (selectedCountry === 'Dashboard') {
+                // Smoothly scroll to top when returning to dashboard
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     });
 

@@ -1267,23 +1267,19 @@ body.theme-srilanka .package-card {
     font-weight: 600;
     margin-bottom: 1.5rem;
 }
-.modal-desc {
-    line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-}
 
-/* New styles for updated modal */
+/* New/Updated styles for modal */
 .modal-small-images-container {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     margin-top: 1rem;
     margin-bottom: 1.5rem;
 }
 
 .modal-small-image {
-    width: calc(50% - 0.5rem);
-    height: 100px;
+    flex: 1;
+    min-width: 0;
+    height: 80px;
     object-fit: cover;
     border-radius: var(--radius-md);
 }
@@ -1306,6 +1302,33 @@ body.theme-srilanka .package-card {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+.modal-desc {
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+.modal-desc p {
+    margin-bottom: 1em;
+}
+.modal-desc p:last-child {
+    margin-bottom: 0;
+}
+.modal-desc strong {
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 0.5em;
+    font-size: 1.1em;
+}
+.modal-desc ul {
+    list-style-type: '✨';
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+.modal-desc li {
+    margin-bottom: 0.5em;
+    padding-left: 0.5em;
 }
 
 
@@ -1501,7 +1524,6 @@ body.theme-srilanka .package-card {
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     transform: translateY(20px) scale(0.95);
-    opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease, background-image var(--transition-slow);
     transform-origin: bottom right;
 }
