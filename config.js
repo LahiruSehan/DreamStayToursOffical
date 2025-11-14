@@ -271,21 +271,127 @@ window.config = {
         
         
         
-        "th-loc-001": { smallImages: ["https://source.unsplash.com/400x300/?bangkok,skyline", "https://source.unsplash.com/400x300/?mahanakhon,glass", "https://source.unsplash.com/400x300/?mahanakhon,rooftop"], youtubeUrl: "https://www.youtube.com/watch?v=tF45bEKQf4s" },
-        "th-loc-002": { smallImages: ["https://source.unsplash.com/400x300/?safari,world,giraffe", "https://source.unsplash.com/400x300/?safari,world,dolphin", "https://source.unsplash.com/400x300/?safari,world,lion"], youtubeUrl: "https://www.youtube.com/watch?v=SXO3PltQBus" },
-        "th-loc-003": { smallImages: ["https://source.unsplash.com/400x300/?sanctuary,of,truth,carving", "https://source.unsplash.com/400x300/?pattaya,temple,wood", "https://source.unsplash.com/400x300/?sanctuary,of,truth,detail"], youtubeUrl: "https://www.youtube.com/watch?v=F3FQfWj2J_M" },
-        "th-loc-004": { smallImages: ["https://source.unsplash.com/400x300/?bangkok,river,cruise,night", "https://source.unsplash.com/400x300/?wat,arun,illuminated", "https://source.unsplash.com/400x300/?bangkok,grand,palace,night"], youtubeUrl: "https://www.youtube.com/watch?v=1uHq2e7pT8I" },
-        "th-loc-005": { smallImages: ["https://source.unsplash.com/400x300/?waterpark,slide", "https://source.unsplash.com/400x300/?waterpark,wave,pool", "https://source.unsplash.com/400x300/?waterpark,lazy,river"], youtubeUrl: "https://www.youtube.com/watch?v=y3b2ptf-p94" },
-        "th-loc-006": { smallImages: ["https://source.unsplash.com/400x300/?aquaverse,jumanji", "https://source.unsplash.com/400x300/?aquaverse,ghostbusters", "https://source.unsplash.com/400x300/?aquaverse,water,slide"], youtubeUrl: "https://www.youtube.com/watch?v=QZ8v0f2r8rY" },
-        "th-loc-007": { smallImages: ["https://source.unsplash.com/400x300/?aquarium,shark,tunnel", "https://source.unsplash.com/400x300/?madame,tussauds,wax", "https://source.unsplash.com/400x300/?aquarium,penguin"], youtubeUrl: "https://www.youtube.com/watch?v=f2n_Ovl3aX8" },
-        "th-loc-008": { smallImages: ["https://source.unsplash.com/400x300/?dream,world,roller,coaster", "https://source.unsplash.com/400x300/?dream,world,snow,town", "https://source.unsplash.com/400x300/?dream,world,castle"], youtubeUrl: "https://www.youtube.com/watch?v=GjY8tL7d_y8" },
-        "th-loc-009": { smallImages: ["https://source.unsplash.com/400x300/?nongnooch,garden,dinosaur", "https://source.unsplash.com/400x300/?nongnooch,garden,elephant", "https://source.unsplash.com/400x300/?nongnooch,garden,french"], youtubeUrl: "https://www.youtube.com/watch?v=XzW-hPFrs8c" },
-        "th-loc-010": { smallImages: ["https://source.unsplash.com/400x300/?floating,market,boat", "https://source.unsplash.com/400x300/?maeklong,railway,market,train", "https://source.unsplash.com/400x300/?floating,market,food"], youtubeUrl: "https://www.youtube.com/watch?v=yL0bFx5ufhM" },
-        "th-loc-011": { smallImages: ["https://source.unsplash.com/400x300/?cabaret,show,stage", "https://source.unsplash.com/400x300/?cabaret,costume", "https://source.unsplash.com/400x300/?cabaret,dancers"], youtubeUrl: "https://www.youtube.com/watch?v=l_tWd2T3g9I" },
-        "th-loc-012": { smallImages: ["https://source.unsplash.com/400x300/?coral,island,parasailing", "https://source.unsplash.com/400x300/?pattaya,beach,speedboat", "https://source.unsplash.com/400x300/?coral,island,snorkeling"], youtubeUrl: "https://www.youtube.com/watch?v=lYqi_uA9uYI" },
-        "th-loc-013": { smallImages: ["https://source.unsplash.com/400x300/?ayutthaya,buddha,head", "https://source.unsplash.com/400x300/?ayutthaya,ruins,temple", "https://source.unsplash.com/400x300/?ayutthaya,stupa"], youtubeUrl: "https://www.youtube.com/watch?v=JcIMRk0w_Oo" },
-        "th-loc-014": { smallImages: ["https://source.unsplash.com/400x300/?grand,palace,bangkok", "https://source.unsplash.com/400x300/?reclining,buddha,wat,pho", "https://source.unsplash.com/400x300/?wat,arun,temple"], youtubeUrl: "https://www.youtube.com/watch?v=S-tYp3x-BXM" },
-        "th-loc-015": { smallImages: ["https://source.unsplash.com/400x300/?pattaya,floating,market,food", "https://source.unsplash.com/400x300/?pattaya,market,boat", "https://source.unsplash.com/400x300/?pattaya,floating,market,shops"], youtubeUrl: "https://www.youtube.com/watch?v=wz-MAnlEFR8" },
+               
+           "th-loc-001": {
+        smallImages: [
+            "https://thesmartlocal.co.th/wp-content/uploads/2022/11/DSC08845-1.jpg",
+            "https://framerusercontent.com/images/kawjD023FXLvRZeRo7sMhFsvw.jpg?width=1600&height=1000",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUnPjqyzBdsD9OIg8yGbJmeH3lSDeE70ERHk8AqZmnDdmTuGkJjpn6qGAK-h17eelK5_I&usqp=CAU"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=2XI9ATz-X5A"
+    },
+    "th-loc-002": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY5pOynzOT30tGeyn4hhIwO0rl2EyNpA5oXg&s",
+            "https://cdn-imgix.headout.com/media/images/49e710cea0e22f0f9f651c21782e789d-10477-bangkok-safari-world---marine-park-tickets-04.jpg?auto=compress%2Cformat&w=1216.3200000000002&h=760.2&q=210&ar=16%3A10&crop=faces&fit=crop",
+            "https://zoo-granby.transforms.svdcdn.com/production/animals/Zoo-de-Granby_Lion-dAfrique_13.jpg?w=2048&h=1365&q=90&auto=format%2Cavif&fit=crop&crop=focalpoint&fp-x=0.3806&fp-y=0.4229&dm=1707340458&s=2b65cb8c3d16e2c42ea9808bfee07879"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=Lepdmi1NwF0"
+    },
+    "th-loc-003": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLPxCWQwNvjgKRa7FWMSRo88I0fXFJWNVRHQ&s",
+            "https://www.royalwingsuites.com/wp-content/uploads/2023/02/3-3.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmlJzcFTW0XRJdLA9asMK_i6Cpxhmq5PxUtQ&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=em_UtBfnJH8"
+    },
+    "th-loc-004": {
+        smallImages: [
+            "https://media1.thrillophilia.com/filestore/g6z64ey6b5kiupei0mcx9nfs4469_Chao_phraya_IC_4d5b175a55.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9PywJzd9EB1cI11WYNntUeQ6CSFWms99Xog&s",
+            "https://chaophrayacruise.com/wp-content/uploads/2017/02/8.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=8vwwV39672M"
+    },
+    "th-loc-005": {
+        smallImages: [
+            "https://i.ytimg.com/vi/8DnnwU0qvaw/maxresdefault.jpg",
+            "https://i.ytimg.com/vi/QXp8kI1PZ9k/maxresdefault.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAhora1p8fbMB_EgU4Nv-sh4JOHSOdRQ7wJw&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=Oytbv_x6FyI"
+    },
+    "th-loc-006": {
+        smallImages: [
+            "https://columbiapicturesaquaverse.com/en/wp-content/themes/v1/images/jumanji/slide3.jpg",
+            "https://columbiapicturesaquaverse.com/en/wp-content/themes/v1/images/ghostbusters/trap1a.jpg",
+            "https://www.globe.co.th/wp-content/uploads/2024/04/pattayasaquaverseopensfirstghostbustersthemedattracktion.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=KpeKxwo_-L4"
+    },
+    "th-loc-007": {
+        smallImages: [
+            "https://iirorwxhqnlmln5m.ldycdn.com/cloud/lkBpiKqollSRnkkpqnrmjp/IMG_20230420_095759-480-480.jpg",
+            "https://visitnj.org/sites/default/files/AAQ_ATTRACTION_HISTORY_Family%20Shark%20Tunnel.jpg",
+            "https://toronto.iabc.to/wp-content/uploads/2023/05/Ripleys-Aquarium-of-Canada-underwater-tunnel-shark_Attractions_Image.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=ElNPIAJvlsE"
+    },
+    "th-loc-008": {
+        smallImages: [
+            "https://cdn-imgix.headout.com/media/images/911f346b03b76627a3f41fdbff1fdee3-19227-bangkok-dream-world-bangkok-with-round-trip-shared-transfer006.jpg?auto=format&w=900&h=562.5&q=90&ar=16%3A10&crop=faces%2Ccenter&fit=crop",
+            "https://media1.thrillophilia.com/filestore/g6op3gy6pocbtk7gjtsc9yv9gu93_shutterstock_1219350985.jpg",
+            "https://www.disneytouristblog.com/wp-content/uploads/2022/10/cinderella-castle-dream-lights-christmas-magic-kingdom-disney-world-tom-bricker-723.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=XzkSjIg0Bn4"
+    },
+    "th-loc-009": {
+        smallImages: [
+            "https://www.tatnews.org/wp-content/uploads/2017/03/Dinosaur-Valley-comes-to-NongNooch-Pattaya-Garden.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfchwAJIAgwj7jZ-nH15sEQokVsguhbAfYFw&s",
+            "https://media.tacdn.com/media/attractions-splice-spp-674x446/11/4d/9a/a4.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=Q_vNtUk1LFo"
+    },
+    "th-loc-010": {
+        smallImages: [
+            "https://blog.bangkokair.com/wp-content/uploads/2024/12/Cover_floating-markets-bangkok.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4fumILY0W_NfZF7lttzhr1xgmifmxi-fyBg&s",
+            "https://media.tacdn.com/media/attractions-content--1x-1/0f/eb/a8/00.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=5IZsO9eEK-s"
+    },
+    "th-loc-011": {
+        smallImages: [
+            "https://silvermagazine.co.uk/wp-content/uploads/2023/11/Oh-Kabarett-A-naughty-night-out-to-remember-reviewed-at-Silver-Magazine-www.silvermagazine.co_.uk_.jpg",
+            "https://thumbs.dreamstime.com/b/beautiful-sexy-go-go-dancer-girls-posing-nightclub-group-stunning-young-dancing-together-stage-entertainment-leisure-90123612.jpg",
+            "https://st3.depositphotos.com/7319880/14892/i/450/depositphotos_148921919-stock-photo-group-of-beautiful-female-dancers.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=41SYH55pUNc"
+    },
+    "th-loc-012": {
+        smallImages: [
+            "https://sun-b2b.s3.us-east-2.amazonaws.com/tour/2021-01-29tour09-17-32.jpg",
+            "https://sun-b2b.s3.us-east-2.amazonaws.com/tour/2021-02-17tour16-51-24.jpg",
+            "https://e-c.storage.googleapis.com/res/ccc5cc62-247c-4458-a50f-01cca5c855b3/original"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=JcgyEcJ2FUE"
+    },
+    "th-loc-013": {
+        smallImages: [
+            "https://i.natgeofe.com/n/1ac77f91-def1-4118-b5cd-619c13d74490/82048.jpg",
+            "https://www.thebugthatbitme.com/wp-content/uploads/2016/01/Ayutthaya1-feature.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ2_g13Wx8pEPU1cemy9cUB_7Vo6HFQbTlkg&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=n6_4xgeoNy8"
+    },
+    "th-loc-014": {
+        smallImages: [
+            "https://www.travelonline.com/thailand/attractions/grand-palace/thailand-generic-grand-palace-hd-56219-banner.jpg",
+            "https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/62/2016/11/07083643/Destination-The-Reclining-Buddha.jpg",
+            "https://static.wixstatic.com/media/2cc94a_07e55de318fe41538e17cb9de596cb45~mv2.jpg/v1/fill/w_2500,h_1406,al_c/2cc94a_07e55de318fe41538e17cb9de596cb45~mv2.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=jopPyQ93r_c"
+    },
+    "th-loc-015": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8CMMn8J5voiuBf-Pf8-Yn7fBxqW3iV4YBFw&s",
+            "https://ticket2thailand.com/uploads/0000/7/2025/08/11/floating-market.jpg",
+            "https://overatours.com/wp-content/uploads/2023/07/Pattaya-Floating-Market-image-05.png"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=pxmEBOo9E_g"
+    },
         "th-loc-016": { smallImages: ["https://source.unsplash.com/400x300/?ancient,city,bangkok,temple", "https://source.unsplash.com/400x300/?erawan,museum,elephant", "https://source.unsplash.com/400x300/?ancient,city,replica"], youtubeUrl: "https://www.youtube.com/watch?v=qApQz00EZbM" },
         "th-loc-017": { smallImages: ["https://source.unsplash.com/400x300/?tiger,park", "https://source.unsplash.com/400x300/?tiger,close,up", "https://source.unsplash.com/400x300/?tiger,cubs"], youtubeUrl: "https://www.youtube.com/watch?v=3gcsgWCOO4Y" },
         "th-loc-018": { smallImages: ["https://source.unsplash.com/400x300/?dolphin,show,jumping", "https://source.unsplash.com/400x300/?seal,performance", "https://source.unsplash.com/400x300/?dolphin,swimming"], youtubeUrl: "https://www.youtube.com/watch?v=yWUgO3A2HkU" },
