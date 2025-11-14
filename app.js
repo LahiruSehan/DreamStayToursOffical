@@ -811,6 +811,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!heroTitle) return;
     
         const quotes = config.HERO_QUOTES[currentLang];
+        
+        // Dynamically replace a quote for English without modifying config file
+        if (currentLang === 'en') {
+            const quoteToReplace = "Crafting memories, one journey at a time";
+            const index = quotes.indexOf(quoteToReplace);
+            if (index !== -1) {
+                quotes[index] = "Crafting Journeys & Memories";
+            }
+        }
+
         let quoteIndex = 0;
         heroTitle.textContent = quotes[quoteIndex];
     

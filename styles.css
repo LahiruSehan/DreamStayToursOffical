@@ -225,6 +225,11 @@ button, a {
     50% { box-shadow: 0 0 16px 2px var(--glow-color); }
 }
 
+@keyframes wave-shake {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
 
 .animate-in {
     opacity: 0;
@@ -355,7 +360,7 @@ body.country-view .hero {
     padding: 0;
     position: relative;
     overflow: hidden;
-    background-image: url(https://i.ibb.co/KxNyMfPM/Generated-Image-November-14-2025-1-11-PM-1.png);
+    background-image: url(https://i.ibb.co/PvkqdJCW/background.png);
     background-size: cover;
     background-position: center center;
     animation: zoomInOut 20s ease-in-out infinite;
@@ -377,25 +382,25 @@ body.country-view .hero {
     position: absolute;
     inset: -10px; /* Overscan to prevent hard edges from blur */
     z-index: 0;
-    background-image: url(https://i.ibb.co/xqRSHNYZ/image.png);
+    background-image: url(https://i.ibb.co/PvkqdJCW/background.png);
     background-size: cover;
     background-position: center center;
     animation: zoomInOut 20s ease-in-out infinite;
     filter: blur(4px);
     mask: linear-gradient(to bottom, 
         black 0%, 
-        black 15%, 
-        transparent 35%, 
-        transparent 65%, 
-        black 85%, 
+        black 5%, 
+        transparent 15%, 
+        transparent 85%, 
+        black 95%, 
         black 100%
     );
     -webkit-mask: linear-gradient(to bottom, 
         black 0%, 
-        black 15%, 
-        transparent 35%, 
-        transparent 65%, 
-        black 85%, 
+        black 5%, 
+        transparent 15%, 
+        transparent 85%, 
+        black 95%, 
         black 100%
     );
 }
@@ -488,13 +493,17 @@ body.country-view .hero {
     overflow: hidden;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
     opacity: 0;
-    animation: fadeInUp 0.5s ease forwards;
+    animation-name: fadeInUp, wave-shake;
+    animation-duration: 0.5s, 3s;
+    animation-timing-function: ease, ease-in-out;
+    animation-fill-mode: forwards, none;
+    animation-iteration-count: 1, infinite;
 }
-.hero-destinations .destination-card:nth-child(1) { animation-delay: 0.4s; }
-.hero-destinations .destination-card:nth-child(2) { animation-delay: 0.5s; }
-.hero-destinations .destination-card:nth-child(3) { animation-delay: 0.6s; }
-.hero-destinations .destination-card:nth-child(4) { animation-delay: 0.7s; }
-.hero-destinations .destination-card:nth-child(5) { animation-delay: 0.8s; }
+.hero-destinations .destination-card:nth-child(1) { animation-delay: 0.4s, 1.0s; }
+.hero-destinations .destination-card:nth-child(2) { animation-delay: 0.5s, 1.15s; }
+.hero-destinations .destination-card:nth-child(3) { animation-delay: 0.6s, 1.3s; }
+.hero-destinations .destination-card:nth-child(4) { animation-delay: 0.7s, 1.45s; }
+.hero-destinations .destination-card:nth-child(5) { animation-delay: 0.8s, 1.6s; }
 
 .destination-card::before {
     content: '';
@@ -513,6 +522,7 @@ body.country-view .hero {
     transform: translateY(-5px) scale(1.05);
     border-color: white;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    animation-play-state: paused; /* Pause wave on hover */
 }
 .hero-destinations .destination-card:hover::before {
     background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
