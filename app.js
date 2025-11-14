@@ -53,6 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const showHotelsBtn = document.getElementById('show-hotels-btn');
     const thailandHotelsSection = document.getElementById('thailand-hotels');
     const hotelGrid = document.getElementById('hotel-grid');
+    // New Elements from update
+    const stickyActionsContainer = document.querySelector('.sticky-actions-container');
+    const heroSection = document.querySelector('.hero');
+    const aboutDreamstayBtn = document.getElementById('about-dreamstay-btn');
+    const heroDestinationsContainer = document.querySelector('.hero-destinations');
+    const filtersSection = document.getElementById('filters');
 
 
     // Package Controls
@@ -95,9 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let particles = [];
     let animationFrameId;
 
-    // --- Hero Canvas Animation ---
-    const heroCanvas = document.getElementById('hero-particles-canvas');
-    const heroCtx = heroCanvas ? heroCanvas.getContext('2d') : null;
+    // --- Hero Canvas Animation (Now Deprecated but kept for safety) ---
+    const heroCanvas = null; // No longer in use: document.getElementById('hero-particles-canvas');
+    const heroCtx = null;
     let heroParticles = [];
     let heroAnimationFrameId;
 
@@ -107,10 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function resizeHeroCanvas() {
-        if (!heroCanvas) return;
-        const hero = document.querySelector('.hero');
-        heroCanvas.width = hero.offsetWidth;
-        heroCanvas.height = hero.offsetHeight;
+        // This function is no longer needed as the hero canvas was removed.
     }
 
     function createParticles(config) {
@@ -148,42 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillText(p.char, p.x, p.y);
         });
         animationFrameId = requestAnimationFrame(animateParticles);
-    }
-    
-    function createHeroParticles() {
-        if (!heroCanvas) return;
-        heroParticles = [];
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        const count = Math.min(Math.floor(heroCanvas.width / 20), 100);
-        for (let i = 0; i < count; i++) {
-            heroParticles.push({
-                x: Math.random() * heroCanvas.width,
-                y: Math.random() * heroCanvas.height,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: -Math.random() * 0.5 - 0.2, // Drift upwards
-                size: Math.random() * 2 + 1,
-                color: `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.2})`,
-            });
-        }
-    }
-
-    function animateHeroParticles() {
-        if (!heroCtx) return;
-        heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-        heroParticles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-
-            if (p.x < -p.size) p.x = heroCanvas.width + p.size;
-            if (p.x > heroCanvas.width + p.size) p.x = -p.size;
-            if (p.y < -p.size) p.y = heroCanvas.height + p.size;
-
-            heroCtx.beginPath();
-            heroCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            heroCtx.fillStyle = p.color;
-            heroCtx.fill();
-        });
-        heroAnimationFrameId = requestAnimationFrame(animateHeroParticles);
     }
     
     const themeParticles = {
@@ -253,12 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
         startHeroQuoteAnimation();
         startReviewCarousel();
         renderChatbot();
-
-        if (heroCanvas) {
-            resizeHeroCanvas();
-            createHeroParticles();
-            animateHeroParticles();
-        }
     };
     
     const setLanguage = (lang) => {
@@ -1191,12 +1152,50 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+    
+    // --- NEW EVENT LISTENERS ---
+    const fabObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                // When hero is NOT visible on screen, show the buttons.
+                if (!entry.isIntersecting) {
+                    stickyActionsContainer.classList.remove('fab-hidden');
+                } else {
+                    stickyActionsContainer.classList.add('fab-hidden');
+                }
+            });
+        },
+        { threshold: 0.1 } // Trigger when 10% of hero is visible/hidden
+    );
+
+    if (heroSection) {
+        fabObserver.observe(heroSection);
+    }
+
+    if (aboutDreamstayBtn) {
+        aboutDreamstayBtn.addEventListener('click', () => {
+            if (filtersSection) {
+                filtersSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    if (heroDestinationsContainer) {
+        heroDestinationsContainer.addEventListener('click', (e) => {
+            const card = e.target.closest('.destination-card');
+            if (card && card.dataset.country) {
+                const country = card.dataset.country;
+                switchView(country);
+            }
+        });
+    }
+
 
     window.addEventListener('scroll', handleDashboardScroll);
 
     window.addEventListener('resize', () => {
         resizeCanvas();
-        resizeHeroCanvas();
+        // No longer need to resize hero canvas
     });
 
     // --- Initial Load ---

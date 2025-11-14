@@ -379,14 +379,7 @@ body.country-view .hero {
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
 }
 .hero-logo-main {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    height: 50px;
-    width: auto;
-    filter: brightness(0) invert(1);
-    opacity: 0.9;
+    display: none; /* Moved into main content area */
 }
 .hero-menu-btn {
     background: rgba(0,0,0,0.3);
@@ -412,41 +405,37 @@ body.country-view .hero {
     align-items: center;
     justify-content: flex-end;
     flex-grow: 1;
-    padding: 2rem 1.5rem;
+    padding: 1rem 1.5rem;
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
 }
+.hero-logo-main-center {
+    height: 60px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
 
 /* NEW destinations selector */
-.destinations-container {
-    width: 100%;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-.destinations-title {
-    font-size: 1rem;
-    font-weight: 500;
-    color: rgba(255,255,255,0.9);
-    margin-bottom: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-.destinations-scroll {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    padding: 1rem;
-    margin: 0 -1rem;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-}
-.destinations-scroll::-webkit-scrollbar {
+.destinations-container { /* old container */
     display: none;
 }
-.destination-card {
-    flex: 0 0 100px;
-    height: 120px;
+.hero-destinations {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+.hero-destinations .destination-card, .destination-card {
+    flex: 1;
+    max-width: 80px;
+    height: 100px;
     border-radius: var(--radius-lg);
     background-size: cover;
     background-position: center;
@@ -454,15 +443,16 @@ body.country-view .hero {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding: 0.75rem;
+    padding: 0.5rem;
     color: white;
     font-weight: bold;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.3);
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     overflow: hidden;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 .destination-card::before {
     content: '';
@@ -477,24 +467,26 @@ body.country-view .hero {
     z-index: 2;
     text-align: center;
 }
-.destination-card:hover {
+.hero-destinations .destination-card:hover {
     transform: translateY(-5px) scale(1.05);
     border-color: white;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
-.destination-card:hover::before {
+.hero-destinations .destination-card:hover::before {
     background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
 }
+
 
 /* NEW hero title styles */
 .hero-title-main {
     font-family: var(--font-quote-1);
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.25;
     color: #1a1a1a;
     text-shadow: none;
     margin-bottom: 0.75rem;
+    max-width: 400px;
 }
 .hero-subtitle {
     font-size: 1rem;
@@ -549,18 +541,24 @@ body.country-view .hero {
 /* Re-using hero-buttons, but need to adapt styles for new background */
 .hero-buttons {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     align-items: center;
     justify-content: center;
     animation: none;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 480px;
 }
 
 /* override cta button styles for hero */
 .hero .cta-primary, .hero .cta-secondary {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-shadow: none;
-    min-width: 200px;
+    min-width: unset;
+    flex: 1 1 0;
+    padding: 0.7rem 0.5rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
 }
 .hero .cta-primary {
     background-color: #1a1a1a;
@@ -1628,6 +1626,14 @@ body.theme-srilanka .package-card {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-end;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+}
+.sticky-actions-container.fab-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
 }
 
 .currency-switcher-btn {
@@ -1785,6 +1791,26 @@ footer {
 
 
 /* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 400px) {
+    .hero-destinations {
+        gap: 0.5rem;
+    }
+    .hero-destinations .destination-card {
+        height: 90px;
+        font-size: 0.6rem;
+    }
+    .hero-buttons {
+        gap: 0.3rem;
+    }
+    .hero .cta-primary, .hero .cta-secondary {
+        font-size: 0.65rem;
+    }
+     .hero-title-main {
+        font-size: 2rem;
+    }
+}
+
+
 @media (min-width: 640px) {
     .packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
     .packages-grid.columns-3 { grid-template-columns: repeat(2, 1fr); }
