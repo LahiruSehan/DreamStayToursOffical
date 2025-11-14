@@ -916,9 +916,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleDashboardScroll = () => {
         if (currentView !== 'Dashboard' || mainContent.classList.contains('hidden')) return;
         
+        const startOffset = window.innerHeight * 0.25; // Start transition after scrolling 25% of the viewport height
         const scrollY = window.scrollY;
-        const scrollThreshold = window.innerHeight * 1.5;
-        const progress = Math.min(scrollY / scrollThreshold, 1);
+
+        if (scrollY < startOffset) {
+            applyTheme(lightTheme, lightTheme, 0); // Stay on light theme
+            return;
+        }
+
+        const scrollThreshold = window.innerHeight * 2; // Make the transition slower
+        const progress = Math.min((scrollY - startOffset) / scrollThreshold, 1);
 
         if (progress < 0.5) {
             applyTheme(lightTheme, midTheme, progress * 2);
@@ -945,7 +952,16 @@ document.addEventListener('DOMContentLoaded', () => {
              applyTheme(lightTheme, lightTheme, 0);
              return;
         }
-        const progress = Math.min(galleryMain.scrollTop / scrollableHeight, 1);
+        
+        const startOffset = 200; // Start transition after scrolling 200px
+        const scrollTop = galleryMain.scrollTop;
+
+        if (scrollTop < startOffset) {
+            applyTheme(lightTheme, lightTheme, 0);
+            return;
+        }
+
+        const progress = Math.min((scrollTop - startOffset) / (scrollableHeight - startOffset), 1);
 
         if (progress < 0.5) {
             applyTheme(lightTheme, midTheme, progress * 2);
