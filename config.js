@@ -29,12 +29,14 @@ window.config = {
         { value: 5000, label_en: "Nights Booked", label_si: "වෙන් කළ රාත්‍රී", label_ja: "予約された宿泊数" }
     ],
 
+
+
     SPONSORS: [
-        { name: "Sponsor 1", logoUrl: "https://logoipsum.com/289.svg", url: "#" },
-        { name: "Sponsor 2", logoUrl: "https://logoipsum.com/297.svg", url: "#" },
-        { name: "Sponsor 3", logoUrl: "https://logoipsum.com/298.svg", url: "#" },
-        { name: "Sponsor 4", logoUrl: "https://logoipsum.com/327.svg", url: "#" },
-        { name: "Sponsor 5", logoUrl: "https://logoipsum.com/330.svg", url: "#" }
+        { name: "Sponsor 1", logoUrl: "https://i.ibb.co/PsY237MT/Logo-1.png", url: "#" },
+        { name: "Sponsor 2", logoUrl: "https://i.ibb.co/Jw44stSY/Logo-2.png", url: "#" },
+        { name: "Sponsor 3", logoUrl: "https://i.ibb.co/v6KBwM4h/Logo-3.png", url: "#" },
+        { name: "Sponsor 4", logoUrl: "https://i.ibb.co/CK4Jpkzd/Logo-4", url: "#" },
+        { name: "Sponsor 5", logoUrl: "https://i.ibb.co/QG845rQ/Logo-5.png", url: "#" }
     ],
 
     // --- TOUR PACKAGES & LOCATIONS ---
