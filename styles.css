@@ -328,71 +328,180 @@ body.country-view .hero {
     display: none;
 }
 .hero {
-    min-height: 60vh;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    background-image: url(https://i.ibb.co/xqRSHNYZ/image.png);
+    background-size: cover;
+    background-position: center center;
+    animation: zoomInOut 20s ease-in-out infinite;
+    color: #fff;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0px;
+    background: linear-gradient(180deg, rgba(23, 23, 23, 0.5) 0%, rgba(23, 23, 23, 0) 40%, rgba(240, 249, 255, 0.8) 90%, rgb(240, 249, 255) 100%);
+    z-index: 1;
+}
+
+/* Hide the old canvas which doesn't fit the new design */
+#hero-particles-canvas {
+   display: none;
+}
+
+/* Hide original hero content which is now replaced in HTML */
+.hero-content {
+    display: none !important;
+}
+
+/* NEW top bar */
+.hero-top-bar {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    width: 100%;
+}
+.hero-logo-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: var(--font-quote-1);
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+.hero-logo-main {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 50px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+.hero-menu-btn {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    background-image: url('https://i.ibb.co/xqRSHNYZ/image.png');
-    background-position: center;
-    animation: zoomInOut 20s ease-in-out infinite;
+    backdrop-filter: blur(5px);
 }
-.hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(15, 18, 38, 0.7);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
-    z-index: 1;
+.hero-menu-btn svg {
+    stroke: white;
 }
-#hero-particles-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-}
-.hero-content {
+
+/* NEW main content area */
+.hero-main-content {
     position: relative;
     z-index: 3;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+    padding: 2rem 1.5rem;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.hero-logo {
-    height: 100px;
-    width: 100px;
-    margin-bottom: 1rem;
-    animation: fadeInUp 1s ease backwards;
-}
-
-.hero-title {
-    font-size: 2.2rem;
-    font-weight: 800;
-    line-height: 1.2;
+/* NEW destinations selector */
+.destinations-container {
+    width: 100%;
     margin-bottom: 2rem;
-    animation: fadeInUp 1s ease 0.2s backwards;
-    transition: opacity 0.4s ease-in-out, font-family 0.4s ease-in-out;
-    min-height: 110px; /* Reserve space for multiple lines */
-    font-family: var(--font-quote-1);
-    color: #fff;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-align: center;
 }
-
-.hero-buttons {
+.destinations-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.destinations-scroll {
     display: flex;
     gap: 1rem;
-    align-items: center;
+    overflow-x: auto;
+    padding: 1rem;
+    margin: 0 -1rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.destinations-scroll::-webkit-scrollbar {
+    display: none;
+}
+.destination-card {
+    flex: 0 0 100px;
+    height: 120px;
+    border-radius: var(--radius-lg);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
     justify-content: center;
-    animation: fadeInUp 1s ease 0.4s backwards;
-    flex-wrap: wrap;
+    padding: 0.75rem;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    border: 2px solid rgba(255,255,255,0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+.destination-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    border-radius: var(--radius-lg);
+    transition: background 0.3s ease;
+}
+.destination-card span {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+.destination-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    border-color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+.destination-card:hover::before {
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+}
+
+/* NEW hero title styles */
+.hero-title-main {
+    font-family: var(--font-quote-1);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #1a1a1a;
+    text-shadow: none;
+    margin-bottom: 0.75rem;
+}
+.hero-subtitle {
+    font-size: 1rem;
+    color: #555;
+    max-width: 550px;
+    margin: 0 auto 2rem auto;
+    line-height: 1.6;
 }
 
 .cta-primary, .cta-secondary {
@@ -406,7 +515,6 @@ body.country-view .hero {
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
-
 
 .cta-primary {
     background-color: var(--button-bg);
@@ -438,6 +546,43 @@ body.country-view .hero {
     border-color: #a52f22;
 }
 
+/* Re-using hero-buttons, but need to adapt styles for new background */
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    animation: none;
+    flex-wrap: wrap;
+}
+
+/* override cta button styles for hero */
+.hero .cta-primary, .hero .cta-secondary {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-shadow: none;
+    min-width: 200px;
+}
+.hero .cta-primary {
+    background-color: #1a1a1a;
+    color: white;
+    border: 2px solid #1a1a1a;
+}
+.hero .cta-primary:hover {
+    background-color: #333;
+    border-color: #333;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transform: scale(1.05);
+}
+.hero .cta-secondary {
+    background-color: transparent;
+    color: #1a1a1a;
+    border: 2px solid #ccc;
+}
+.hero .cta-secondary:hover {
+    background-color: #1a1a1a;
+    color: white;
+    border-color: #1a1a1a;
+}
 
 /* --- FILTERS --- */
 #filters {
@@ -1644,18 +1789,10 @@ footer {
     .packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
     .packages-grid.columns-3 { grid-template-columns: repeat(2, 1fr); }
     .hotel-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-title-main { font-size: 3.5rem; }
 }
 
 @media (min-width: 768px) {
-    .hero-logo {
-        height: 50px;
-    }
-    .hero-buttons {
-        flex-direction: row;
-    }
-    .cta-primary, .cta-secondary {
-        width: auto;
-    }
     .details-grid {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -1688,6 +1825,7 @@ footer {
 
 @media (min-width: 1024px) {
     .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
+     .hero-title-main { font-size: 4rem; }
 }
 
 /* --- ACCESSIBILITY --- */
