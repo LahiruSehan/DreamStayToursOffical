@@ -191,16 +191,82 @@ window.config = {
         "sl-loc-009": { smallImages: ["https://nerdnomads.com/wp-content/uploads/2014/04/DSC7145.jpg", "https://d1bv4heaa2n05k.cloudfront.net/user-images/1533725975721/shutterstock-172070429_destinationMain_1533725983733.jpeg", "https://cdn.forevervacation.com/uploads/tour/polonnaruwa-unesco-ancient-city-and-elephant-safari-adventure-4722.jpg?tr=w-560,h-638"], youtubeUrl: "https://www.youtube.com/watch?v=RjNkLpHtkhI" },
         "sl-loc-010": { smallImages: ["https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2a/9f/70/f8/caption.jpg?w=1200&h=1200&s=1", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN5etCIpzNw2YveFgyWHmO0EfMqw3ENH8m30VsK4XiNH2vbbolMnEbVngzjsNgkx26pPk&usqp=CAU", "https://www.bestofceylon.com/images/udawalawe/jeep-safari-in-udawalawe-national-park/udawalawe1.jpg"], youtubeUrl: "https://www.youtube.com/watch?v=hdA-bISKFTE" },
         
-        "jp-loc-001": { smallImages: ["https://source.unsplash.com/400x300/?fushimi,inari,fox", "https://source.unsplash.com/400x300/?kyoto,shrine,path", "https://source.unsplash.com/400x300/?fushimi,torii,gate"], youtubeUrl: "https://www.youtube.com/watch?v=EandKNoK30g" },
-        "jp-loc-002": { smallImages: ["https://source.unsplash.com/400x300/?arashiyama,path", "https://source.unsplash.com/400x300/?arashiyama,river", "https://source.unsplash.com/400x300/?arashiyama,kimono"], youtubeUrl: "https://www.youtube.com/watch?v=FH-D4f5qR_A" },
-        "jp-loc-003": { smallImages: ["https://source.unsplash.com/400x300/?shibuya,crossing,night", "https://source.unsplash.com/400x300/?tokyo,street,neon", "https://source.unsplash.com/400x300/?shibuya,people"], youtubeUrl: "https://www.youtube.com/watch?v=6q36pnzcw78" },
-        "jp-loc-004": { smallImages: ["https://source.unsplash.com/400x300/?mount,fuji,lake", "https://source.unsplash.com/400x300/?hakone,ropeway", "https://source.unsplash.com/400x300/?hakone,shrine"], youtubeUrl: "https://www.youtube.com/watch?v=iA-LS0_A84E" },
-        "jp-loc-005": { smallImages: ["https://source.unsplash.com/400x300/?hiroshima,peace,dome", "https://source.unsplash.com/400x300/?hiroshima,cenotaph", "https://source.unsplash.com/400x300/?hiroshima,museum"], youtubeUrl: "https://www.youtube.com/watch?v=B9_8aLg22aI" },
-        "jp-loc-006": { smallImages: ["https://source.unsplash.com/400x300/?nara,deer,bowing", "https://source.unsplash.com/400x300/?todaiji,temple", "https://source.unsplash.com/400x300/?nara,deer,park"], youtubeUrl: "https://www.youtube.com/watch?v=s-3F1xJ7v6o" },
-        "jp-loc-007": { smallImages: ["https://source.unsplash.com/400x300/?dotonbori,glico,man", "https://source.unsplash.com/400x300/?osaka,street,food", "https://source.unsplash.com/400x300/?osaka,canal"], youtubeUrl: "https://www.youtube.com/watch?v=W3AEAa6b9o4" },
-        "jp-loc-008": { smallImages: ["https://source.unsplash.com/400x300/?kinkakuji,pond", "https://source.unsplash.com/400x300/?kyoto,zen,garden", "https://source.unsplash.com/400x300/?kinkakuji,gold"], youtubeUrl: "https://www.youtube.com/watch?v=KV-y0-p9b-w" },
-        "jp-loc-009": { smallImages: ["https://source.unsplash.com/400x300/?miyajima,shrine,night", "https://source.unsplash.com/400x300/?itsukushima,torii,low,tide", "https://source.unsplash.com/400x300/?miyajima,deer"], youtubeUrl: "https://www.youtube.com/watch?v=uK8fM-4-h2o" },
-        
+
+
+
+    "jp-loc-001": {
+        smallImages: [
+            "https://aglobewelltravelled.com/wp-content/uploads/2025/08/Fushimi-Inari-torii-gate-tunnel-Kyoto.jpg",
+            "https://bokksu.com/cdn/shop/articles/unnamed_f8c6f61f-635d-4077-98db-e3f7f23987f5.jpg?v=1754402218",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl4S_zCx4upTxmI5xs4gelfARpn426TLQh5A&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=7A8hpaBJeAk"
+    },
+    "jp-loc-002": {
+        smallImages: [
+            "https://res.klook.com/image/upload/w_500,h_313,c_fill,q_85/activities/c9s5rkdaw5n1ynezsnxh.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLnmyOsJ_zCNopFpktU_g0A2kbNOO3R_G3Ew&s",
+            "https://www.lemon8-app.com/seo/image?item_id=7490091270539346448&index=0&sign=6e779fdd73aca0e1a7e4008449ba5c9e"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=JpEjSABgaYo"
+    },
+    "jp-loc-003": {
+        smallImages: [
+            "https://images.unsplash.com/photo-1741920852881-5284c70305bd?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8",
+            "https://thumbs.dreamstime.com/b/shibuya-crossing-night-tokyo-japan-december-pedestrians-cross-one-world-s-most-famous-scramble-crosswalks-51760207.jpg",
+            "https://static.wixstatic.com/media/nsplsh_36554c7933707875784c38~mv2_d_4997_3084_s_4_2.jpg/v1/fill/w_1000,h_617,al_c,q_85,usm_0.66_1.00_0.01/nsplsh_36554c7933707875784c38~mv2_d_4997_3084_s_4_2.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=vQ4Wb0CVYBQ"
+    },
+    "jp-loc-004": {
+        smallImages: [
+            "https://cdn-imgix.headout.com/media/images/8c330d6e0e11447bc1b0093b2545d51a-Lake%20Kawaguchi.jpg?auto=format&q=90&crop=faces&fit=crop",
+            "https://img.freepik.com/free-photo/asian-woman-wearing-japanese-traditional-kimono-fuji-mountain-sunset-kawaguchiko-lake-japan_335224-100.jpg?semt=ais_hybrid&w=740&q=80",
+            "https://thumbs.dreamstime.com/b/asian-women-wear-japanese-kimonos-holding-yellow-umbrella-mount-fuji-cherry-blossoms-lake-kawaguchiko-japan-asian-306870633.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=G5RpJwCJDqc"
+    },
+    "jp-loc-005": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGgvtl2ogeFZsP13hw9A7hu-w0rnhByTPrFQ&s",
+            "https://thumbs.dreamstime.com/b/memorial-cenotaph-hiroshima-peace-memorial-park-japan-april-night-time-designed-kenzo-tange-style-80789008.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkkc8Hbc2UiAKtNOjt2K1zErN7FZ8MWsbcYw&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=1_Sc5GeDkGc"
+    },
+    "jp-loc-006": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJJhkvXY6rVDMEtNOAhsgcVJe5WSF8V-E2Sw&s",
+            "https://unseen-japan.com/wp-content/uploads/2023/05/pixta_76431079_M.jpg",
+            "https://cdn.prod.rexby.com/image/7a7a84d0472b4f00ab6a06be5dea138d?format=webp&width=1080&height=1350"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=JLNsvr-EoEU"
+    },
+    "jp-loc-007": {
+        smallImages: [
+            "https://cdn.cheapoguides.com/wp-content/uploads/sites/3/2020/06/osaka-dotonbori-iStock-1138049211-1024x683.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiR2owQKiRgGVLoy0c9Av_P9pqvS6N55PPrQ&s",
+            "https://media.cntravellerme.com/photos/66e2d91931ee6eb9cf1924a7/16:9/w_2560%2Cc_limit/GettyImages-962650558.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=TJke9-CUJ9Q"
+    },
+    "jp-loc-008": {
+        smallImages: [
+            "https://resources.matcha-jp.com/resize/720x2000/2024/01/30-164581.webp",
+            "https://media.timeout.com/images/105803291/750/422/image.jpg",
+            "https://japanesegardens.jp/mt_images/Kennin-ji%20-%20Main.JPG"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=S9l2in3gVtk"
+    },
+    "jp-loc-009": {
+        smallImages: [
+            "https://content.paulreiffer.com/wp-content/uploads/2023/04/iStock-475744788-Miyajima-Shrine-Torii-Gate-Floating-Crowded-Horrible-Too-Many-People-Tourism-Overtourism-Crowds-Mass-Tourists-Japan.jpg",
+            "https://www.annees-de-pelerinage.com/wp-content/uploads/2019/08/miyajima-otorii-low-tide-japan-643x427.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpmav0_WCeL9nPcliIWysd9GDr2RqToMd6gQ&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=4I9NKPrnEOM"
+    }
+
         "jp-loc-010": { smallImages: ["https://source.unsplash.com/400x300/?snow,monkey,hot,spring", "https://source.unsplash.com/400x300/?nagano,winter", "https://source.unsplash.com/400x300/?snow,monkey,baby"], youtubeUrl: "https://www.youtube.com/watch?v=d5YVbA6QhIM" },
         "th-loc-001": { smallImages: ["https://source.unsplash.com/400x300/?bangkok,skyline", "https://source.unsplash.com/400x300/?mahanakhon,glass", "https://source.unsplash.com/400x300/?mahanakhon,rooftop"], youtubeUrl: "https://www.youtube.com/watch?v=tF45bEKQf4s" },
         "th-loc-002": { smallImages: ["https://source.unsplash.com/400x300/?safari,world,giraffe", "https://source.unsplash.com/400x300/?safari,world,dolphin", "https://source.unsplash.com/400x300/?safari,world,lion"], youtubeUrl: "https://www.youtube.com/watch?v=SXO3PltQBus" },
