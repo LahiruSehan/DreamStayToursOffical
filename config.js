@@ -35,7 +35,7 @@ window.config = {
         { name: "Sponsor 1", logoUrl: "https://i.ibb.co/PsY237MT/Logo-1.png", url: "#" },
         { name: "Sponsor 2", logoUrl: "https://i.ibb.co/Jw44stSY/Logo-2.png", url: "#" },
         { name: "Sponsor 3", logoUrl: "https://i.ibb.co/v6KBwM4h/Logo-3.png", url: "#" },
-        { name: "Sponsor 4", logoUrl: "https://i.ibb.co/CK4Jpkzd/Logo-4", url: "#" },
+        { name: "Sponsor 4", logoUrl: "https://i.ibb.co/CK4Jpkzd/Logo-4.png", url: "#" },
         { name: "Sponsor 5", logoUrl: "https://i.ibb.co/QG845rQ/Logo-5.png", url: "#" }
     ],
 
