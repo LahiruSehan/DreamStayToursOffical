@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerLangToggle = document.getElementById('footer-lang-toggle');
     const reviewsWrapper = document.querySelector('.reviews-carousel-wrapper');
     const reviewsGrid = document.getElementById('reviews-grid');
-    const heroTitle = document.querySelector('.hero-title');
+    const heroTitle = document.querySelector('.hero-title-main'); // Updated class
     const mediaLightbox = document.getElementById('media-lightbox');
     const mediaLightboxBody = document.getElementById('media-lightbox-body');
     const mediaLightboxTitle = document.getElementById('media-lightbox-title');
@@ -101,21 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let particles = [];
     let animationFrameId;
 
-    // --- Hero Canvas Animation (Now Deprecated but kept for safety) ---
-    const heroCanvas = null; // No longer in use: document.getElementById('hero-particles-canvas');
-    const heroCtx = null;
-    let heroParticles = [];
-    let heroAnimationFrameId;
-
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     
-    function resizeHeroCanvas() {
-        // This function is no longer needed as the hero canvas was removed.
-    }
-
     function createParticles(config) {
         particles = [];
         if (!config || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -261,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
             packagesToRender.sort((a, b) => (b.rating || 0) - (a.rating || 0));
         }
 
-        packagesToRender.forEach(pkg => {
+        packagesToRender.forEach((pkg, index) => {
             const card = document.createElement('div');
 
             if (pkg.comingSoon) {
@@ -278,6 +268,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.className = 'package-card animate-in';
             card.dataset.id = pkg.id;
+            card.style.setProperty('--animation-delay', `${index * 50}ms`);
+
 
             const whatsappMessage = config.STRINGS[currentLang].whatsappInquiry(pkg[`title_${currentLang}`]);
             const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -393,9 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
         sponsorsGrid.innerHTML = '';
         servicesContainer.innerHTML = '';
 
-        config.DETAILS_STATS.forEach(stat => {
+        config.DETAILS_STATS.forEach((stat, index) => {
             const card = document.createElement('div');
             card.className = 'stat-card animate-in';
+            card.style.setProperty('--animation-delay', `${index * 100}ms`);
             card.innerHTML = `
                 <div class="stat-number" data-target="${stat.value}">0</div>
                 <div class="stat-label">${stat[`label_${currentLang}`]}</div>
@@ -407,19 +400,19 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="services-section">
                 <h3 class="services-title animate-in">${config.STRINGS[currentLang].servicesTitle}</h3>
                 <div class="services-grid">
-                    <div class="service-item animate-in">
+                    <div class="service-item animate-in" style="--animation-delay: 0ms;">
                         <div class="service-icon">✈️</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceAirTickets}</p>
                     </div>
-                    <div class="service-item animate-in">
+                    <div class="service-item animate-in" style="--animation-delay: 100ms;">
                         <div class="service-icon">🛂</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceVisa}</p>
                     </div>
-                    <div class="service-item animate-in">
+                    <div class="service-item animate-in" style="--animation-delay: 200ms;">
                         <div class="service-icon">🚌</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceTransport}</p>
                     </div>
-                    <div class="service-item animate-in">
+                    <div class="service-item animate-in" style="--animation-delay: 300ms;">
                         <div class="service-icon">🥐</div>
                         <p class="service-label">${config.STRINGS[currentLang].serviceBreakfast}</p>
                     </div>
@@ -428,12 +421,13 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         servicesContainer.innerHTML = servicesHTML;
 
-        config.SPONSORS.forEach(sponsor => {
+        config.SPONSORS.forEach((sponsor, index) => {
             const link = document.createElement('a');
             link.href = sponsor.url;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
             link.innerHTML = `<img src="${sponsor.logoUrl}" alt="${sponsor.name}" class="sponsor-logo animate-in">`;
+            link.querySelector('img').style.setProperty('--animation-delay', `${index * 100}ms`);
             sponsorsGrid.appendChild(link);
         });
         
@@ -469,14 +463,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
+                    const delay = entry.target.style.getPropertyValue('--animation-delay') || '0ms';
+                    setTimeout(() => {
+                        entry.target.classList.add('is-visible');
                     
-                    const statNumberEl = entry.target.querySelector('.stat-number');
-                    if (statNumberEl) {
-                        animateCountUp(statNumberEl);
-                    } else if (entry.target.matches('.stat-number')) {
-                        animateCountUp(entry.target);
-                    }
+                        const statNumberEl = entry.target.querySelector('.stat-number');
+                        if (statNumberEl) {
+                            animateCountUp(statNumberEl);
+                        } else if (entry.target.matches('.stat-number')) {
+                            animateCountUp(entry.target);
+                        }
+                    }, parseFloat(delay));
 
                     observer.unobserve(entry.target);
                 }
@@ -690,9 +687,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderReviews = () => {
         if (!reviewsGrid) return;
         reviewsGrid.innerHTML = '';
-        config.REVIEWS_DATA.forEach((review) => {
+        config.REVIEWS_DATA.forEach((review, index) => {
             const card = document.createElement('div');
             card.className = 'review-card animate-in';
+            card.style.setProperty('--animation-delay', `${index * 100}ms`);
             card.innerHTML = `
                 <p class="review-quote">“${review[`quote_${currentLang}`]}”</p>
                 <div class="review-author">
@@ -706,13 +704,15 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             reviewsGrid.appendChild(card);
         });
+        setupIntersectionObserver('.review-card.animate-in');
     };
 
     const renderHotels = () => {
         hotelGrid.innerHTML = '';
-        config.THAILAND_HOTELS.forEach(hotel => {
+        config.THAILAND_HOTELS.forEach((hotel, index) => {
             const card = document.createElement('div');
             card.className = 'hotel-card animate-in';
+            card.style.setProperty('--animation-delay', `${index * 50}ms`);
             card.innerHTML = `
                 <div class="hotel-card-images">
                     <img src="${hotel.images[0]}" alt="${hotel.name}" loading="lazy">
@@ -889,7 +889,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const handleDashboardScroll = () => {
-        if (currentView !== 'Dashboard' || !mainContent.classList.contains('hidden')) return;
+        if (currentView !== 'Dashboard' || mainContent.classList.contains('hidden')) return;
         
         const scrollY = window.scrollY;
         const scrollThreshold = window.innerHeight * 1.5;
@@ -899,6 +899,16 @@ document.addEventListener('DOMContentLoaded', () => {
             applyTheme(lightTheme, midTheme, progress * 2);
         } else {
             applyTheme(midTheme, darkTheme, (progress - 0.5) * 2);
+        }
+    };
+    
+    const handleHeroParallax = () => {
+        if (heroSection) {
+            const scrollY = window.scrollY;
+            // Apply parallax effect only when the hero is visible
+            if (scrollY < window.innerHeight) {
+                heroSection.style.backgroundPosition = `center ${scrollY * 0.5}px`;
+            }
         }
     };
 
@@ -1190,12 +1200,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
-    window.addEventListener('scroll', handleDashboardScroll);
+    window.addEventListener('scroll', () => {
+        handleDashboardScroll();
+        handleHeroParallax();
+    });
+    
 
     window.addEventListener('resize', () => {
         resizeCanvas();
-        // No longer need to resize hero canvas
     });
 
     // --- Initial Load ---
