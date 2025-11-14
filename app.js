@@ -1,4 +1,5 @@
 
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All data is now loaded from config.js ---
@@ -59,6 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutDreamstayBtn = document.getElementById('about-dreamstay-btn');
     const heroDestinationsContainer = document.querySelector('.hero-destinations');
     const filtersSection = document.getElementById('filters');
+    const heroMenuBtn = document.querySelector('.hero-menu-btn');
+    const aboutModal = document.getElementById('about-modal');
+    const aboutModalBody = document.getElementById('about-modal-body');
 
 
     // Package Controls
@@ -75,8 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let heroQuoteIntervalId;
     let reviewCarouselIntervalId;
     let currentReviewIndex = 0;
-    const heroFonts = ['var(--font-quote-1)', 'var(--font-quote-2)', 'var(--font-quote-3)', 'var(--font-quote-4)'];
-    let fontIndex = 0;
     let currentLayout = '2';
     let currentCityFilter = 'all';
     let currentSort = 'default';
@@ -655,6 +657,32 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('modal-open');
     };
 
+    const openAboutModal = () => {
+        aboutModalBody.innerHTML = `
+            <h2 id="about-modal-title">About DreamStay Tours</h2>
+            <p>Your premier partner in crafting unforgettable journeys across Asia. We specialize in creating personalized travel experiences that go beyond the ordinary, letting you travel like it’s another universe.</p>
+            <div class="about-modal-stats">
+                ${config.DETAILS_STATS.map(stat => `
+                    <div class="about-modal-stat">
+                        <div class="stat-number">${stat.value.toLocaleString()}</div>
+                        <div class="stat-label">${stat[`label_${currentLang}`]}</div>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="about-modal-contact">
+                <p><strong>Contact Us:</strong> <a href="tel:+817053729297">+81 70-5372-9297</a></p>
+                <p><strong>Address:</strong> Saitama Ken, Yashio Shi, 1 Chome-18-9, Japan</p>
+            </div>
+        `;
+        aboutModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
+    const closeAboutModal = () => {
+        aboutModal.classList.add('hidden');
+        document.body.classList.remove('modal-open');
+    };
+
     const handleCustomPlanSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(customPlanForm);
@@ -781,23 +809,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const startHeroQuoteAnimation = () => {
         if (heroQuoteIntervalId) clearInterval(heroQuoteIntervalId);
         if (!heroTitle) return;
-        
+    
         const quotes = config.HERO_QUOTES[currentLang];
         let quoteIndex = 0;
         heroTitle.textContent = quotes[quoteIndex];
-        heroTitle.style.fontFamily = heroFonts[fontIndex];
-
+    
         heroQuoteIntervalId = setInterval(() => {
             heroTitle.style.opacity = '0';
-            
+    
             setTimeout(() => {
                 quoteIndex = (quoteIndex + 1) % quotes.length;
-                fontIndex = (fontIndex + 1) % heroFonts.length;
                 heroTitle.textContent = quotes[quoteIndex];
-                heroTitle.style.fontFamily = heroFonts[fontIndex];
                 heroTitle.style.opacity = '1';
-            }, 400);
-
+            }, 400); // This should match the CSS transition duration
+    
         }, 5000);
     };
     
@@ -1110,6 +1135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!mediaLightbox.classList.contains('hidden')) closeMediaLightbox();
             if (!customPlanModal.classList.contains('hidden')) closeCustomPlanModal();
             if (!chatbotModal.classList.contains('hidden')) chatbotModal.classList.add('hidden');
+            if (!aboutModal.classList.contains('hidden')) closeAboutModal();
         }
     });
 
@@ -1186,6 +1212,17 @@ document.addEventListener('DOMContentLoaded', () => {
         aboutDreamstayBtn.addEventListener('click', () => {
             if (filtersSection) {
                 filtersSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    if (heroMenuBtn) {
+        heroMenuBtn.addEventListener('click', openAboutModal);
+    }
+    if (aboutModal) {
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target === aboutModal || e.target.closest('.modal-close-btn')) {
+                closeAboutModal();
             }
         });
     }
