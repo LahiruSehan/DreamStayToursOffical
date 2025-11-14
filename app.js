@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All data is now loaded from config.js ---
@@ -96,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Hero Canvas Animation ---
     const heroCanvas = document.getElementById('hero-particles-canvas');
-    const heroCtx = heroCanvas.getContext('2d');
+    const heroCtx = heroCanvas ? heroCanvas.getContext('2d') : null;
     let heroParticles = [];
     let heroAnimationFrameId;
 
@@ -150,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function createHeroParticles() {
+        if (!heroCanvas) return;
         heroParticles = [];
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         const count = Math.min(Math.floor(heroCanvas.width / 20), 100);
@@ -166,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function animateHeroParticles() {
+        if (!heroCtx) return;
         heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
         heroParticles.forEach(p => {
             p.x += p.vx;
@@ -251,9 +254,11 @@ document.addEventListener('DOMContentLoaded', () => {
         startReviewCarousel();
         renderChatbot();
 
-        resizeHeroCanvas();
-        createHeroParticles();
-        animateHeroParticles();
+        if (heroCanvas) {
+            resizeHeroCanvas();
+            createHeroParticles();
+            animateHeroParticles();
+        }
     };
     
     const setLanguage = (lang) => {
@@ -277,7 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const message = config.STRINGS[currentLang].whatsappMsg("");
         const url = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message.replace('"" ', ''))}`;
         stickyContactBtn.href = url;
-        heroWhatsappBtn.href = url;
+        if (heroWhatsappBtn) {
+            heroWhatsappBtn.href = url;
+        }
     };
     
     const renderPackages = () => {
