@@ -71,14 +71,33 @@
     <div id="app-wrapper" class="hidden">
         <div id="main-content">
             <header class="hero">
-                <canvas id="hero-particles-canvas"></canvas>
-                <div class="hero-content">
-                    <img src="https://i.ibb.co/r2L2HNW8/Logo-DREAMFLIGHT2.png" alt="DreamStay Tours Logo" class="hero-logo">
-                    <h1 class="hero-title" data-lang-key="heroTitle">DreamStay Tours — Travel like it’s another universe</h1>
+                <div class="hero-top-bar">
+                    <span class="hero-logo-text">DreamStay</span>
+                    <img src="https://i.ibb.co/r2L2HNW8/Logo-DREAMFLIGHT2.png" alt="DreamStay Tours Logo" class="hero-logo-main">
+                    <button class="hero-menu-btn" aria-label="Open menu">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                </div>
+            
+                <div class="hero-main-content">
+                    <div class="destinations-container">
+                        <h2 class="destinations-title">Choose Your Destination</h2>
+                        <div class="destinations-scroll">
+                            <button class="destination-card" style="background-image: url('https://travelwider.com/wp-content/uploads/2016/09/Polonnaruwa-Sri-Lanka-scaled.jpg')" aria-label="Go to Sri Lanka destinations"><span>Sri Lanka</span></button>
+                            <button class="destination-card" style="background-image: url('https://www.agoda.com/wp-content/uploads/2024/07/Featured-image-the-Sanctuary-of-Truth-in-Pattaya-Thailand.jpg')" aria-label="Go to Thailand destinations"><span>Thailand</span></button>
+                            <button class="destination-card" style="background-image: url('https://preparetravelplans.com/wp-content/uploads/2024/05/Fushimi-Inari-Shrine-Kyoto-FIS.jpg')" aria-label="Go to Japan destinations"><span>Japan</span></button>
+                            <button class="destination-card" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/8f/Batu_Caves_stairs_2022-05.jpg')" aria-label="Go to Malaysia destinations"><span>Malaysia</span></button>
+                            <button class="destination-card" style="background-image: url('https://images.hindustantimes.com/img/2022/11/06/1600x900/_098bfa70-ba9b-11e9-ab59-a9539248f706_1667733284898_1667733284898.png')" aria-label="Go to India destinations"><span>India</span></button>
+                        </div>
+                    </div>
+                    
+                    <h1 class="hero-title-main">Discover the World With Dreamstay</h1>
+                    <p class="hero-subtitle">Explore curated destinations, plan your perfect trip, and uncover the wonders of the world in just one click.</p>
+                    
                     <div class="hero-buttons">
-                        <button class="cta-primary" id="custom-plan-btn" data-lang-key="createCustomPlan">Create a Custom Plan</button>
-                        <button class="cta-secondary" id="gallery-btn" data-lang-key="seeOurTourPhotos">OUR TOUR PHOTOS</button>
-                        <a href="#" class="cta-secondary" data-lang-key="contactWhatsApp" id="hero-whatsapp-btn" target="_blank" rel="noopener noreferrer">Contact via WhatsApp</a>
+                        <!-- Using existing IDs to retain functionality -->
+                        <button class="cta-primary" id="gallery-btn">See Tour Photos</button>
+                        <button class="cta-secondary" id="custom-plan-btn">Plan a Trip</button>
                     </div>
                 </div>
             </header>
