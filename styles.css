@@ -168,15 +168,6 @@ button, a {
     to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes zoomInOut {
-    0%, 100% {
-        background-size: 100% auto;
-    }
-    50% {
-        background-size: 110% auto;
-    }
-}
-
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -228,6 +219,16 @@ button, a {
 @keyframes wave-shake {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
+}
+
+@keyframes card-shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes subtle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
 }
 
 
@@ -363,7 +364,6 @@ body.country-view .hero {
     background-image: url(https://i.ibb.co/PvkqdJCW/background.png);
     background-size: cover;
     background-position: center center;
-    animation: zoomInOut 20s ease-in-out infinite;
     color: #fff;
 }
 
@@ -372,7 +372,7 @@ body.country-view .hero {
     content: "";
     position: absolute;
     inset: 0px;
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.7) 0%, rgba(23, 23, 23, 0) 30%, rgba(240, 249, 255, 0.7) 80%, rgb(240, 249, 255) 100%);
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.7) 0%, rgba(23, 23, 23, 0) 30%, rgba(240, 249, 255, 0) 60%, rgba(240, 249, 255, 0.95) 85%, rgb(240, 249, 255) 100%);
     z-index: 1;
 }
 
@@ -385,9 +385,9 @@ body.country-view .hero {
     background-image: url(https://i.ibb.co/PvkqdJCW/background.png);
     background-size: cover;
     background-position: center center;
-    animation: zoomInOut 20s ease-in-out infinite;
     filter: blur(4px);
-    mask: linear-gradient(to bottom, 
+    transform: translateZ(0); /* Promotes to new layer to fix initial load bug */
+    -webkit-mask: linear-gradient(to bottom, 
         black 0%, 
         black 5%, 
         transparent 15%, 
@@ -395,7 +395,7 @@ body.country-view .hero {
         black 95%, 
         black 100%
     );
-    -webkit-mask: linear-gradient(to bottom, 
+    mask: linear-gradient(to bottom, 
         black 0%, 
         black 5%, 
         transparent 15%, 
@@ -453,7 +453,7 @@ body.country-view .hero {
     margin: 0 auto;
 }
 .hero-logo-main-center {
-    height: 75px; /* Increased size */
+    height: 90px;
     width: auto;
     opacity: 0.9;
     margin-bottom: 1rem;
@@ -672,15 +672,11 @@ body.country-view .hero {
     padding: 1rem 0;
     position: sticky;
     top: 0;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     z-index: 100;
     border-bottom: 1px solid var(--card-border);
     transition: background var(--transition-slow), border-color var(--transition-slow);
-}
-
-body:not([class*="theme-"]) #filters {
-    background: rgba(255, 255, 255, 0.5);
 }
 
 .filter-nav {
@@ -774,7 +770,14 @@ body.theme-thailand .filter-nav:not(#thailand-nav) {
     transform: translateY(-5px);
 }
 .stat-card.animate-in.is-visible {
-    animation: fadeInScaleUp 0.6s ease forwards;
+    background: linear-gradient(
+      90deg,
+      var(--card-bg) 0%,
+      rgba(255, 255, 255, 0.9) 50%,
+      var(--card-bg) 100%
+    );
+    background-size: 250% 100%;
+    animation: fadeInScaleUp 0.6s ease forwards, card-shine 4s linear infinite 1s;
 }
 
 .stat-number {
@@ -909,13 +912,17 @@ body.theme-thailand .filter-nav:not(#thailand-nav) {
     transition: filter var(--transition-fast), transform 0.3s ease;
 }
 
+.sponsor-logo.animate-in.is-visible {
+    animation: fadeInScaleUp 0.6s ease forwards, subtle-float 3s ease-in-out infinite;
+    animation-delay: var(--animation-delay), calc(var(--animation-delay) + 1.5s);
+}
+
 .sponsor-logo:hover {
     filter: grayscale(0%) opacity(1);
     transform: scale(1.1);
+    animation-play-state: running, paused;
 }
-.sponsor-logo.animate-in.is-visible {
-    animation: fadeInScaleUp 0.6s ease forwards;
-}
+
 
 /* --- PACKAGES GRID & CONTROLS --- */
 #package-controls {
@@ -1315,7 +1322,7 @@ body.theme-srilanka .package-card {
     gap: 1rem;
     position: sticky;
     top: 0;
-    background: rgba(15, 18, 38, 0.8);
+    background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
     z-index: 100;
     flex-shrink: 0;

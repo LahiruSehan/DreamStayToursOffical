@@ -1,5 +1,6 @@
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All data is now loaded from config.js ---
@@ -318,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const switchView = (view, forceParticles = false) => {
-        document.documentElement.style.cssText = '';
         const oldView = currentView;
         currentView = view;
 
@@ -361,7 +361,6 @@ document.addEventListener('DOMContentLoaded', () => {
              thailandHotelsSection.classList.add('hidden');
              mainFilterNav.classList.remove('hidden');
              thailandNav.classList.add('hidden');
-             handleDashboardScroll();
         }
 
         if (oldView !== view || forceParticles) {
@@ -782,9 +781,8 @@ document.addEventListener('DOMContentLoaded', () => {
         galleryPage.classList.remove('hidden');
         galleryGrid.className = 'gallery-grid columns-3';
         renderGallery();
+        document.body.className = ''; // Use default light theme
         const galleryMain = galleryPage.querySelector('main');
-        galleryMain.addEventListener('scroll', handleGalleryScroll);
-        handleGalleryScroll(); // Set initial theme
         galleryMain.scrollTo(0, 0);
     };
 
@@ -792,16 +790,11 @@ document.addEventListener('DOMContentLoaded', () => {
         galleryPage.classList.add('hidden');
         mainContent.classList.remove('hidden');
         
-        const galleryMain = galleryPage.querySelector('main');
-        galleryMain.removeEventListener('scroll', handleGalleryScroll);
-        
-        document.documentElement.style.cssText = '';
         if (currentView !== 'Dashboard') {
             const themeClass = `theme-${currentView.toLowerCase().replace(' ', '')}`;
             document.body.className = `country-view ${themeClass}`;
         } else {
             document.body.className = '';
-            handleDashboardScroll();
         }
         window.scrollTo(0, 0);
     };
@@ -876,108 +869,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const stopReviewCarousel = () => {
         clearInterval(reviewCarouselIntervalId);
-    };
-    
-    // --- Dynamic THEME SCROLL LOGIC ---
-    const lightTheme = {
-        bg: [[240, 249, 255], [204, 231, 255], [227, 242, 253]],
-        accent: [255, 112, 67], textPrimary: [13, 71, 161], textSecondary: [21, 101, 192],
-        cardBg: [255, 255, 255, 0.7], cardBorder: [0, 0, 0, 0.1], buttonText: [255, 255, 255],
-        shadowColor: [255, 112, 67, 0.4]
-    };
-    const midTheme = {
-        bg: [[58, 90, 155], [44, 72, 123], [30, 53, 90]], accent: [167, 119, 227],
-        textPrimary: [224, 216, 245], textSecondary: [168, 178, 209], cardBg: [29, 53, 87, 0.8],
-        cardBorder: [167, 119, 227, 0.2], buttonText: [255, 255, 255], shadowColor: [167, 119, 227, 0.3]
-    };
-    const darkTheme = {
-        bg: [[10, 25, 47], [2, 12, 27], [3, 11, 22]], accent: [100, 255, 218],
-        textPrimary: [204, 214, 246], textSecondary: [136, 146, 176], cardBg: [17, 34, 64, 0.85],
-        cardBorder: [100, 255, 218, 0.1], buttonText: [10, 25, 47], shadowColor: [100, 255, 218, 0.2]
-    };
-    
-    const lerp = (a, b, t) => a + (b - a) * t;
-
-    const lerpColor = (c1, c2, t) => {
-        const r = Math.round(lerp(c1[0], c2[0], t));
-        const g = Math.round(lerp(c1[1], c2[1], t));
-        const b = Math.round(lerp(c1[2], c2[2], t));
-        if (c1.length === 4 || c2.length === 4) {
-            const a = lerp(c1[3] ?? 1, c2[3] ?? 1, t);
-            return `rgba(${r}, ${g}, ${b}, ${a})`;
-        }
-        return `rgb(${r}, ${g}, ${b})`;
-    };
-
-    const applyTheme = (theme1, theme2, progress) => {
-        const bg1 = lerpColor(theme1.bg[0], theme2.bg[0], progress);
-        const bg2 = lerpColor(theme1.bg[1], theme2.bg[1], progress);
-        const bg3 = lerpColor(theme1.bg[2], theme2.bg[2], progress);
-        document.documentElement.style.setProperty('--bg', `linear-gradient(170deg, ${bg1}, ${bg2}, ${bg3})`);
-        document.documentElement.style.setProperty('--accent', lerpColor(theme1.accent, theme2.accent, progress));
-        document.documentElement.style.setProperty('--text-primary', lerpColor(theme1.textPrimary, theme2.textPrimary, progress));
-        document.documentElement.style.setProperty('--text-secondary', lerpColor(theme1.textSecondary, theme2.textSecondary, progress));
-        document.documentElement.style.setProperty('--card-bg', lerpColor(theme1.cardBg, theme2.cardBg, progress));
-        document.documentElement.style.setProperty('--card-border', lerpColor(theme1.cardBorder, theme2.cardBorder, progress));
-        document.documentElement.style.setProperty('--button-text', lerpColor(theme1.buttonText, theme2.buttonText, progress));
-        document.documentElement.style.setProperty('--shadow-color', lerpColor(theme1.shadowColor, theme2.shadowColor, progress));
-    };
-
-    const handleDashboardScroll = () => {
-        if (currentView !== 'Dashboard' || mainContent.classList.contains('hidden')) return;
-        
-        const startOffset = window.innerHeight * 0.25; // Start transition after scrolling 25% of the viewport height
-        const scrollY = window.scrollY;
-
-        if (scrollY < startOffset) {
-            applyTheme(lightTheme, lightTheme, 0); // Stay on light theme
-            return;
-        }
-
-        const scrollThreshold = window.innerHeight * 2; // Make the transition slower
-        const progress = Math.min((scrollY - startOffset) / scrollThreshold, 1);
-
-        if (progress < 0.5) {
-            applyTheme(lightTheme, midTheme, progress * 2);
-        } else {
-            applyTheme(midTheme, darkTheme, (progress - 0.5) * 2);
-        }
-    };
-    
-    const handleHeroParallax = () => {
-        if (heroSection) {
-            const scrollY = window.scrollY;
-            // Apply parallax effect only when the hero is visible
-            if (scrollY < window.innerHeight) {
-                heroSection.style.backgroundPosition = `center ${scrollY * 0.5}px`;
-            }
-        }
-    };
-
-    const handleGalleryScroll = () => {
-        if (galleryPage.classList.contains('hidden')) return;
-        const galleryMain = galleryPage.querySelector('main');
-        const scrollableHeight = galleryMain.scrollHeight - galleryMain.clientHeight;
-        if (scrollableHeight <= 0) {
-             applyTheme(lightTheme, lightTheme, 0);
-             return;
-        }
-        
-        const startOffset = 200; // Start transition after scrolling 200px
-        const scrollTop = galleryMain.scrollTop;
-
-        if (scrollTop < startOffset) {
-            applyTheme(lightTheme, lightTheme, 0);
-            return;
-        }
-
-        const progress = Math.min((scrollTop - startOffset) / (scrollableHeight - startOffset), 1);
-
-        if (progress < 0.5) {
-            applyTheme(lightTheme, midTheme, progress * 2);
-        } else {
-            applyTheme(midTheme, darkTheme, (progress - 0.5) * 2);
-        }
     };
 
     // --- Chatbot Functions ---
@@ -1262,12 +1153,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    window.addEventListener('scroll', () => {
-        handleDashboardScroll();
-        handleHeroParallax();
-    });
-    
 
     window.addEventListener('resize', () => {
         resizeCanvas();
