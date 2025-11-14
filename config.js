@@ -265,9 +265,12 @@ window.config = {
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpmav0_WCeL9nPcliIWysd9GDr2RqToMd6gQ&s"
         ],
         youtubeUrl: "https://www.youtube.com/watch?v=4I9NKPrnEOM"
-    }
+    },
 
-        "jp-loc-010": { smallImages: ["https://source.unsplash.com/400x300/?snow,monkey,hot,spring", "https://source.unsplash.com/400x300/?nagano,winter", "https://source.unsplash.com/400x300/?snow,monkey,baby"], youtubeUrl: "https://www.youtube.com/watch?v=d5YVbA6QhIM" },
+        "jp-loc-010": { smallImages: ["https://iso.500px.com/wp-content/uploads/2014/06/2048-6.jpg", "https://travel.rakuten.com/contents/sites/contents/files/styles/max_1300x1300/public/2024-01/snow-monkey-japan_6.jpg?itok=zv7kgvjR", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRcocN1MO-sQ1AIG4PzsZj01c_lGT1ZN0UDQ&s"], youtubeUrl: "https://www.youtube.com/watch?v=Aat9O85ynsI" },
+        
+        
+        
         "th-loc-001": { smallImages: ["https://source.unsplash.com/400x300/?bangkok,skyline", "https://source.unsplash.com/400x300/?mahanakhon,glass", "https://source.unsplash.com/400x300/?mahanakhon,rooftop"], youtubeUrl: "https://www.youtube.com/watch?v=tF45bEKQf4s" },
         "th-loc-002": { smallImages: ["https://source.unsplash.com/400x300/?safari,world,giraffe", "https://source.unsplash.com/400x300/?safari,world,dolphin", "https://source.unsplash.com/400x300/?safari,world,lion"], youtubeUrl: "https://www.youtube.com/watch?v=SXO3PltQBus" },
         "th-loc-003": { smallImages: ["https://source.unsplash.com/400x300/?sanctuary,of,truth,carving", "https://source.unsplash.com/400x300/?pattaya,temple,wood", "https://source.unsplash.com/400x300/?sanctuary,of,truth,detail"], youtubeUrl: "https://www.youtube.com/watch?v=F3FQfWj2J_M" },
