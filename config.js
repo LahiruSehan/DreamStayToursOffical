@@ -392,22 +392,102 @@ window.config = {
         ],
         youtubeUrl: "https://www.youtube.com/watch?v=pxmEBOo9E_g"
     },
-        "th-loc-016": { smallImages: ["https://source.unsplash.com/400x300/?ancient,city,bangkok,temple", "https://source.unsplash.com/400x300/?erawan,museum,elephant", "https://source.unsplash.com/400x300/?ancient,city,replica"], youtubeUrl: "https://www.youtube.com/watch?v=qApQz00EZbM" },
-        "th-loc-017": { smallImages: ["https://source.unsplash.com/400x300/?tiger,park", "https://source.unsplash.com/400x300/?tiger,close,up", "https://source.unsplash.com/400x300/?tiger,cubs"], youtubeUrl: "https://www.youtube.com/watch?v=3gcsgWCOO4Y" },
-        "th-loc-018": { smallImages: ["https://source.unsplash.com/400x300/?dolphin,show,jumping", "https://source.unsplash.com/400x300/?seal,performance", "https://source.unsplash.com/400x300/?dolphin,swimming"], youtubeUrl: "https://www.youtube.com/watch?v=yWUgO3A2HkU" },
-        "th-loc-019": { smallImages: ["https://source.unsplash.com/400x300/?underwater,world,ray", "https://source.unsplash.com/400x300/?aquarium,fish", "https://source.unsplash.com/400x300/?underwater,tunnel"], youtubeUrl: "https://www.youtube.com/watch?v=wX-y50Dvv1w" },
-        "th-loc-020": { smallImages: ["https://source.unsplash.com/400x300/?skydiving,freefall", "https://source.unsplash.com/400x300/?skydiving,parachute", "https://source.unsplash.com/400x300/?skydiving,plane"], youtubeUrl: "https://www.youtube.com/watch?v=ur_Cn2pcso4" },
-        "th-loc-021": { smallImages: ["https://source.unsplash.com/400x300/?baiyoke,sky,view", "https://source.unsplash.com/400x300/?bangkok,cityscape,night", "https://source.unsplash.com/400x300/?buffet,food"], youtubeUrl: "https://www.youtube.com/watch?v=l_tWd2T3g9I" },
-        "th-loc-022": { smallImages: ["https://source.unsplash.com/400x300/?asiatique,riverfront", "https://source.unsplash.com/400x300/?calypso,cabaret", "https://source.unsplash.com/400x300/?cabaret,ladyboy"], youtubeUrl: "https://www.youtube.com/watch?v=2e81T5U6jJI" },
-        "th-loc-023": { smallImages: ["https://source.unsplash.com/400x300/?siam,park,wave,pool", "https://source.unsplash.com/400x300/?amusement,park,ride", "https://source.unsplash.com/400x300/?siam,park,roller,coaster"], youtubeUrl: "https://www.youtube.com/watch?v=1Yp7o-YJIng" },
-        "th-loc-024": { smallImages: ["https://source.unsplash.com/400x300/?ice,sculpture,dome", "https://source.unsplash.com/400x300/?frost,ice,bar", "https://source.unsplash.com/400x300/?ice,slide"], youtubeUrl: "https://www.youtube.com/watch?v=3yY52yN5tLo" },
-        "th-loc-025": { smallImages: ["https://source.unsplash.com/400x300/?crocodile,farm,show", "https://source.unsplash.com/400x300/?petrified,wood,park", "https://source.unsplash.com/400x300/?crocodile,close,up"], youtubeUrl: "https://www.youtube.com/watch?v=W-rpdjPhzgs" },
+            "th-loc-015": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8CMMn8J5voiuBf-Pf8-Yn7fBxqW3iV4YBFw&s",
+            "https://ticket2thailand.com/uploads/0000/7/2025/08/11/floating-market.jpg",
+            "https://overatours.com/wp-content/uploads/2023/07/Pattaya-Floating-Market-image-05.png"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=pxmEBOo9E_g"
+    },
+    "th-loc-016": {
+        smallImages: [
+            "https://cdn.prod.rexby.com/image/511f9dac7f6049599e44db1f89c9c310?format=webp&width=1080&height=1350",
+            "https://arosieworld.com/wp-content/uploads/2024/02/DJI_20230406_151426_487-scaled-e1736246129813.jpg",
+            "https://i.ytimg.com/vi/lWQCRzokGXE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBnEOqEHfhypHrJyWDqx-90-jNJEQ"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=19ENqHAJoMA"
+    },
+    "th-loc-017": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsuoi4_vHcpZgs6vCTQ4iurLuq5z2QvDF-UA&s",
+            "https://media1.thrillophilia.com/filestore/zmozfpbuareolwvim7ucb1or3wfa_shutterstock_1163933758.jpg",
+            "https://framerusercontent.com/images/mUAgRBmyQ4DtHwSeGXKrW12HY.jpg?width=1600&height=1000"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=gw4MeOO8zVg"
+    },
+    "th-loc-018": {
+        smallImages: [
+            "https://tours.co.th/wp-content/uploads/2022/04/see-amazing-dolphins-pattaya-dolphinarium-3.jpg",
+            "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/1c/10/99/pattaya-dolphin-world.jpg?w=1200&h=-1&s=1",
+            "https://travools.com/images/trip/1667292196_6360dc2477f2c_banner.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=Wproi9tPXd4"
+    },
+    "th-loc-019": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFBWWdh7sbgbe5u1aYIp-QikfM3SZ9drI8HA&s",
+            "https://pattayacitytourcoltd.com/uploads/SightSeenImage/underwater-world-pattaya-3156.webp",
+            "https://image.kkday.com/v2/image/get/c_fit%2Cq_55%2Ct_webp%2Cw_960/s1.kkday.com/product_251502/20241011041957_Lh4ZD/jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=KFXymP4JNBw"
+    },
+    "th-loc-020": {
+        smallImages: [
+            "https://skydivingthailand.com/wp-content/uploads/2021/06/AFF_Complete-Course.jpg",
+            "https://www.skydivebangkok.in/wp-content/uploads/elementor/thumbs/Mask-Group-1421-qd0wwtckfj3m84pvqingvg4jior1pq8v7kc6bu2k44.webp",
+            "https://media1.thrillophilia.com/filestore/3gvdyxi7vxy45ljiq3yfi09tgmx5_LRM_EXPORT_20161122_182311.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=z0u6hwPvEgo"
+    },
+    "th-loc-021": {
+        smallImages: [
+            "https://static.ticket2attraction.com/gallery/7d547ebb-3717-4723-ad03-997c505558da/c1342aa9-c094-4369-bbca-a46f12ea7af8-1200.webp",
+            "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/06/d7/7a/5d.jpg",
+            "https://res.klook.com/image/upload/w_750,h_469,c_fill,q_85/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/sozdzgmj7mavmxpdxp7z.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=WrItx3cf70s"
+    },
+    "th-loc-022": {
+        smallImages: [
+            "https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=auto,quality=60,width=400,height=265,dpr=2/tour_img/453957b7eb993ca1f1da387e207860262553b1cf16ceb50bbfbb3ca54ceb2f97.jpg",
+            "https://excursionmania.com/cdn-cgi/image/quality=75,format=webp,w=auto,h=auto,fit=scale-down,trim=border/https://excursionmania.com/uploads/blog/gallery/929/1736511794.jpeg",
+            "https://i.guim.co.uk/img/media/ce4407088cf60a60e8a16690e1d508e72f1a568e/0_37_4800_2880/master/4800.jpg?width=700&quality=85&auto=format&fit=max&s=a4efb09582a88e8eff141db5a463382c"
+        ],
+        youtubeUrl: "https://youtu.be/aZJp4fLq2sk?si=mo5jr-dXKL9O2FDU&t=19"
+    },
+    "th-loc-023": {
+        smallImages: [
+            "https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_3000,h_2000/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/e4zitbztf3xzwlnxao9q/SiamAmazingParkTickets-Klook.jpg",
+            "https://powertraveller.com/wp-content/uploads/2024/08/1_bangkok-siam-amazing-park-entry-ticket-with-buffet-lunch.jpg",
+            "https://rollercoastertraveller.com/wp-content/uploads/2023/01/siam-amazing-park-november-2022-11.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=4BNAjmpBQcc"
+    },
+    "th-loc-024": {
+        smallImages: [
+            "https://media.tacdn.com/media/attractions-splice-spp-674x446/09/d1/f7/86.jpg",
+            "https://media1.thrillophilia.com/filestore/4hwviub2rxzio5wpuc5958q5ebt5_f11.png",
+            "https://aws-tiqets-cdn.imgix.net/images/content/acb592e699ea438d9c3da5e59435099a.jpeg?auto=format%2Ccompress&fit=crop&q=70"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=0Z7jjtiNzkU"
+    },
+    "th-loc-025": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrR50b3dUcnU8nGenn26leXIDqpX36DhILow&s",
+            "https://pattayacitytourcoltd.com/uploads/SightSeenImage/the-million-years-stone-park-pattaya-crocodile-farm-5712.jpg",
+            "https://media-cdn.tripadvisor.com/media/photo-s/02/1e/08/4b/filename-ivan-30-6-a.jpg"
+        ],
+        youtubeUrl: "https://youtu.be/5VrSwcs-2is?si=v0QfZOZMazcKJBuG&t=44"
+    },
         
         "my-loc-001": { smallImages: ["https://source.unsplash.com/400x300/?petronas,towers,night", "https://source.unsplash.com/400x300/?kuala,lumpur,skybridge", "https://source.unsplash.com/400x300/?petronas,towers,day"], youtubeUrl: "https://www.youtube.com/watch?v=T_4-b-3s_g0" },
         "my-loc-002": { smallImages: ["https://source.unsplash.com/400x300/?batu,caves,stairs", "https://source.unsplash.com/400x300/?batu,caves,temple", "https://source.unsplash.com/400x300/?batu,caves,monkey"], youtubeUrl: "https://www.youtube.com/watch?v=2MH84k0fH5A" },
         "my-loc-003": { smallImages: ["https://source.unsplash.com/400x300/?genting,cable,car", "https://source.unsplash.com/400x300/?genting,theme,park", "https://source.unsplash.com/400x300/?genting,highlands,view"], youtubeUrl: "https://www.youtube.com/watch?v=WbflRkG-T6s" },
         "my-loc-004": { smallImages: ["https://source.unsplash.com/400x300/?sunway,lagoon,water", "https://source.unsplash.com/400x300/?sunway,lagoon,bridge", "https://source.unsplash.com/400x300/?sunway,lagoon,ride"], youtubeUrl: "https://www.youtube.com/watch?v=cTwV82Mv_HI" },
-       
+
+
+        
         "in-loc-001": { smallImages: ["https://source.unsplash.com/400x300/?san,thome,basilica,interior", "https://source.unsplash.com/400x300/?chennai,church", "https://source.unsplash.com/400x300/?san,thome,basilica,exterior"], youtubeUrl: "https://www.youtube.com/watch?v=jW0a4i_jAfY" },
         "in-loc-002": { smallImages: ["https://source.unsplash.com/400x300/?marina,beach,sunset", "https://source.unsplash.com/400x300/?chennai,beach,people", "https://source.unsplash.com/400x300/?marina,beach,sand"], youtubeUrl: "https://www.youtube.com/watch?v=kC-v_44qaA4" },
         "in-loc-003": { smallImages: ["https://source.unsplash.com/400x300/?st,thomas,mount,view", "https://source.unsplash.com/400x300/?chennai,city,view", "https://source.unsplash.com/400x300/?st,thomas,mount,church"], youtubeUrl: "https://www.youtube.com/watch?v=t0yNqCgwvYg" },
