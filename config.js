@@ -126,7 +126,7 @@ window.config = {
         "sl-loc-009": ['https://travelwider.com/wp-content/uploads/2016/09/Polonnaruwa-Sri-Lanka-scaled.jpg'],
         "sl-loc-010": ['https://upload.wikimedia.org/wikipedia/commons/0/0a/Sri_Lankan_elephants_%28Elephas_maximus_maximus%29.jpg'],
         "sl-loc-011": ['https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=auto,quality=60,width=400,height=265,dpr=2/tour_img/efaa22274fcbe304a934f2fb6ec1d7d2619d89795dac7c5a3a26aa7d72853f9a.jpg'],
-        "sl-loc-012": ['https://lakpura.com/cdn/shop/files/LK15006534-07-E.jpg?v=1695706990&width=1445']
+        "sl-loc-012": ['https://lakpura.com/cdn/shop/files/LK15006534-07-E.jpg?v=1695706990&width=1445'],
 
         // Japan
         "jp-loc-001": ['https://preparetravelplans.com/wp-content/uploads/2024/05/Fushimi-Inari-Shrine-Kyoto-FIS.jpg'],
