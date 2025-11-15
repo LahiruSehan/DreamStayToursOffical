@@ -14,9 +14,9 @@ window.packagesConfig = {
             title_en: 'Cultural Package',
             title_si: 'සංස්කෘතික පැකේජය',
             title_ja: '文化パッケージ',
-            desc_en: 'Immerse yourself in the rich history and traditions of Asia. Visit ancient temples, majestic ruins, and UNESCO World Heritage sites.',
-            desc_si: 'ආසියාවේ පොහොසත් ඉතිහාසය සහ සම්ප්‍රදායන්හි ගිලෙන්න. පුරාණ විහාරස්ථාන, තේජාන්විත නටබුන් සහ යුනෙස්කෝ ලෝක උරුම ස්ථාන වෙත පිවිසෙන්න.',
-            desc_ja: 'アジアの豊かな歴史と伝統に浸ってください。古代の寺院、雄大な遺跡、ユネスコ世界遺産を訪れます。'
+            desc_en: "Explore Asia's rich history, ancient temples, majestic ruins, and UNESCO World Heritage sites.",
+            desc_si: 'ආසියාවේ පොහොසත් ඉතිහාසය, පුරාණ විහාරස්ථාන, තේජාන්විත නටබුන් සහ යුනෙස්කෝ ලෝක උරුම ස්ථාන ගවේෂණය කරන්න.',
+            desc_ja: 'アジアの豊かな歴史、古代寺院、壮大な遺跡、ユネスコ世界遺産を探索してください。'
         },
         {
             id: 'adventure',
@@ -25,9 +25,9 @@ window.packagesConfig = {
             title_en: 'Adventure & Water Sports',
             title_si: 'ත්‍රාසජනක සහ ජල ක්‍රීඩා',
             title_ja: 'アドベンチャー＆ウォータースポーツ',
-            desc_en: 'For the thrill-seekers! Enjoy everything from jungle safaris and sky diving to exciting water parks and beach activities.',
-            desc_si: 'ත්‍රාසය සොයන්නන් සඳහා! කැලෑ සෆාරි සහ අහස් කිමිදීමේ සිට සිත් ඇදගන්නාසුළු ජල උද්‍යාන සහ වෙරළ ක්‍රියාකාරකම් දක්වා සියල්ල භුක්ති විඳින්න.',
-            desc_ja: 'スリルを求める人のために！ジャングルサファリやスカイダイビングから、エキサイティングなウォーターパークやビーチアクティビティまで、すべてをお楽しみください。'
+            desc_en: 'For thrill-seekers! Enjoy jungle safaris, sky diving, exciting water parks, and beach activities.',
+            desc_si: 'ත්‍රාසය සොයන්නන් සඳහා! කැලෑ සෆාරි, අහස් කිමිදීම, සිත් ඇදගන්නාසුළු ජල උද්‍යාන සහ වෙරළ ක්‍රියාකාරකම් භුක්ති විඳින්න.',
+            desc_ja: 'スリルを求める人のために！ジャングルサファリ、スカイダイビング、エキサイティングなウォーターパーク、ビーチアクティビティをお楽しみください。'
         },
         {
             id: 'honeymoon',
@@ -36,9 +36,9 @@ window.packagesConfig = {
             title_en: 'Honeymoon Package',
             title_si: 'මධුසමය පැකේජය',
             title_ja: 'ハネムーンパッケージ',
-            desc_en: 'Celebrate your love with a romantic getaway. Enjoy scenic views, candlelight dinners, and unforgettable moments together.',
-            desc_si: 'ආදර චාරිකාවකින් ඔබේ ආදරය සමරන්න. සුන්දර දසුන්, ඉටිපන්දම් එළියෙන් රාත්‍රී භෝජන සංග්‍රහ සහ අමතක නොවන අවස්ථා එකට භුක්ති විඳින්න.',
-            desc_ja: 'ロマンチックな休暇であなたの愛を祝いましょう。美しい景色、キャンドルライトディナー、そして忘れられない瞬間を一緒に楽しんでください。'
+            desc_en: 'A romantic getaway to celebrate your love. Enjoy scenic views, candlelight dinners, and unforgettable moments.',
+            desc_si: 'ඔබේ ආදරය සැමරීම සඳහා რომანතික ගමනක්. සුන්දර දසුන්, ඉටිපන්දම් එළියෙන් රාත්‍රී භෝජන සංග්‍රහ සහ අමතක නොවන අවස්ථා භුක්ති විඳින්න.',
+            desc_ja: 'あなたの愛を祝うロマンチックな休暇。美しい景色、キャンドルライトディナー、そして忘れられない瞬間をお楽しみください。'
         },
         {
             id: 'wellness',
@@ -47,9 +47,9 @@ window.packagesConfig = {
             title_en: 'Wellness & Ayurveda',
             title_si: 'සුවතාවය සහ ආයුර්වේදය',
             title_ja: 'ウェルネス＆アーユルヴェーダ',
-            desc_en: 'Relax and rejuvenate your mind, body, and soul. Experience traditional Ayurvedic treatments, yoga retreats, and serene nature escapes.',
+            desc_en: 'Relax and rejuvenate your mind, body, and soul. Experience traditional Ayurveda, yoga, and serene nature escapes.',
             desc_si: 'ඔබේ මනස, ශරීරය සහ ආත්මය සැහැල්ලු කර පුනර්ජීවනය කරන්න. සාම්ප්‍රදායික ආයුර්වේද ප්‍රතිකාර, යෝගා විවේක සහ සන්සුන් ස්වභාවික ගැලවීම් අත්විඳින්න.',
-            desc_ja: '心、体、魂をリラックスさせて若返らせましょう。伝統的なアーユルヴェーダトリートメント、ヨガリトリート、そして穏やかな自然からの脱出を体験してください。'
+            desc_ja: '心、体、魂をリラックスさせて若返らせましょう。伝統的なアーユルヴェーダ、ヨガ、そして穏やかな自然からの脱出を体験してください。'
         }
     ]
 };
