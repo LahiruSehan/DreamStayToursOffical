@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- State ---
     let currentLang = 'en';
-    let selectedLang = 'en';
     let audioContextUnlocked = false;
     let currentView = 'Dashboard';
     let heroQuoteIntervalId;
@@ -209,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const createSakuraPetals = () => {
         if (!sakuraContainer) return;
         const petalCount = 75;
-        const petalImage = 'https://i.ibb.co/ymK8Dcdz/Pngtree-a-single-delicate-pink-cherry-23112589.png';
+        const petalImage = 'https://i.ibb.co/ymK8Dcdz/Pngtree-a_single_delicate_pink_cherry-23112589.png';
         for (let i = 0; i < petalCount; i++) {
             const petal = document.createElement('img');
             petal.src = petalImage;
@@ -228,12 +227,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initPreloaderAnimation = () => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            langModal.classList.remove('hidden');
+            langButtonsContainer.classList.remove('hidden');
+            langButtons.forEach(btn => btn.style.opacity = 1);
             return;
         }
     
         createSakuraPetals();
-        langModal.classList.add('hidden'); // Hide language modal initially
+        langButtonsContainer.parentElement.classList.add('hidden'); // Hide language modal initially
         
         setTimeout(() => {
             progressContainer.classList.remove('hidden');
@@ -248,12 +248,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     progressContainer.style.opacity = '0';
                     setTimeout(() => {
                         progressContainer.classList.add('hidden');
-                        langModal.classList.remove('hidden');
-                        langModal.classList.add('buttons-only');
-                        langModal.style.animation = 'fadeInScaleUp 0.5s ease forwards';
+                        langButtonsContainer.parentElement.classList.remove('hidden');
+                        langButtons.forEach((btn, index) => {
+                            btn.style.animation = `button-fade-in-up 0.5s ease ${index * 0.15}s forwards`;
+                        });
                     }, 500);
                 }
-            }, 30); // 30ms * 100 = 3000ms = 3 seconds
+            }, 50); // 50ms * 100 = 5000ms = 5 seconds
         }, 1500); // Wait 1.5s for logo to animate in
     };
     
@@ -262,22 +263,27 @@ document.addEventListener('DOMContentLoaded', () => {
         initPreloaderAnimation();
     };
 
-    const startApp = () => {
+    const startApp = (selectedLanguage) => {
+        // If the selected language differs from the pre-rendered one (English), re-render content
+        if (selectedLanguage !== 'en') {
+            setLanguage(selectedLanguage);
+            renderFAQ();
+            renderReviews();
+            renderDashboard();
+            // Chatbot is okay, it gets re-translated by setLanguage
+        }
+    
         preloader.classList.add('fade-out');
         setTimeout(() => {
             preloader.classList.add('hidden');
         }, 500);
-
+    
         appWrapper.classList.remove('hidden');
-        setLanguage(selectedLang);
-
-        renderFAQ();
-        renderReviews();
-        renderDashboard();
+        document.body.classList.add('app-loaded'); // Signals that the main app is visible now
+    
         switchView('Dashboard', true);
         startHeroQuoteAnimation();
         startReviewCarousel();
-        renderChatbot();
     };
     
     const setLanguage = (lang) => {
@@ -1111,14 +1117,11 @@ document.addEventListener('DOMContentLoaded', () => {
             playAudio();
         }
 
-        selectedLang = btn.dataset.lang;
+        const selectedLang = btn.dataset.lang;
         langButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        // Don't call startApp directly, let the preloader animation finish
-        // The animation will call startApp.
-        // Correction: User click should trigger startApp.
-        startApp();
+        startApp(selectedLang);
     });
     
     backgroundMusic.addEventListener('error', (e) => {
@@ -1422,6 +1425,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Initial Load ---
+    const preRenderContent = () => {
+        // This populates the main app content with a default language
+        // while it's hidden, so the browser can start fetching images.
+        setLanguage('en');
+        renderFAQ();
+        renderReviews();
+        renderDashboard();
+        renderChatbot();
+    };
+
     resizeCanvas();
-    showPreloader();
+    preRenderContent(); // Load content in the background first
+    showPreloader(); // Then start the visual preloader
 });
