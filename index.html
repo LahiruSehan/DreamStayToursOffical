@@ -33,13 +33,14 @@
 
   <!-- ⚙️ Scripts -->
   <script src="config.js" defer></script>
+  <script src="packages-config.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 
 <body>
     <!-- Background Music -->
     <audio id="background-music" loop>
-      <source src="Score Suite.mp3" type="audio/mpeg">
+      <source src="ScoreSuite.mp3" type="audio/mpeg">
       Your browser does not support the audio element.
     </audio>
 
@@ -94,7 +95,7 @@
                     
                     <div class="hero-buttons">
                         <button class="cta-secondary" id="gallery-btn">See Tour Photos</button>
-                        <button class="cta-secondary" id="custom-plan-btn">Plan a Trip</button>
+                        <button class="cta-secondary" id="packages-builder-btn">Packages</button>
                         <a href="#" id="hero-whatsapp-btn" class="cta-secondary" target="_blank" rel="noopener noreferrer">WhatsApp</a>
                         <button class="cta-secondary" id="about-dreamstay-btn">About Dreamstay</button>
                     </div>
@@ -299,43 +300,6 @@
             <h3 id="media-lightbox-title" class="lightbox-title"></h3>
         </div>
     </div>
-
-    <!-- Custom Plan Modal -->
-    <div id="custom-plan-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="custom-plan-title">
-        <div class="modal-content">
-            <button class="modal-close-btn" aria-label="Close custom plan form">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            <h2 id="custom-plan-title" data-lang-key="customPlanTitle">Create Your Custom Dream Trip</h2>
-            <form id="custom-plan-form" novalidate>
-                <div class="form-group">
-                    <label for="name" data-lang-key="formName">Full Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="travelers" data-lang-key="formTravelers">Number of Travelers</label>
-                    <input type="number" id="travelers" name="travelers" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="destinations" data-lang-key="formDestinations">Desired Destinations</label>
-                    <input type="text" id="destinations" name="destinations" required>
-                </div>
-                <div class="form-group">
-                    <label for="budget" data-lang-key="formBudget">Budget per Person (USD)</label>
-                    <input type="text" id="budget" name="budget">
-                </div>
-                <div class="form-group">
-                    <label for="dates" data-lang-key="formDates">Preferred Travel Dates</label>
-                    <input type="text" id="dates" name="dates">
-                </div>
-                <div class="form-group">
-                    <label for="notes" data-lang-key="formNotes">Additional Notes</label>
-                    <textarea id="notes" name="notes" rows="3"></textarea>
-                </div>
-                <button type="submit" class="cta-primary" data-lang-key="formSubmitBtn" style="width:100%; margin-top: 1rem;">Get a Quote</button>
-            </form>
-        </div>
-    </div>
     
     <!-- Chatbot Modal -->
     <div id="chatbot-modal" class="chatbot-modal hidden" role="dialog" aria-modal="true" aria-labelledby="chatbot-title">
@@ -353,8 +317,46 @@
         </div>
     </div>
 
+    <!-- NEW Packages Builder Modal -->
+    <div id="packages-builder-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="packages-builder-title">
+      <div class="packages-builder-content">
+        <header class="packages-builder-header">
+          <h2 id="packages-builder-title">Build Your Dream Package</h2>
+          <button class="modal-close-btn" aria-label="Close package builder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </header>
+        <div class="packages-builder-body">
+          <!-- Content will be injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- NEW Cart Modal -->
+    <div id="cart-modal" class="cart-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+        <div class="cart-modal-content">
+            <div class="cart-modal-header">
+                <h3 id="cart-title">Your Custom Plan</h3>
+                <button class="modal-close-btn" aria-label="Close your plan">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div id="cart-modal-body" class="cart-modal-body">
+                <!-- Cart items will be injected here -->
+            </div>
+            <div class="cart-modal-footer">
+                <button id="cart-clear-btn" class="cta-danger">Clear All</button>
+                <button id="cart-send-btn" class="cta-primary">Send to WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Sticky Action Buttons -->
     <div class="sticky-actions-container fab-hidden">
+        <button id="cart-fab" class="cart-fab hidden" aria-label="View your custom plan">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <span id="cart-count-badge" class="cart-count-badge">0</span>
+        </button>
         <button id="currency-switcher-btn" class="currency-switcher-btn" aria-label="Switch currency">
             USD
         </button>
