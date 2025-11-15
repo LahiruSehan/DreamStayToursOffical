@@ -323,10 +323,11 @@ window.config = {
     "th-loc-007": {
         smallImages: [
             "https://iirorwxhqnlmln5m.ldycdn.com/cloud/lkBpiKqollSRnkkpqnrmjp/IMG_20230420_095759-480-480.jpg",
-            "https://visitnj.org/sites/default/files/AAQ_ATTRACTION_HISTORY_Family%20Shark%20Tunnel.jpg",
-            "https://toronto.iabc.to/wp-content/uploads/2023/05/Ripleys-Aquarium-of-Canada-underwater-tunnel-shark_Attractions_Image.jpg"
+            "https://www.nywaterway.com/UserFiles/Images/2019/YKTTC/MadameTussaud/MT1.jpg,
+            "https://evanevanstours.com/blog/wp-content/uploads/2018/04/madame-tussaud-s-london-unveils-the-wax-figure-of-president-elect-donald-j.-trump-just-days-ahead-of-the-americans-official-presidential-inauguration-in-washington.-london.-britain.jpg"
         ],
-        youtubeUrl: "https://www.youtube.com/watch?v=ElNPIAJvlsE"
+        youtubeUrl: "https://www.youtube.com/watch?v=ElNPIAJvlsE",
+        youtubeUrl: "https://www.youtube.com/watch?v=H_wKqZgPVGY"
     },
     "th-loc-008": {
         smallImages: [
