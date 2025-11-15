@@ -2,6 +2,7 @@
 
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All data is now loaded from config.js ---
@@ -95,6 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCurrencyIndex = 0;
     let hotelsRendered = false;
     let customPackageCart = [];
+    const seeMoreTranslations = {
+        en: "See More",
+        si: "තව බලන්න",
+        ja: "もっと見る"
+    };
 
     // --- New Gallery Data ---
     const TOTAL_TOUR_IMAGES = 107;
@@ -291,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const cardButtonHTML = isComingSoon
                 ? `<span class="card-notice-coming-soon">${config.STRINGS[currentLang].comingSoonNotice}</span>`
-                : `<div class="card-button">${config.STRINGS[currentLang].viewDetails}</div>`;
+                : `<div class="card-button">${seeMoreTranslations[currentLang]}</div>`;
             
             card.innerHTML = `
                 <div class="card-image-container">
