@@ -94,30 +94,170 @@ window.config = {
         { "id": "th-loc-024", "country": "Thailand", "city": "Pattaya", "title_en": "Frost Magical Ice of Siam", "title_si": "Frost Magical Ice of Siam", "title_ja": "フロスト・マジカル・アイス・オブ・サイアム", "short_desc_en": "Escape the heat in a -10°C dome of ice sculptures.", "short_desc_si": "අයිස් මූර්තිවල -10°C ගෝලාකාරයේ තාපයෙන් ගැලවෙන්න.", "short_desc_ja": "氷の彫刻の-10°Cのドームで暑さから逃れます。", "rating": 4.1, "desc_en": "Escape the tropical heat of Pattaya and step into an arctic wonderland at Frost Magical Ice of Siam. This unique attraction features two distinct zones: ❄️\n\n**The Himmapan Zone:** An outdoor area showcasing stunning, large-scale white sand sculptures inspired by Thai and Hindu literature creatures. 🗿\n\n**Siam Heaven (Ice Dome):** Put on a provided heavy coat and enter a massive dome kept at a chilling -10°C. Inside, you'll find incredible ice sculptures of tuk-tuks, temples, and mythical creatures, an ice bar, and even an ice slide. 🥶\n\nIt's a cool and unforgettable experience, offering a fun break from the usual beach activities.", "desc_si": "Sinhala translation coming soon.", "desc_ja": "Japanese translation coming soon." },
         { "id": "th-loc-025", "country": "Thailand", "city": "Pattaya", "title_en": "Million Year Stone Park & Crocodile Farm", "title_si": "Million Year Stone Park & Crocodile Farm", "title_ja": "百万年石公園＆クロコダイルファーム", "short_desc_en": "See ancient rock formations and thrilling crocodile shows.", "short_desc_si": "පුරාණ පාෂාණ සැකැස්ම සහ ත්‍රාසජනක කිඹುල් සංදර්ශන බලන්න.", "short_desc_ja": "古代の岩石層とスリリングなワニのショーをご覧ください。", "rating": 4.2, "desc_en": "This unique park offers a fascinating combination of natural beauty and animal encounters. It's a great attraction for families and anyone interested in nature and wildlife. 🐊\n\n**Main Features:**\n* **Million Years Stone Park:** Wander through beautifully landscaped gardens featuring bizarre and magnificent rock formations, some of which are millions of years old. You'll also see a collection of ancient petrified wood. 🌳\n* **Crocodile Farm:** The park is home to thousands of crocodiles. Don't miss the thrilling live shows where trainers perform daring stunts with these powerful reptiles, including putting their heads inside a crocodile's mouth! 😱\n* **Exotic Zoo:** Besides crocodiles, the park also has other animals like white tigers, elephants, and bears.", "desc_si": "Sinhala translation coming soon.", "desc_ja": "Japanese translation coming soon." },
 
-    // --- Malaysia (Now 10 Locations) ---
-    { id: "my-loc-001", country: "Malaysia", city: "Kuala Lumpur", rating: 4.8, title_en: "Petronas Twin Towers", title_si: "Petronas Twin Towers", short_desc_en: "Iconic twin skyscrapers with a sky bridge.", desc_en: "The jewel of Kuala Lumpur's skyline, these 88-story twin structures are an architectural marvel. Visit the Skybridge and Observation Deck for stunning city views. 🏙️", short_desc_si: "අහස් පාලමක් සහිත සංකේතාත්මක නිවුන් අහස් ගොඩනැගිලි.", desc_si: "Sinhala translation coming soon.", title_ja: "ペトロナスツインタワー", short_desc_ja: "スカイブリッジのある象徴的なツインタワー。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-002", country: "Malaysia", city: "Near KL", rating: 4.7, title_en: "Batu Caves", title_si: "Batu Caves", short_desc_en: "A limestone hill with a series of caves and temples.", desc_en: "A sacred Hindu site featuring a giant golden statue of Lord Murugan at the entrance. Climb the 272 colorful steps to explore the main temple cave. 🕉️", short_desc_si: "ලෙන් සහ කෝවිල් මාලාවක් සහිත හුණුගල් කන්දක්.", desc_si: "Sinhala translation coming soon.", title_ja: "バトゥ洞窟", short_desc_ja: "一連の洞窟と寺院がある石灰岩の丘。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-003", country: "Malaysia", city: "Genting Highlands", rating: 4.6, title_en: "Genting Highlands & SkyWay Cable Car", title_si: "Genting Highlands & SkyWay Cable Car", short_desc_en: "Cool mountain resort with theme parks and cable car.", desc_en: "Escape the city heat at this integrated hill resort. Enjoy the Awana SkyWay two-way cable car ride over the rainforest and explore the Genting SkyWorlds Theme Park. 🚠", short_desc_si: "තේමා උද්‍යාන සහ කේබල් කාර් සහිත සිසිල් කඳු නිකේතනය.", desc_si: "Sinhala translation coming soon.", title_ja: "ゲンティンハイランド＆スカイウェイケーブルカー", short_desc_ja: "テーマパークとケーブルカーがある涼しい山岳リゾート。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-004", country: "Malaysia", city: "Subang Jaya", rating: 4.7, title_en: "Sunway Lagoon", title_si: "Sunway Lagoon", short_desc_en: "A massive theme park with over 90 attractions.", desc_en: "A one-stop fun destination with 6 different parks: Water Park, Amusement Park, Wildlife Park, Extreme Park, Scream Park, and Nickelodeon Lost Lagoon. 🎢", short_desc_si: "ආකර්ෂණ 90කට අධික දැවැන්ත තේමා උද්‍යානයක්.", desc_si: "Sinhala translation coming soon.", title_ja: "サンウェイラグーン", short_desc_ja: "90以上のアトラクションがある巨大なテーマパーク。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-005", country: "Malaysia", city: "Langkawi", rating: 4.6, title_en: "Langkawi Sky Bridge", title_si: "Langkawi Sky Bridge", short_desc_en: "A curved pedestrian bridge above the rainforest.", desc_en: "Walk across this stunning 125-meter-long curved cable-stayed bridge, offering magnificent panoramic views of the Andaman Sea and the lush islands below. 🌉", short_desc_si: "වැසි වනාන්තරය මතින් වැටුණු වක්‍ර පදික පාලමක්.", desc_si: "Sinhala translation coming soon.", title_ja: "ランカウイスカイブリッジ", short_desc_ja: "熱帯雨林の上にある湾曲した歩道橋。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-006", country: "Malaysia", city: "Sabah", rating: 4.8, title_en: "Mount Kinabalu", title_si: "Mount Kinabalu", short_desc_en: "Southeast Asia's highest peak, a popular climbing destination.", desc_en: "A majestic mountain and UNESCO World Heritage site known for its rich biodiversity and challenging summit climb. The surrounding park is equally stunning. ⛰️", short_desc_si: "අග්නිදිග ආසියාවේ උසම කඳු මුදුන, ජනප්‍රිය කඳු නැගීමේ ගමනාන්තයකි.", desc_si: "Sinhala translation coming soon.", title_ja: "キナバル山", short_desc_ja: "東南アジア最高峰、人気の登山先。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-007", country: "Malaysia", city: "Terengganu", rating: 4.7, title_en: "Perhentian Islands", title_si: "Perhentian Islands", short_desc_en: "Pristine islands famous for snorkeling and diving.", desc_en: "A tropical paradise with crystal clear waters and white sandy beaches. Great for marine enthusiasts wanting to see turtles, sharks, and colorful coral reefs. 🐠", short_desc_si: "ස්නෝකර්ලිං සහ කිමිදීම සඳහා ප්‍රසිද්ධ නිර්මල දූපත්.", desc_si: "Sinhala translation coming soon.", title_ja: "プルフティアン諸島", short_desc_ja: "シュノーケリングやダイビングで有名な手付かずの島々。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-008", country: "Malaysia", city: "Malacca", rating: 4.5, title_en: "Historical City of Malacca", title_si: "Historical City of Malacca", short_desc_en: "A historic port city with colonial architecture.", desc_en: "A UNESCO World Heritage site featuring colorful buildings, unique Peranakan culture, and remnants of Dutch and Portuguese rule, especially along Jonker Street. 🏘️", short_desc_si: "යටත් විජිත ගෘහ නිර්මාණ ශිල්පය සහිත ඓතිහාසික වරාය නගරයකි.", desc_si: "Sinhala translation coming soon.", title_ja: "マラッカ歴史都市", short_desc_ja: "植民地時代の建築様式を持つ歴史的な港湾都市。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-009", country: "Malaysia", city: "Penang", rating: 4.7, title_en: "Kek Lok Si Temple", title_si: "Kek Lok Si Temple", short_desc_en: "One of the largest and most beautiful Buddhist temples in Southeast Asia.", desc_en: "Known for its towering seven-story Pagoda of Ten Thousand Buddhas and magnificent gardens, this temple complex is a major pilgrimage center. 🏯", short_desc_si: "අග්නිදිග ආසියාවේ විශාලතම සහ ලස්සනම බෞද්ධ විහාරස්ථානයකි.", desc_si: "Sinhala translation coming soon.", title_ja: "極楽寺", short_desc_ja: "東南アジアで最大かつ最も美しい仏教寺院の1つ。", desc_ja: "Japanese translation coming soon." },
-    { id: "my-loc-010", country: "Malaysia", city: "Sabah", rating: 4.6, title_en: "Sepilok Orangutan Centre", title_si: "Sepilok Orangutan Centre", short_desc_en: "A sanctuary for orphaned and rescued orangutans.", desc_en: "Observe these incredible creatures in their natural habitat as they are rehabilitated for release back into the wild. A moving experience focused on conservation. 🐒", short_desc_si: "අනාථ වූ සහ බේරාගත් ඔරංඋටන්වරුන් සඳහා අභයභූමියකි.", desc_si: "Sinhala translation coming soon.", title_ja: "セピロクオランウータンセンター", short_desc_ja: "孤児と救助されたオランウータンのための保護区。", desc_ja: "Japanese translation coming soon." },
+ // Malaysian Locations (my-loc-001 to my-loc-010)
+    "my-loc-001": {
+        smallImages: [
+            "https://perthtravelers.com/wp-content/uploads/2020/05/kuala-lumpur-fountain.webp",
+            "https://images.goway.com/production/hero/iStock-1369278039.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIqyPN8DXzE30McFJ4MV4FomBl4F-h9pN39Q&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=WdP0AsWgTgo"
+    },
+    "my-loc-002": {
+        smallImages: [
+            "https://lakshmisharath.com/wp-content/uploads/2020/07/batucaves.jpg",
+            "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/13/63/91/34.jpg",
+            "https://cdn.getyourguide.com/image/format=auto,fit=crop,gravity=auto,quality=60,width=400,height=265,dpr=2/tour_img/0f932749f56c01e4bce3fc5d70cfbffc6a8795ad75f2e08039b3cafb643c9b47.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=FUFJnVsDpiY"
+    },
+    "my-loc-003": {
+        smallImages: [
+            "https://www.shutterstock.com/shutterstock/videos/3926108945/thumb/1.jpg?ip=x480",
+            "https://www.rwgenting.com/content/dam/approved/rw-genting/iholiday/transport/genting-highlands-premium-outlets-cable-car/v1/720x720-ghpocc.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmcggCMXxkmA-IInrOCIan7cFo_vHlB22lz2FDnBjZXKXCipvzfLqqbTL1061oZrKvfwc&usqp=CAU"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=dG8yBlhsPbc"
+    },
+    "my-loc-004": {
+        smallImages: [
+            "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/0a/75/3d/55.jpg",
+            "https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630/w_80,x_15,y_15,g_south_west,l_Klook_water_br_trans_yhcmh3/activities/tj4j2ytl230eeeyqbidg/SunwayLagoonTicketwithRoundTripSharedTransferwithinKLCityArea-KlookHongKong.jpg",
+            "https://causewaylinkholidays.com/wp-content/uploads/2020/02/SUNWAY_LAGOON-01.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=5b322lELF2w"
+    },
+    "my-loc-005": {
+        smallImages: [
+            "https://images.says.com/uploads/story_source/source_image/1241563/9973.jpg",
+            "https://media.istockphoto.com/id/155395541/photo/skybridge-scenic-view.jpg?s=612x612&w=0&k=20&c=5QRc-WGwMo7TzcRXvayF-Jlpz4VlmyVDTm--BxYoHJs=",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvsKC83i5iypy6uvk5leP0_hnUVY3HfEG7Bg&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=Iw5b5Ki4_kY"
+    },
+    "my-loc-006": {
+        smallImages: [
+            "https://www.amazingborneo.com/uploads/images/packages/387/medium/mtk-(11).jpg",
+            "https://cdn.bookatrekking.com/data/images/2020/02/shutterstock-586259927.webp",
+            "https://cdn.i-scmp.com/sites/default/files/styles/1020x680/public/d8/images/methode/2019/07/21/14f557d0-a9f2-11e9-862b-600d112f3b14_image_hires_163321.jpg?itok=wx6QUuLU&v=1563698022"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=RUQckeK7PG0"
+    },
+    "my-loc-007": {
+        smallImages: [
+            "https://dimg04.tripcdn.com/images/0M73612000noleuvh3A92_Q60.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS64RU7Axs_exCqqZzcB9y_EiBQ8T1tt57jfg&s",
+            "https://afuncouple.com/wp-content/uploads/2025/05/Guide-to-the-Perhentian-Islands-in-Malaysia-8-683x1024.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=Qip3CIXiCOk"
+    },
+    "my-loc-008": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3WJtZ7q3cJvdrX1Ng2l-szDVoFPgBaHwBvw&s",
+            "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/07/c0/4b/cd.jpg",
+            "https://cdn.travelersuniverse.com/media/historical-city-of-malacca-exploring-a-world-heritage-site-d335-130691P12-5.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=dpvDH3mzjbs"
+    },
+    "my-loc-009": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1hdyTIMqCvNM7KcX7B5hWVdLjtVguCfyvPA&s",
+            "https://i2.wp.com/hotel.burmahtel.com/wp-content/uploads/2022/02/52348598_1214181352066949_7329912795861252768_n.jpg?resize=640%2C479",
+            "https://c.stocksy.com/a/XjTD00/z9/3212563.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=meaiX6TXZ4w"
+    },
+    "my-loc-010": {
+        smallImages: [
+            "https://d244bobtshbp4.cloudfront.net/_885xAUTO_crop_center-center_none_ns/Outdoor-Nursery-2.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaaqkmyFBosXyxuF-pTIXv5Kn0xz8yOGZ6Pw&s",
+            "https://girlonazebra.com/wp-content/uploads/2025/06/IMG_0697-576x1024.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=Y__TYLToGRs"
+    },
 
-    // --- India (10 Locations) ---
-    { id: "in-loc-001", country: "India", city: "Chennai", rating: 4.8, title_en: "San Thome Basilica", title_si: "San Thome Basilica", short_desc_en: "A beautiful church built over the tomb of St. Thomas.", desc_en: "This historic Roman Catholic minor basilica is one of only three in the world built over the tomb of an apostle of Jesus. A site of pilgrimage for Christians. ⛪", short_desc_si: "ශාන්ත තෝමස්ගේ සොහොන මත ඉදිකරන ලද අලංකාර දේවස්ථානයක්.", desc_si: "Sinhala translation coming soon.", title_ja: "サン・トメ聖堂", short_desc_ja: "聖トマスの墓の上に建てられた美しい教会。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-002", country: "India", city: "Chennai", rating: 4.5, title_en: "Marina Beach", title_si: "Marina Beach", short_desc_en: "One of the longest natural urban beaches in the world.", desc_en: "Stretching for about 13 km, this is a major landmark of Chennai. It's a popular spot for locals and tourists to walk, relax, and enjoy the sea breeze. 🌊", short_desc_si: "ලෝකයේ දිගම ස්වභාවික නාගරික වෙරළ තීරයන්ගෙන් එකකි.", desc_si: "Sinhala translation coming soon.", title_ja: "マリーナビーチ", short_desc_ja: "世界で最も長い自然の都市ビーチの一つ。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-003", country: "India", city: "Chennai", rating: 4.7, title_en: "St. Thomas Mount National Shrine", title_si: "St. Thomas Mount National Shrine", short_desc_en: "A hilltop shrine where the apostle St. Thomas was martyred.", desc_en: "A revered pilgrimage site offering panoramic views of Chennai city. The church at the summit houses relics associated with St. Thomas. 🙏", short_desc_si: "ශාන්ත තෝමස් අපොස්තුළුවරයා දිවි පිදූ කඳු මුදුනක සිද්ධස්ථානයකි.", desc_si: "Sinhala translation coming soon.", title_ja: "セント・トーマス・マウント国立聖堂", short_desc_ja: "使徒聖トマスが殉教した丘の上の聖堂。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-004", country: "India", city: "Chennai", rating: 4.6, title_en: "Ashtalakshmi Temple", title_si: "Ashtalakshmi Temple", short_desc_en: "A unique temple dedicated to the eight forms of Lakshmi.", desc_en: "Located on the shore of the Bay of Bengal, this temple is unique for its design, with four levels housing the eight different shrines of the Goddess of Wealth. ✨", short_desc_si: "ලක්ෂ්මිගේ രൂപ අට සඳහා කැප වූ අද්විතීය විහාරස්ථානයක්.", desc_si: "Sinhala translation coming soon.", title_ja: "アシュタラクシュミ寺院", short_desc_ja: "ラクシュミの8つの形態に捧げられたユニークな寺院。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-005", country: "India", city: "Tirupati", rating: 5.0, title_en: "Sri Balaji & Padmavathi Temples", title_si: "Sri Balaji & Padmavathi Temples", short_desc_en: "A major pilgrimage to Lord Venkateswara and his consort.", desc_en: "Visit the world-renowned Tirumala Venkateswara Temple (Balaji) and the nearby Sri Padmavathi Ammavari Temple in Tiruchanur for a complete spiritual journey. 🕉️", short_desc_si: "වෙන්කටේශ්වර දෙවියන් සහ ඔහුගේ භාර්යාව වෙත ප්‍රධාන වන්දනාවක්.", desc_en: "Sinhala translation coming soon.", title_ja: "シュリ・バラジ＆パドマヴァティ寺院", short_desc_ja: "ヴェンカテーシュワラ卿とその配偶者への主要な巡礼。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-006", country: "India", city: "Tirupati", rating: 4.8, title_en: "Sri Govindarajaswami Temple", title_si: "Sri Govindarajaswami Temple", short_desc_en: "An ancient and vast temple complex in Tirupati.", desc_en: "One of the most important temples in Tirupati, dedicated to a resting form of Lord Vishnu. It features a massive outer gopuram (tower) and intricate architecture. 🏛️", short_desc_si: "තිරුපති හි පුරාණ සහ විශාල විහාර සංකීර්ණයක්.", desc_en: "Sinhala translation coming soon.", title_ja: "シュリ・ゴビンダラジャスワミ寺院", short_desc_ja: "ティルパティにある古代の広大な寺院複合施設。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-007", country: "India", city: "Agra", rating: 4.9, title_en: "Taj Mahal", title_si: "Taj Mahal", short_desc_en: "The iconic white marble mausoleum, a UNESCO World Heritage site.", desc_en: "Commissioned in 1632 by the Mughal emperor Shah Jahan, this monument is a stunning example of Mughal architecture and a symbol of eternal love. 🤍", short_desc_si: "සංකේතාත්මක සුදු කිරිගරුඬ සොහොන් ගැබ, යුනෙස්කෝ ලෝක උරුම අඩවියකි.", desc_si: "Sinhala translation coming soon.", title_ja: "タージ・マハル", short_desc_ja: "象徴的な白い大理石の霊廟、ユネスコ世界遺産。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-008", country: "India", city: "Mumbai", rating: 4.6, title_en: "Gateway of India", title_si: "Gateway of India", short_desc_en: "A famous arch monument overlooking the Arabian Sea.", desc_en: "Built in the early 20th century, this basalt arch stands as a monument of colonial history and is a major gathering spot in Mumbai's harbor area. ⛵", short_desc_si: "අරාබි මුහුදට මුහුණලා ඇති ප්‍රසිද්ධ ආරුක්කු ස්මාරකයකි.", desc_si: "Sinhala translation coming soon.", title_ja: "インド門", short_desc_ja: "アラビア海を見下ろす有名なアーチ記念碑。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-009", country: "India", city: "Jaipur", rating: 4.5, title_en: "Hawa Mahal (Palace of Winds)", title_si: "Hawa Mahal (Palace of Winds)", short_desc_en: "An intricately designed palace with 953 small windows.", desc_en: "This stunning five-story structure was built for royal ladies to observe street festivals without being seen. Its unique honeycomb design makes it a marvel of Rajasthani architecture. 🕌", short_desc_si: "කුඩා ජනෙල් 953ක් සහිත සංකීර්ණ ලෙස නිර්මාණය කරන ලද මාලිගාවක්.", desc_si: "Sinhala translation coming soon.", title_ja: "ハワ・マハル（風の宮殿）", short_desc_ja: "953の小さな窓がある複雑に設計された宮殿。", desc_ja: "Japanese translation coming soon." },
-    { id: "in-loc-010", country: "India", city: "Kerala", rating: 4.7, title_en: "Kerala Backwaters", title_si: "Kerala Backwaters", short_desc_en: "A network of tranquil canals and lakes for houseboat cruises.", desc_en: "Experience the serene beauty of the Kuttanad region by cruising on a traditional houseboat. It offers a unique view of rural life and lush greenery. 🛶", short_desc_si: "බෝට්ටු සවාරි සඳහා සුදුසු සන්සුන් ඇළ මාර්ග සහ විල් ජාලයකි.", desc_si: "Sinhala translation coming soon.", title_ja: "ケーララバックウォーター", short_desc_ja: "ハウスボートクルーズ用の穏やかな運河と湖のネットワーク。", desc_ja: "Japanese translation coming soon." },
-    ],
+    // Indian Locations (in-loc-001 to in-loc-010)
+    "in-loc-001": {
+        smallImages: [
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/San_Thome_Basilica%2C_Chennai%2C_India_%2814388504314%29.jpg/1200px-San_Thome_Basilica%2C_Chennai%2C_India_%2814388504314%29.jpg",
+            "https://img.freepik.com/premium-photo/chennai-india-november-18-2018-san-thome-basilica-is-roman-catholic-minor-basilica-it-was-built-16th-century-by-portuguese-explorers-tomb-st-thomas-apostle-jesus_268419-369.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7AD1F4cMLi4BPzmsiYZkHl31qyOwSgJpFxw&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=_DhPI4tzrPc"
+    },
+    "in-loc-002": {
+        smallImages: [
+            "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/101000/101858-Marina-Beach.jpg",
+            "https://www.coastaltourism.in/wp-content/uploads/2013/11/marina-beach-chennai-tn.jpg",
+            "https://static.toiimg.com/thumb/msid-122076235,width-1280,height-720,resizemode-4/122076235.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=u0jfi3jsS5w"
+    },
+    "in-loc-003": {
+        smallImages: [
+            "https://cc.pacifyca.com/storage/assets/uploads/news_images/Ngo0lKFuLD4GABgH3nwDA4GSeL9g9My0u2WOk5Jm.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4BQxJA-NFIg1jbQJ9qXfwCFrTvEddjSuygQ&s",
+            "https://res.cloudinary.com/chasset/c_fill,e_improve,f_webp,h_480,w_720/hbimages/desktop/1500880640325-St.Thomas%20Mount%20National%20Shrine.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=_StLTQhwPC8"
+    },
+    "in-loc-004": {
+        smallImages: [
+            "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0c/15/94/f3/stunning-views.jpg?w=1200&h=-1&s=1",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6fK-CKGLpXrEvSUMcmRModAg9GDD1Ec7itw&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFB0lPfvJiLNfui6lWNiyBawElDlP5q9G7og&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=5V-6NES_vXg"
+    },
+    "in-loc-005": {
+        smallImages: [
+            "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/3c/61/9a/sri-padmavathi-ammavari.jpg?w=1200&h=1200&s=1",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRwsuyjZCLrHFSxP9ICfJvTuqV-iyyRYyFkb2_PriquAIcKqL2rrNJ0jl1O2cPIiZiLN8&usqp=CAU",
+            "https://chennaitotirupati.wordpress.com/wp-content/uploads/2018/08/alamelumangapuram-750x550.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=8oZ9hg63Dow"
+    },
+    "in-loc-006": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGLAQIST01gcrXVBXHIpRiJtmgQrOxccf95w&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI0MbzwZxy5fiFXp_x08ICVUZYT6Kqje5rdg&s",
+            "https://tripxl.com/blog/wp-content/uploads/2024/08/Sri-Govindarajaswami-temple.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=5kUUgjQ2Y_E"
+    },
+    "in-loc-007": {
+        smallImages: [
+            "https://www.shadowsgalore.com/wp-content/uploads/2015/12/taj_mahal.jpg",
+            "https://www.pettitts.co.uk/img/containers/assets/destinations/1-indian-subcontinent/1-india/main-pages/india-guides/unveiling-the-majestic-taj-mahal/taj-mahal-agra-gate.webp/7261eb40bb25b4c9e9643b42a3a5c191/taj-mahal-agra-gate.webp",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxwx2K02r2IEQ06dEc8NdB-enhMu0fHs3L1g&s"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=_kozIki2yCE"
+    },
+    "in-loc-008": {
+        smallImages: [
+            "https://s7ap1.scene7.com/is/image/incredibleindia/gateway-of-india-mumbai-maharashtra-2-attr-hero?qlt=82&ts=1742162842869",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQup2RwejUqKOobzKp4nkAji5ZY3jyURbZ9kg&s",
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Gateway_of_India_aerial_view.jpg/250px-Gateway_of_India_aerial_view.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=jhIK24fVT0o"
+    },
+    "in-loc-009": {
+        smallImages: [
+            "https://upload.wikimedia.org/wikipedia/commons/4/41/East_facade_Hawa_Mahal_Jaipur_from_ground_level_%28July_2022%29_-_img_01.jpg",
+            "https://hblimg.mmtcdn.com/content/hubble/img/jaipur/mmt/activities/m_activities-jaipur-hawa-mahal_l_400_640.jpg",
+            "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgNQB1Z5U6sEplSzJPG_mSoedMvXRmWRM1g2fRoNT8Pbw7N-hAK0acfXTFFdciT0MCHzFXTf-6VhLHPSlu3n5sDhqQXvzVAz3c33TTnObx5Ve8tORPANckNE0H0-t4_yBGUP0I7ZFiYZnmX5DxFjzoEqfQRusX4hb-cpXumG26OxHPkOK5i8FFW8E2peZc/w1200-h630-p-k-no-nu/Hawa%20Mahal-%20The%20Iconic%20%22Palace%20of%20Winds%22%20in%20Jaipur-1.jpg"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=jSlrNR2hAqc"
+    },
+    "in-loc-010": {
+        smallImages: [
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtnzdJ7Wj1Yxy1pctvwUOeSGrDQs9Lq5w_dQ&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQddrYZQiv1r0F93ELr46JIKYXqMp4RbnxTA&s",
+            "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/df/54/94/kerala-backwaters.jpg?w=700&h=-1&s=1"
+        ],
+        youtubeUrl: "https://www.youtube.com/watch?v=vMd9DxGNJus&list=RDvMd9DxGNJus&start_radio=1"
+    }
+},
 
     // --- LOCATION IMAGES ---
     // Central place to manage all location images. Use the location ID as the key.
@@ -527,6 +667,8 @@ window.config = {
         "in-loc-008": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
         "in-loc-009": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
         "in-loc-010": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
+   
+    
     },
 
     // --- THAILAND HOTELS ---
@@ -546,6 +688,8 @@ window.config = {
         { id: "th-hotel-13", name: "Center point pratunam", rating: 4.7, images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGYyHF7ybAv-PVH2Cl9-ueTXdFuDMltTM1Bg&s", "https://pix10.agoda.net/hotelImages/48489/-1/672a25e29e754b379a1652a972a6401a.jpg?ce=0&s=414x232", "https://static51.com-hotel.com/uploads/hotel/70305/photo/centre-point-pratunam_169628260995.jpg"], desc_en: "Offers the convenience of a hotel with the space of an apartment. Features large rooms with kitchenettes, a pool, and a gym.", desc_si: "මහල් නිවාසයක ඉඩකඩ සහිත හෝටලයක පහසුව ලබා දෙයි. මුළුතැන්ගෙයි, තටාකයක් සහ ව්‍යායාම ශාලාවක් සහිත විශාල කාමර ඇතුළත් වේ.", desc_ja: "アパートのスペースを備えたホテルの便利さを提供します。簡易キッチン、プール、ジム付きの広い部屋が特徴です。" },
         { id: "th-hotel-14", name: "Baiyoke Sky Hotel", rating: 4.3, images: ["https://baiyokeskyhotel.com/wp-content/uploads/2024/10/Baiyoke-Sky-Hotel-2.png", "https://baiyokesky.baiyokehotel.com/images/new_gallery/gallery-67.jpg", "https://pix10.agoda.net/hotelImages/10637/-1/eae970f66751caf511ff0a394e27de56.jpg?ca=9&ce=1&s=414x232"], desc_en: "Thailand's tallest hotel, offering unparalleled city views from its rooms and revolving observation deck on the 84th floor.", desc_si: "තායිලන්තයේ උසම හෝටලය, එහි කාමරවලින් සහ 84 වන මහලේ කැරකෙන නිරීක්ෂණ තට්ටුවෙන් අසමසම නගර දර්ශන ලබා දෙයි.", desc_ja: "タイで最も高いホテルで、客室と84階の回転展望台から比類のない街の景色を眺めることができます。" },
         { id: "th-hotel-15", name: "Arawana Regency park suckumvit", rating: 4.0, images: ["https://photos.hotelbeds.com/giata/bigger/05/053058/053058a_hb_a_008.jpg", "https://pix10.agoda.net/hotelImages/10689/-1/55f2d40439e5cf45f67ab61c8a7c3a43.jpg?ca=0&ce=1&s=414x232", "https://arawanagroup.com/wp-content/uploads/2021/06/oum_4661_featured60a3fbb7a7c42-2.jpg"], desc_en: "Situated in the vibrant Sukhumvit area, this hotel provides a peaceful stay with easy access to entertainment and dining hot-spots.", desc_si: "විචිත්‍රවත් Sukhumvit ප්‍රදේශයේ පිහිටා ඇති මෙම හෝටලය විනෝදාස්වාදය සහ භෝජන සංග්‍රහ සඳහා පහසු ප්‍රවේශයක් සහිත සාමකාමී නවාතැනක් සපයයි.", desc_ja: "活気あるスクンビットエリアに位置するこのホテルは、エンターテイメントやダイニングのホットスポットに簡単にアクセスできる静かな滞在を提供します。" }
+  
+    
     ],
 
 
