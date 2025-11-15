@@ -1,6 +1,7 @@
 
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All data is now loaded from config.js ---
@@ -37,9 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const mediaLightbox = document.getElementById('media-lightbox');
     const mediaLightboxBody = document.getElementById('media-lightbox-body');
     const mediaLightboxTitle = document.getElementById('media-lightbox-title');
-    const customPlanBtn = document.getElementById('custom-plan-btn');
-    const customPlanModal = document.getElementById('custom-plan-modal');
-    const customPlanForm = document.getElementById('custom-plan-form');
     // Chatbot elements
     const chatbotStickyBtn = document.getElementById('chatbot-sticky-btn');
     const chatbotModal = document.getElementById('chatbot-modal');
@@ -65,6 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutModal = document.getElementById('about-modal');
     const aboutModalBody = document.getElementById('about-modal-body');
 
+    // --- NEW PACKAGE BUILDER & CART ELEMENTS ---
+    const packagesBuilderBtn = document.getElementById('packages-builder-btn');
+    const packagesBuilderModal = document.getElementById('packages-builder-modal');
+    const cartFab = document.getElementById('cart-fab');
+    const cartCountBadge = document.getElementById('cart-count-badge');
+    const cartModal = document.getElementById('cart-modal');
+    const cartModalBody = document.getElementById('cart-modal-body');
+    const cartClearBtn = document.getElementById('cart-clear-btn');
+    const cartSendBtn = document.getElementById('cart-send-btn');
+
 
     // Package Controls
     const packageControls = document.getElementById('package-controls');
@@ -86,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const currencies = Object.keys(config.CURRENCIES);
     let currentCurrencyIndex = 0;
     let hotelsRendered = false;
+    let customPackageCart = [];
 
     // --- New Gallery Data ---
     const TOTAL_TOUR_IMAGES = 107;
@@ -274,19 +283,20 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.setProperty('--animation-delay', `${index * 50}ms`);
 
 
-            const whatsappMessage = config.STRINGS[currentLang].whatsappInquiry(pkg[`title_${currentLang}`]);
-            const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
             const images = config.LOCATION_IMAGES[pkg.id] || ['https://source.unsplash.com/800x600/?travel,placeholder'];
-
             const isComingSoon = pkg.country === 'Sri Lanka' || pkg.country === 'Japan';
+            const isInCart = customPackageCart.some(item => item.id === pkg.id);
+            const addBtnClass = isInCart ? 'card-add-btn added' : 'card-add-btn';
+            const addBtnContent = isInCart ? '✓' : '➕';
 
             const cardButtonHTML = isComingSoon
                 ? `<span class="card-notice-coming-soon">${config.STRINGS[currentLang].comingSoonNotice}</span>`
-                : `<a href="${whatsappUrl}" class="card-button" target="_blank" rel="noopener noreferrer">${config.STRINGS[currentLang].contactUs}</a>`;
-
+                : `<div class="card-button">${config.STRINGS[currentLang].viewDetails}</div>`;
+            
             card.innerHTML = `
                 <div class="card-image-container">
                     <img src="${images[0]}" alt="${pkg[`title_${currentLang}`]}" class="card-image" loading="lazy">
+                    <button class="${addBtnClass}" data-id="${pkg.id}" aria-label="Add ${pkg[`title_${currentLang}`]} to plan">${addBtnContent}</button>
                 </div>
                 <div class="card-content">
                     <p class="card-country">${pkg.country}</p>
@@ -303,11 +313,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             
-            card.addEventListener('click', (e) => {
-                if (!e.target.closest('.card-button') && !e.target.closest('.card-notice-coming-soon')) {
-                    openPackageModal(pkg.id);
-                }
-            });
+            const contentPart = card.querySelector('.card-content');
+            if (contentPart) {
+                contentPart.addEventListener('click', () => openPackageModal(pkg.id));
+            }
             
             packagesGrid.appendChild(card);
         });
@@ -646,16 +655,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mediaLightboxBody.innerHTML = '';
     };
 
-    const openCustomPlanModal = () => {
-        customPlanModal.classList.remove('hidden');
-        document.body.classList.add('modal-open');
-    };
-
-    const closeCustomPlanModal = () => {
-        customPlanModal.classList.add('hidden');
-        document.body.classList.remove('modal-open');
-    };
-
     const openAboutModal = () => {
         aboutModalBody.innerHTML = `
             <h2 id="about-modal-title">About DreamStay Tours</h2>
@@ -680,17 +679,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeAboutModal = () => {
         aboutModal.classList.add('hidden');
         document.body.classList.remove('modal-open');
-    };
-
-    const handleCustomPlanSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(customPlanForm);
-        const data = Object.fromEntries(formData.entries());
-        const message = config.STRINGS[currentLang].customPlanWhatsappMsg(data);
-        const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappUrl, '_blank');
-        closeCustomPlanModal();
-        customPlanForm.reset();
     };
 
     const renderFAQ = () => {
@@ -914,6 +902,149 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('ask-another-btn').addEventListener('click', renderChatbot);
     };
 
+    // --- NEW PACKAGE BUILDER & CART FUNCTIONS ---
+    const updateCartFab = () => {
+        const count = customPackageCart.length;
+        if (count > 0) {
+            cartFab.classList.remove('hidden');
+            cartCountBadge.textContent = count;
+        } else {
+            cartFab.classList.add('hidden');
+        }
+    };
+
+    const handleAddToCart = (packageId, buttonEl) => {
+        const alreadyInCart = customPackageCart.some(item => item.id === packageId);
+        if (alreadyInCart) {
+            // Remove from cart
+            customPackageCart = customPackageCart.filter(item => item.id !== packageId);
+            buttonEl.classList.remove('added');
+            buttonEl.innerHTML = '➕';
+        } else {
+            // Add to cart
+            const pkg = config.PACKAGES.find(p => p.id === packageId);
+            if (pkg) {
+                customPackageCart.push(pkg);
+                buttonEl.classList.add('added');
+                buttonEl.innerHTML = '✓';
+            }
+        }
+        updateCartFab();
+    };
+    
+    const openCartModal = () => {
+        cartModalBody.innerHTML = '';
+        if (customPackageCart.length === 0) {
+            cartModal.classList.remove('hidden');
+            return;
+        }
+
+        customPackageCart.forEach(pkg => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'cart-item';
+            itemEl.dataset.id = pkg.id;
+            itemEl.innerHTML = `
+                <img src="${config.LOCATION_IMAGES[pkg.id][0]}" class="cart-item-img" alt="${pkg.title_en}">
+                <div class="cart-item-info">
+                    <div class="cart-item-title">${pkg[`title_${currentLang}`]}</div>
+                    <div class="cart-item-country">${pkg.country}</div>
+                </div>
+                <button class="cart-item-remove-btn" aria-label="Remove ${pkg.title_en}">✖</button>
+            `;
+            cartModalBody.appendChild(itemEl);
+        });
+        cartModal.classList.remove('hidden');
+    };
+
+    const closeCartModal = () => cartModal.classList.add('hidden');
+    
+    const clearCart = () => {
+        customPackageCart = [];
+        updateCartFab();
+        openCartModal();
+        renderPackages(); // Re-render to update add buttons
+        document.querySelectorAll('.custom-location-card .card-add-btn').forEach(btn => {
+            btn.classList.remove('added');
+            btn.innerHTML = '➕';
+        });
+    };
+    
+    const sendCartToWhatsapp = () => {
+        if (customPackageCart.length === 0) return;
+        const locations = customPackageCart.map(p => `- ${p.title_en} (${p.country})`).join('\n');
+        const message = `Hello DreamStay Tours, I'm interested in a custom tour with the following locations:\n\n${locations}\n\nPlease provide me with a quote!`;
+        const url = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    };
+
+    const renderPackagesBuilderModal = () => {
+        const body = packagesBuilderModal.querySelector('.packages-builder-body');
+        const countries = [...new Set(config.PACKAGES.map(p => p.country))];
+
+        let html = `
+            <h3 class="builder-section-title">Recommended Packages</h3>
+            <div class="recommended-packages-grid">
+        `;
+        
+        window.packagesConfig.recommended.forEach(recPkg => {
+            html += `
+                <div class="recommended-package-card" style="--theme-color: ${recPkg.themeColor}; --theme-icon: '${recPkg.icon}';">
+                    <h4 class="rec-pkg-title">${recPkg[`title_${currentLang}`]}</h4>
+                    <p class="rec-pkg-desc">${recPkg[`desc_${currentLang}`]}</p>
+                    <div class="rec-pkg-durations" data-package-id="${recPkg.id}">
+                        <button class="active" data-duration="4D/3N">4D/3N</button>
+                        <button data-duration="7D/6N">7D/6N</button>
+                        <button data-duration="10D/9N">10D/9N</button>
+                    </div>
+                    <button class="rec-pkg-cta" data-package-id="${recPkg.id}">Send Inquiry</button>
+                </div>
+            `;
+        });
+
+        html += `</div>
+            <h3 class="builder-section-title">Or, Build Your Own Package</h3>
+            <div class="custom-builder-controls">
+                ${countries.map((c, i) => `<button class="filter-tab ${i === 0 ? 'active' : ''}" data-country="${c}">${c}</button>`).join('')}
+            </div>
+            <div id="custom-locations-container"></div>
+        `;
+
+        body.innerHTML = html;
+        renderCustomLocationsForBuilder(countries[0]);
+    };
+
+    const renderCustomLocationsForBuilder = (country) => {
+        const container = document.getElementById('custom-locations-container');
+        const locations = config.PACKAGES.filter(p => p.country === country && !p.comingSoon);
+        
+        let html = `<div class="custom-locations-grid">`;
+        locations.forEach(pkg => {
+            const isInCart = customPackageCart.some(item => item.id === pkg.id);
+            const addBtnClass = isInCart ? 'card-add-btn added' : 'card-add-btn';
+            const addBtnContent = isInCart ? '✓' : '➕';
+            html += `
+                <div class="custom-location-card">
+                    <img src="${config.LOCATION_IMAGES[pkg.id][0]}" loading="lazy" alt="${pkg.title_en}">
+                    <div class="custom-location-card-title">${pkg[`title_${currentLang}`]}</div>
+                    <button class="${addBtnClass}" data-id="${pkg.id}" aria-label="Add ${pkg.title_en}">${addBtnContent}</button>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+    };
+
+    const openPackagesBuilderModal = () => {
+        renderPackagesBuilderModal();
+        packagesBuilderModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
+    const closePackagesBuilderModal = () => {
+        packagesBuilderModal.classList.add('hidden');
+        document.body.classList.remove('modal-open');
+    };
+    
     // --- Event Listeners ---
     langButtonsContainer.addEventListener('click', (e) => {
         const btn = e.target.closest('.lang-btn');
@@ -983,16 +1114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if(customPlanBtn) customPlanBtn.addEventListener('click', openCustomPlanModal);
-    if(customPlanModal) {
-        customPlanModal.addEventListener('click', (e) => {
-            if (e.target === customPlanModal || e.target.closest('.modal-close-btn')) {
-                closeCustomPlanModal();
-            }
-        });
-    }
-    if(customPlanForm) customPlanForm.addEventListener('submit', handleCustomPlanSubmit);
-    
     if(layoutControls) {
         layoutControls.addEventListener('click', (e) => {
             if (e.target.tagName === 'BUTTON') {
@@ -1050,7 +1171,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') {
             if (!packageModal.classList.contains('hidden')) closePackageModal();
             if (!mediaLightbox.classList.contains('hidden')) closeMediaLightbox();
-            if (!customPlanModal.classList.contains('hidden')) closeCustomPlanModal();
+            if (!packagesBuilderModal.classList.contains('hidden')) closePackagesBuilderModal();
+            if (!cartModal.classList.contains('hidden')) closeCartModal();
             if (!chatbotModal.classList.contains('hidden')) chatbotModal.classList.add('hidden');
             if (!aboutModal.classList.contains('hidden')) closeAboutModal();
         }
@@ -1153,6 +1275,89 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- NEW PACKAGE BUILDER & CART LISTENERS ---
+    if (packagesBuilderBtn) packagesBuilderBtn.addEventListener('click', openPackagesBuilderModal);
+    
+    packagesBuilderModal.addEventListener('click', e => {
+        if (e.target === packagesBuilderModal || e.target.closest('.modal-close-btn')) {
+            closePackagesBuilderModal();
+        }
+        
+        // Handle duration selection
+        if (e.target.closest('.rec-pkg-durations button')) {
+            const btn = e.target.closest('.rec-pkg-durations button');
+            const parent = btn.parentElement;
+            parent.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Handle Recommended Package CTA
+        if (e.target.closest('.rec-pkg-cta')) {
+            const btn = e.target.closest('.rec-pkg-cta');
+            const pkgId = btn.dataset.packageId;
+            const recPkg = window.packagesConfig.recommended.find(p => p.id === pkgId);
+            const durationEl = btn.parentElement.querySelector('.rec-pkg-durations button.active');
+            const duration = durationEl ? durationEl.dataset.duration : 'Not specified';
+            const country = document.querySelector('.custom-builder-controls .filter-tab.active')?.dataset.country || 'Any';
+
+            const message = `Hello DreamStay! I'm interested in the "${recPkg.title_en}" package for ${country}, with a duration of ${duration}. Could you provide more details and a quote?`;
+            const url = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Handle custom builder country tabs
+        if (e.target.closest('.custom-builder-controls .filter-tab')) {
+            const tab = e.target.closest('.custom-builder-controls .filter-tab');
+            document.querySelectorAll('.custom-builder-controls .filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderCustomLocationsForBuilder(tab.dataset.country);
+        }
+
+        // Handle add to cart inside modal
+        if (e.target.closest('.custom-location-card .card-add-btn')) {
+            const btn = e.target.closest('.card-add-btn');
+            handleAddToCart(btn.dataset.id, btn);
+            // also update the button on the main page if it's visible
+            const mainPageBtn = document.querySelector(`.package-card .card-add-btn[data-id="${btn.dataset.id}"]`);
+            if (mainPageBtn) {
+                mainPageBtn.classList.toggle('added', btn.classList.contains('added'));
+                mainPageBtn.innerHTML = btn.innerHTML;
+            }
+        }
+    });
+
+    packagesGrid.addEventListener('click', e => {
+        if (e.target.closest('.card-add-btn')) {
+            const btn = e.target.closest('.card-add-btn');
+            handleAddToCart(btn.dataset.id, btn);
+        }
+    });
+
+    cartFab.addEventListener('click', openCartModal);
+    cartModal.addEventListener('click', e => {
+        if (e.target === cartModal || e.target.closest('.modal-close-btn')) {
+            closeCartModal();
+        }
+        if (e.target.closest('.cart-item-remove-btn')) {
+            const itemEl = e.target.closest('.cart-item');
+            const packageId = itemEl.dataset.id;
+            // This will also update the button on the main page
+            const btnOnCard = document.querySelector(`.package-card .card-add-btn[data-id="${packageId}"]`);
+            if(btnOnCard) handleAddToCart(packageId, btnOnCard);
+            // This will also update the button in the builder modal
+            const btnInModal = document.querySelector(`.custom-location-card .card-add-btn[data-id="${packageId}"]`);
+            if(btnInModal) {
+                 btnInModal.classList.remove('added');
+                 btnInModal.innerHTML = '➕';
+            }
+            itemEl.remove();
+            if (customPackageCart.length === 0) closeCartModal();
+        }
+    });
+
+    cartClearBtn.addEventListener('click', clearCart);
+    cartSendBtn.addEventListener('click', sendCartToWhatsapp);
 
     window.addEventListener('resize', () => {
         resizeCanvas();
