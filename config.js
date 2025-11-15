@@ -196,7 +196,7 @@ window.config = {
         "in-loc-007": ['https://static.wixstatic.com/media/055605_65e20a7fcbc54e2e8720adfc2544c35e~mv2.jpg/v1/fill/w_1800,h_1082,al_c,q_85/taj_new_contant_edited.jpg'],
         "in-loc-008": ['https://www.theleela.com/prod/content/assets/aio-banner/dekstop/Gateway-of-India.jpg?VersionId=.2WAvG6IZX64SOeLSsVwg6FfkWAvLGJN'],
         "in-loc-009": ['https://miro.medium.com/1*fYA-b-KA9UUqPL2OsDYkQw.png'],
-        "in-loc-0010": ['https://lp-cms-production.imgix.net/2025-04/shutterstock2454866115.jpg?auto=format,compress&q=72&w=1440&h=810&fit=crop'],
+        "in-loc-0010": ['https://storage.googleapis.com/stateless-www-justwravel-com/2024/12/2745d95c-backwaters-kerala.jpg'],
     },
 
     // --- MODAL CONTENT (EXTRA IMAGES & VIDEOS) ---
