@@ -1,8 +1,3 @@
-
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All data is now loaded from config.js ---
@@ -63,6 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroMenuBtn = document.querySelector('.hero-menu-btn');
     const aboutModal = document.getElementById('about-modal');
     const aboutModalBody = document.getElementById('about-modal-body');
+    // New preloader elements
+    const sakuraContainer = document.getElementById('sakura-container');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
 
     // --- NEW PACKAGE BUILDER & CART ELEMENTS ---
     const packagesBuilderBtn = document.getElementById('packages-builder-btn');
@@ -207,9 +206,60 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Core App Functions ---
+    const createSakuraPetals = () => {
+        if (!sakuraContainer) return;
+        const petalCount = 75;
+        const petalImage = 'https://i.ibb.co/ymK8Dcdz/Pngtree-a-single-delicate-pink-cherry-23112589.png';
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('img');
+            petal.src = petalImage;
+            petal.className = 'sakura-petal';
+            petal.style.left = `${Math.random() * 100}vw`;
+            const size = Math.random() * 20 + 15;
+            petal.style.width = `${size}px`;
+            petal.style.height = 'auto';
+            petal.style.animationDuration = `${Math.random() * 5 + 7}s`; // 7-12s
+            petal.style.animationDelay = `${Math.random() * 7}s`;
+            petal.style.opacity = Math.random() * 0.5 + 0.3;
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+            sakuraContainer.appendChild(petal);
+        }
+    };
+
+    const initPreloaderAnimation = () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            langModal.classList.remove('hidden');
+            return;
+        }
+    
+        createSakuraPetals();
+        langModal.classList.add('hidden'); // Hide language modal initially
+        
+        setTimeout(() => {
+            progressContainer.classList.remove('hidden');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = `${progress}%`;
+    
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    progressContainer.style.transition = 'opacity 0.5s ease';
+                    progressContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        progressContainer.classList.add('hidden');
+                        langModal.classList.remove('hidden');
+                        langModal.classList.add('buttons-only');
+                        langModal.style.animation = 'fadeInScaleUp 0.5s ease forwards';
+                    }, 500);
+                }
+            }, 30); // 30ms * 100 = 3000ms = 3 seconds
+        }, 1500); // Wait 1.5s for logo to animate in
+    };
+    
     const showPreloader = () => {
         preloader.classList.remove('hidden');
-        langModal.classList.remove('hidden');
+        initPreloaderAnimation();
     };
 
     const startApp = () => {
@@ -1065,7 +1115,9 @@ document.addEventListener('DOMContentLoaded', () => {
         langButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
-        translateUI(selectedLang);
+        // Don't call startApp directly, let the preloader animation finish
+        // The animation will call startApp.
+        // Correction: User click should trigger startApp.
         startApp();
     });
     
