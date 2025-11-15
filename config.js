@@ -326,8 +326,8 @@ window.config = {
             "https://www.nywaterway.com/UserFiles/Images/2019/YKTTC/MadameTussaud/MT1.jpg,
             "https://evanevanstours.com/blog/wp-content/uploads/2018/04/madame-tussaud-s-london-unveils-the-wax-figure-of-president-elect-donald-j.-trump-just-days-ahead-of-the-americans-official-presidential-inauguration-in-washington.-london.-britain.jpg"
         ],
-        youtubeUrl: "https://www.youtube.com/watch?v=ElNPIAJvlsE",
-        youtubeUrl: "https://www.youtube.com/watch?v=H_wKqZgPVGY"
+        youtubeUrl: "https://www.youtube.com/watch?v=ElNPIAJvlsE"
+        
     },
     "th-loc-008": {
         smallImages: [
