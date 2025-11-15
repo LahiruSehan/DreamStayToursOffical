@@ -168,6 +168,13 @@ window.config = {
         "my-loc-002": ['https://upload.wikimedia.org/wikipedia/commons/8/8f/Batu_Caves_stairs_2022-05.jpg'],
         "my-loc-003": ['https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/1f/13/c2/breathtaking-views.jpg?w=900&h=-1&s=1'],
         "my-loc-004": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
+        "my-loc-005": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
+        "my-loc-006": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
+        "my-loc-007": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
+        "my-loc-008": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
+        "my-loc-009": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
+        "my-loc-010": ['https://sunwaylagoon.com.pk/wp-content/uploads/2024/09/Kids-Mania-Pool.jpg'],
+
 
         // India
         "in-loc-001": ['https://www.reviewofreligions.org/wp-content/uploads/2022/11/shutterstock_1219753852.jpeg'],
@@ -175,7 +182,11 @@ window.config = {
         "in-loc-003": ['https://source.unsplash.com/800x600/?st-thomas-mount,chennai'],
         "in-loc-004": ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSanmPbpW1q1xU6qKX3zdUR-VUG8FizwhRF-Q&s'],
         "in-loc-005": ['https://images.hindustantimes.com/img/2022/11/06/1600x900/_098bfa70-ba9b-11e9-ab59-a9539248f706_1667733284898_1667733284898.png'],
-        "in-loc-006": ['https://www.poojn.in/wp-content/uploads/2025/02/Govindaraja-Temple-Tirupati-Your-Complete-Visit-Guide.jpeg.jpg']
+        "in-loc-006": ['https://www.poojn.in/wp-content/uploads/2025/02/Govindaraja-Temple-Tirupati-Your-Complete-Visit-Guide.jpeg.jpg'],
+        "in-loc-007": ['https://www.poojn.in/wp-content/uploads/2025/02/Govindaraja-Temple-Tirupati-Your-Complete-Visit-Guide.jpeg.jpg'],
+        "in-loc-008": ['https://www.poojn.in/wp-content/uploads/2025/02/Govindaraja-Temple-Tirupati-Your-Complete-Visit-Guide.jpeg.jpg'],
+        "in-loc-009": ['https://www.poojn.in/wp-content/uploads/2025/02/Govindaraja-Temple-Tirupati-Your-Complete-Visit-Guide.jpeg.jpg'],
+        "in-loc-0010": ['https://www.poojn.in/wp-content/uploads/2025/02/Govindaraja-Temple-Tirupati-Your-Complete-Visit-Guide.jpeg.jpg'],
     },
 
     // --- MODAL CONTENT (EXTRA IMAGES & VIDEOS) ---
@@ -492,6 +503,8 @@ window.config = {
         "my-loc-008": { smallImages: ["https://source.unsplash.com/400x300/?sunway,lagoon,water", "https://source.unsplash.com/400x300/?sunway,lagoon,bridge", "https://source.unsplash.com/400x300/?sunway,lagoon,ride"], youtubeUrl: "https://www.youtube.com/watch?v=cTwV82Mv_HI" },
         "my-loc-009": { smallImages: ["https://source.unsplash.com/400x300/?sunway,lagoon,water", "https://source.unsplash.com/400x300/?sunway,lagoon,bridge", "https://source.unsplash.com/400x300/?sunway,lagoon,ride"], youtubeUrl: "https://www.youtube.com/watch?v=cTwV82Mv_HI" },
         "my-loc-010": { smallImages: ["https://source.unsplash.com/400x300/?sunway,lagoon,water", "https://source.unsplash.com/400x300/?sunway,lagoon,bridge", "https://source.unsplash.com/400x300/?sunway,lagoon,ride"], youtubeUrl: "https://www.youtube.com/watch?v=cTwV82Mv_HI" },
+        
+
 
 
         "in-loc-001": { smallImages: ["https://source.unsplash.com/400x300/?san,thome,basilica,interior", "https://source.unsplash.com/400x300/?chennai,church", "https://source.unsplash.com/400x300/?san,thome,basilica,exterior"], youtubeUrl: "https://www.youtube.com/watch?v=jW0a4i_jAfY" },
@@ -499,7 +512,11 @@ window.config = {
         "in-loc-003": { smallImages: ["https://source.unsplash.com/400x300/?st,thomas,mount,view", "https://source.unsplash.com/400x300/?chennai,city,view", "https://source.unsplash.com/400x300/?st,thomas,mount,church"], youtubeUrl: "https://www.youtube.com/watch?v=t0yNqCgwvYg" },
         "in-loc-004": { smallImages: ["https://source.unsplash.com/400x300/?ashtalakshmi,temple,gopuram", "https://source.unsplash.com/400x300/?chennai,temple,ocean", "https://source.unsplash.com/400x300/?ashtalakshmi,temple,sculpture"], youtubeUrl: "https://www.youtube.com/watch?v=jH_vGg7dY6I" },
         "in-loc-005": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
-        "in-loc-006": { smallImages: ["https://source.unsplash.com/400x300/?tirupati,temple,gopuram", "https://source.unsplash.com/400x300/?govindarajaswami,temple", "https://source.unsplash.com/400x300/?tirupati,architecture"], youtubeUrl: "https://www.youtube.com/watch?v=F_fP4nB_z3Y" }
+        "in-loc-006": { smallImages: ["https://source.unsplash.com/400x300/?tirupati,temple,gopuram", "https://source.unsplash.com/400x300/?govindarajaswami,temple", "https://source.unsplash.com/400x300/?tirupati,architecture"], youtubeUrl: "https://www.youtube.com/watch?v=F_fP4nB_z3Y" },
+        "in-loc-007": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
+        "in-loc-008": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
+        "in-loc-009": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
+        "in-loc-010": { smallImages: ["https://source.unsplash.com/400x300/?tirumala,temple", "https://source.unsplash.com/400x300/?padmavathi,temple", "https://source.unsplash.com/400x300/?tirupati,hill"], youtubeUrl: "https://www.youtube.com/watch?v=f-gC-0B6-2o" },
     },
 
     // --- THAILAND HOTELS ---
