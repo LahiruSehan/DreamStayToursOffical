@@ -764,6 +764,11 @@ body.country-view .hero {
     transition: background var(--transition-slow), border-color var(--transition-slow);
 }
 
+/* Hide filters on the main dashboard/landing page view */
+body:not(.country-view) #filters {
+    display: none;
+}
+
 .filter-nav {
     display: flex;
     flex-wrap: wrap;
