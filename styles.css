@@ -1938,6 +1938,11 @@ body.theme-srilanka .package-card {
     transform: translateY(20px);
 }
 
+/* Elevate FABs when package builder is open so the cart button is visible */
+body:has(#packages-builder-modal:not(.hidden)) .sticky-actions-container {
+    z-index: 550;
+}
+
 .cart-fab {
     width: 60px;
     height: 60px;
