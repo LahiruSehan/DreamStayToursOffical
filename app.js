@@ -27,10 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const stickyContactBtn = document.getElementById('contact-sticky-btn');
     const heroWhatsappBtn = document.getElementById('hero-whatsapp-btn');
     const faqAccordion = document.querySelector('.faq-accordion');
-    const footerLangToggle = document.getElementById('footer-lang-toggle');
     const reviewsWrapper = document.querySelector('.reviews-carousel-wrapper');
     const reviewsGrid = document.getElementById('reviews-grid');
-    const heroTitle = document.querySelector('.hero-title-main'); // Updated class
+    const heroTitle = document.querySelector('.hero-title-main');
     const mediaLightbox = document.getElementById('media-lightbox');
     const mediaLightboxBody = document.getElementById('media-lightbox-body');
     const mediaLightboxTitle = document.getElementById('media-lightbox-title');
@@ -42,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatbotQuestions = document.getElementById('chatbot-questions');
     // Music elements
     const backgroundMusic = document.getElementById('background-music');
-    // Currency elements
-    const currencySwitcherBtn = document.getElementById('currency-switcher-btn');
+    // Language switcher
+    const langSwitcherBtn = document.getElementById('lang-switcher-btn');
     // Hotel elements
     const hotelToggleContainer = document.getElementById('hotel-toggle-container');
     const showHotelsBtn = document.getElementById('show-hotels-btn');
@@ -54,14 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroSection = document.querySelector('.hero');
     const aboutDreamstayBtn = document.getElementById('about-dreamstay-btn');
     const heroDestinationsContainer = document.querySelector('.hero-destinations');
-    const filtersSection = document.getElementById('filters');
-    const heroMenuBtn = document.querySelector('.hero-menu-btn');
+    const heroInfoBtn = document.getElementById('hero-info-btn');
     const aboutModal = document.getElementById('about-modal');
     const aboutModalBody = document.getElementById('about-modal-body');
     // New preloader elements
     const sakuraContainer = document.getElementById('sakura-container');
     const progressContainer = document.getElementById('progress-container');
     const progressBar = document.getElementById('progress-bar');
+    // New info containers
+    const dashboardInfoContainer = document.getElementById('dashboard-info-container');
+    const footerInfo = document.getElementById('footer-info');
+    const developerCredit = document.getElementById('developer-credit');
+
 
     // --- NEW PACKAGE BUILDER & CART ELEMENTS ---
     const packagesBuilderBtn = document.getElementById('packages-builder-btn');
@@ -90,10 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentLayout = '2';
     let currentCityFilter = 'all';
     let currentSort = 'default';
-    const currencies = Object.keys(config.CURRENCIES);
-    let currentCurrencyIndex = 0;
     let hotelsRendered = false;
     let customPackageCart = [];
+    let isHeroVisible = true;
     const seeMoreTranslations = {
         en: "See More",
         si: "තව බලන්න",
@@ -187,23 +189,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    // --- Currency Functions ---
-    const formatPrice = (baseUsd) => {
-        const currencyCode = currencies[currentCurrencyIndex];
-        const currency = config.CURRENCIES[currencyCode];
-        const converted = baseUsd * currency.rate;
-        return `${currency.symbol} ${Math.round(converted).toLocaleString()}`;
-    };
-
-    const updateAllPrices = () => {
-        const priceElements = document.querySelectorAll('[data-base-usd]');
-        priceElements.forEach(el => {
-            const baseUsd = parseFloat(el.dataset.baseUsd);
-            el.textContent = formatPrice(baseUsd);
-        });
-        currencySwitcherBtn.textContent = currencies[currentCurrencyIndex];
-    };
-
     // --- Core App Functions ---
     const createSakuraPetals = () => {
         if (!sakuraContainer) return;
@@ -267,10 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // If the selected language differs from the pre-rendered one (English), re-render content
         if (selectedLanguage !== 'en') {
             setLanguage(selectedLanguage);
-            renderFAQ();
-            renderReviews();
-            renderDashboard();
-            // Chatbot is okay, it gets re-translated by setLanguage
         }
     
         preloader.classList.add('fade-out');
@@ -291,6 +272,19 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.lang = lang;
         translateUI(currentLang);
         updateWhatsappLinks();
+        renderFAQ();
+        renderReviews();
+        if(dashboardInfoContainer) renderCompanyInfo(dashboardInfoContainer);
+        if(aboutModalBody) renderCompanyInfo(aboutModalBody);
+        renderFooter();
+        if (currentView === 'Dashboard') {
+            renderDashboard();
+        } else {
+            renderPackages();
+            if(currentView === 'Thailand' && hotelsRendered){
+                renderHotels();
+            }
+        }
     };
 
     const translateUI = (lang) => {
@@ -447,6 +441,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
+
+    const renderCompanyInfo = (container) => {
+        if (!container || !window.aboutConfig) return;
+        const lang = currentLang;
+        container.innerHTML = `
+            <div class="info-section animate-in">
+                <h3>DreamStay Tours Sri Lanka HQ</h3>
+                <div class="info-contact-grid">
+                    <div class="info-contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span>${window.aboutConfig.ADDRESS}</span>
+                    </div>
+                    <div class="info-contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <a href="mailto:${window.aboutConfig.EMAIL}">${window.aboutConfig.EMAIL}</a>
+                    </div>
+                </div>
+                <ul class="info-points-list">
+                    ${window.aboutConfig.INFO_POINTS.map(point => `
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <span>${point[lang] || point['en']}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+        setupIntersectionObserver('.info-section.animate-in');
+    };
     
     const renderDashboard = () => {
         const detailsGrid = detailsSection.querySelector('.details-grid');
@@ -467,6 +490,8 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             detailsGrid.appendChild(card);
         });
+        
+        renderCompanyInfo(dashboardInfoContainer);
         
         const servicesHTML = `
             <div class="services-section">
@@ -670,12 +695,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('modal-open');
     };
     
-    const closePackageModal = () => {
-        packageModal.classList.add('hidden');
+    const closeModal = (modal) => {
+        modal.classList.add('hidden');
         document.body.classList.remove('modal-open');
-        // Clear body to stop video playback
-        packageModalBody.innerHTML = '';
-    };
+        stickyActionsContainer.classList.toggle('fab-hidden', isHeroVisible);
+        const modalBody = modal.querySelector('.modal-content > div');
+        if (modalBody) {
+            modalBody.innerHTML = '';
+        }
+    }
     
     const openMediaLightbox = (mediaItem) => {
         mediaLightboxBody.innerHTML = ''; 
@@ -707,40 +735,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('modal-open');
     };
 
-    const closeMediaLightbox = () => {
-        mediaLightbox.classList.add('hidden');
-        document.body.classList.remove('modal-open');
-        const iframe = mediaLightboxBody.querySelector('iframe');
-        if (iframe) {
-            iframe.src = iframe.src; 
-        }
-        mediaLightboxBody.innerHTML = '';
-    };
-
     const openAboutModal = () => {
-        aboutModalBody.innerHTML = `
-            <h2 id="about-modal-title">About DreamStay Tours</h2>
-            <p>Your premier partner in crafting unforgettable journeys across Asia. We specialize in creating personalized travel experiences that go beyond the ordinary, letting you travel like it’s another universe.</p>
-            <div class="about-modal-stats">
-                ${config.DETAILS_STATS.map(stat => `
-                    <div class="about-modal-stat">
-                        <div class="stat-number">${stat.value.toLocaleString()}</div>
-                        <div class="stat-label">${stat[`label_${currentLang}`]}</div>
-                    </div>
-                `).join('')}
-            </div>
-            <div class="about-modal-contact">
-                <p><strong>Contact Us:</strong> <a href="tel:+817053729297">+81 70-5372-9297</a></p>
-                <p><strong>Address:</strong> Saitama Ken, Yashio Shi, 1 Chome-18-9, Japan</p>
-            </div>
-        `;
+        renderCompanyInfo(aboutModalBody);
         aboutModal.classList.remove('hidden');
         document.body.classList.add('modal-open');
-    };
-
-    const closeAboutModal = () => {
-        aboutModal.classList.add('hidden');
-        document.body.classList.remove('modal-open');
     };
 
     const renderFAQ = () => {
@@ -826,6 +824,20 @@ document.addEventListener('DOMContentLoaded', () => {
         setupIntersectionObserver('.gallery-item.animate-in');
     };
 
+    const renderFooter = () => {
+        if (!footerInfo || !developerCredit || !window.aboutConfig) return;
+        footerInfo.innerHTML = `
+            <p>${window.aboutConfig.ADDRESS}</p>
+            <p><a href="mailto:${window.aboutConfig.EMAIL}">${window.aboutConfig.EMAIL}</a></p>
+        `;
+        developerCredit.innerHTML = `
+            <a href="${window.aboutConfig.DEVELOPER.FB_URL}" target="_blank" rel="noopener noreferrer">
+                Developed by ${window.aboutConfig.DEVELOPER.NAME}
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7.02h-2.53v-2.89h2.53v-2.19c0-2.5 1.49-3.88 3.78-3.88 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.89h-2.33v7.02c4.78-.75 8.44-4.9 8.44-9.9C22 6.53 17.5 2.04 12 2.04z"></path></svg>
+            </a>
+        `;
+    };
+
     const showGalleryPage = () => {
         mainContent.classList.add('hidden');
         galleryPage.classList.remove('hidden');
@@ -855,7 +867,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const quotes = config.HERO_QUOTES[currentLang];
         
-        // Dynamically replace a quote for English without modifying config file
         if (currentLang === 'en') {
             const quoteToReplace = "Crafting memories, one journey at a time";
             const index = quotes.indexOf(quoteToReplace);
@@ -874,7 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 quoteIndex = (quoteIndex + 1) % quotes.length;
                 heroTitle.textContent = quotes[quoteIndex];
                 heroTitle.style.opacity = '1';
-            }, 400); // This should match the CSS transition duration
+            }, 400);
     
         }, 5000);
     };
@@ -1016,10 +1027,9 @@ document.addEventListener('DOMContentLoaded', () => {
             cartModalBody.appendChild(itemEl);
         });
         cartModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
     };
 
-    const closeCartModal = () => cartModal.classList.add('hidden');
-    
     const clearCart = () => {
         customPackageCart = [];
         updateCartFab();
@@ -1100,11 +1110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPackagesBuilderModal();
         packagesBuilderModal.classList.remove('hidden');
         document.body.classList.add('modal-open');
-    };
-
-    const closePackagesBuilderModal = () => {
-        packagesBuilderModal.classList.add('hidden');
-        document.body.classList.remove('modal-open');
+        stickyActionsContainer.classList.remove('fab-hidden');
     };
     
     // --- Event Listeners ---
@@ -1149,13 +1155,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     packageModal.addEventListener('click', (e) => {
         if (e.target === packageModal || e.target.closest('.modal-close-btn')) {
-            closePackageModal();
+            closeModal(packageModal);
         }
     });
 
     mediaLightbox.addEventListener('click', (e) => {
         if (e.target === mediaLightbox || e.target.closest('.modal-close-btn')) {
-            closeMediaLightbox();
+            closeModal(mediaLightbox);
         }
     });
 
@@ -1205,10 +1211,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if(chatbotCloseBtn) chatbotCloseBtn.addEventListener('click', () => chatbotModal.classList.add('hidden'));
     if(chatbotQuestions) chatbotQuestions.addEventListener('click', handleQuestionClick);
     
-    if (currencySwitcherBtn) {
-        currencySwitcherBtn.addEventListener('click', () => {
-            currentCurrencyIndex = (currentCurrencyIndex + 1) % currencies.length;
-            updateAllPrices();
+    if (langSwitcherBtn) {
+        langSwitcherBtn.addEventListener('click', () => {
+            const langs = ['en', 'si', 'ja'];
+            const currentLangIndex = langs.indexOf(currentLang);
+            const nextLang = langs[(currentLangIndex + 1) % langs.length];
+            setLanguage(nextLang);
+            langSwitcherBtn.textContent = nextLang.toUpperCase();
         });
     }
 
@@ -1230,12 +1239,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            if (!packageModal.classList.contains('hidden')) closePackageModal();
-            if (!mediaLightbox.classList.contains('hidden')) closeMediaLightbox();
-            if (!packagesBuilderModal.classList.contains('hidden')) closePackagesBuilderModal();
-            if (!cartModal.classList.contains('hidden')) closeCartModal();
+            if (!packageModal.classList.contains('hidden')) closeModal(packageModal);
+            if (!mediaLightbox.classList.contains('hidden')) closeModal(mediaLightbox);
+            if (!packagesBuilderModal.classList.contains('hidden')) closeModal(packagesBuilderModal);
+            if (!cartModal.classList.contains('hidden')) closeModal(cartModal);
             if (!chatbotModal.classList.contains('hidden')) chatbotModal.classList.add('hidden');
-            if (!aboutModal.classList.contains('hidden')) closeAboutModal();
+            if (!aboutModal.classList.contains('hidden')) closeModal(aboutModal);
         }
     });
 
@@ -1271,37 +1280,19 @@ document.addEventListener('DOMContentLoaded', () => {
         reviewsWrapper.addEventListener('mouseenter', stopReviewCarousel);
         reviewsWrapper.addEventListener('mouseleave', startReviewCarousel);
     }
-
-    footerLangToggle.addEventListener('click', () => {
-        const langs = ['en', 'si', 'ja'];
-        const currentLangIndex = langs.indexOf(currentLang);
-        const nextLang = langs[(currentLangIndex + 1) % langs.length];
-        setLanguage(nextLang);
-        renderFAQ();
-        renderReviews();
-        if (currentView === 'Dashboard') {
-            renderDashboard();
-        } else {
-            renderPackages();
-            if(currentView === 'Thailand' && hotelsRendered){
-                renderHotels();
-            }
-        }
-    });
     
     // --- NEW EVENT LISTENERS ---
     const fabObserver = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
-                // When hero is NOT visible on screen, show the buttons.
-                if (!entry.isIntersecting) {
-                    stickyActionsContainer.classList.remove('fab-hidden');
-                } else {
-                    stickyActionsContainer.classList.add('fab-hidden');
+                isHeroVisible = entry.isIntersecting;
+                if (document.body.classList.contains('modal-open')) {
+                    return;
                 }
+                stickyActionsContainer.classList.toggle('fab-hidden', isHeroVisible);
             });
         },
-        { threshold: 0.1 } // Trigger when 10% of hero is visible/hidden
+        { threshold: 0.1 }
     );
 
     if (heroSection) {
@@ -1310,19 +1301,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (aboutDreamstayBtn) {
         aboutDreamstayBtn.addEventListener('click', () => {
-            if (filtersSection) {
-                filtersSection.scrollIntoView({ behavior: 'smooth' });
+            if (dashboardInfoContainer) {
+                dashboardInfoContainer.scrollIntoView({ behavior: 'smooth' });
             }
         });
     }
 
-    if (heroMenuBtn) {
-        heroMenuBtn.addEventListener('click', openAboutModal);
+    if (heroInfoBtn) {
+        heroInfoBtn.addEventListener('click', openAboutModal);
     }
     if (aboutModal) {
         aboutModal.addEventListener('click', (e) => {
             if (e.target === aboutModal || e.target.closest('.modal-close-btn')) {
-                closeAboutModal();
+                closeModal(aboutModal);
             }
         });
     }
@@ -1342,10 +1333,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     packagesBuilderModal.addEventListener('click', e => {
         if (e.target === packagesBuilderModal || e.target.closest('.modal-close-btn')) {
-            closePackagesBuilderModal();
+            closeModal(packagesBuilderModal);
         }
         
-        // Handle duration selection
         if (e.target.closest('.rec-pkg-durations button')) {
             const btn = e.target.closest('.rec-pkg-durations button');
             const parent = btn.parentElement;
@@ -1353,7 +1343,6 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
         }
 
-        // Handle Recommended Package CTA
         if (e.target.closest('.rec-pkg-cta')) {
             const btn = e.target.closest('.rec-pkg-cta');
             const pkgId = btn.dataset.packageId;
@@ -1367,7 +1356,6 @@ document.addEventListener('DOMContentLoaded', () => {
             window.open(url, '_blank');
         }
 
-        // Handle custom builder country tabs
         if (e.target.closest('.custom-builder-controls .filter-tab')) {
             const tab = e.target.closest('.custom-builder-controls .filter-tab');
             document.querySelectorAll('.custom-builder-controls .filter-tab').forEach(t => t.classList.remove('active'));
@@ -1375,11 +1363,9 @@ document.addEventListener('DOMContentLoaded', () => {
             renderCustomLocationsForBuilder(tab.dataset.country);
         }
 
-        // Handle add to cart inside modal
         if (e.target.closest('.custom-location-card .card-add-btn')) {
             const btn = e.target.closest('.card-add-btn');
             handleAddToCart(btn.dataset.id, btn);
-            // also update the button on the main page if it's visible
             const mainPageBtn = document.querySelector(`.package-card .card-add-btn[data-id="${btn.dataset.id}"]`);
             if (mainPageBtn) {
                 mainPageBtn.classList.toggle('added', btn.classList.contains('added'));
@@ -1398,22 +1384,20 @@ document.addEventListener('DOMContentLoaded', () => {
     cartFab.addEventListener('click', openCartModal);
     cartModal.addEventListener('click', e => {
         if (e.target === cartModal || e.target.closest('.modal-close-btn')) {
-            closeCartModal();
+            closeModal(cartModal);
         }
         if (e.target.closest('.cart-item-remove-btn')) {
             const itemEl = e.target.closest('.cart-item');
             const packageId = itemEl.dataset.id;
-            // This will also update the button on the main page
             const btnOnCard = document.querySelector(`.package-card .card-add-btn[data-id="${packageId}"]`);
             if(btnOnCard) handleAddToCart(packageId, btnOnCard);
-            // This will also update the button in the builder modal
             const btnInModal = document.querySelector(`.custom-location-card .card-add-btn[data-id="${packageId}"]`);
             if(btnInModal) {
                  btnInModal.classList.remove('added');
                  btnInModal.innerHTML = '➕';
             }
             itemEl.remove();
-            if (customPackageCart.length === 0) closeCartModal();
+            if (customPackageCart.length === 0) closeModal(cartModal);
         }
     });
 
@@ -1426,16 +1410,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial Load ---
     const preRenderContent = () => {
-        // This populates the main app content with a default language
-        // while it's hidden, so the browser can start fetching images.
         setLanguage('en');
-        renderFAQ();
-        renderReviews();
-        renderDashboard();
         renderChatbot();
+        langSwitcherBtn.textContent = currentLang.toUpperCase();
     };
 
     resizeCanvas();
-    preRenderContent(); // Load content in the background first
-    showPreloader(); // Then start the visual preloader
+    preRenderContent();
+    showPreloader();
 });
