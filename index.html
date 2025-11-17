@@ -34,6 +34,7 @@
   <!-- ⚙️ Scripts -->
   <script src="config.js" defer></script>
   <script src="packages-config.js" defer></script>
+  <script src="about-config.js" defer></script>
   <script src="app.js" defer></script>
 </head>
 
@@ -78,8 +79,8 @@
             <header class="hero">
                 <div class="hero-top-bar">
                     <span class="hero-logo-text">DreamStay</span>
-                    <button class="hero-menu-btn" aria-label="Open menu">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    <button class="hero-menu-btn" id="hero-info-btn" aria-label="About Dreamstay">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     </button>
                 </div>
             
@@ -155,6 +156,10 @@
                         <!-- Stat cards will be injected here by JS -->
                     </div>
                     
+                    <div id="dashboard-info-container">
+                        <!-- Company Info will be injected here by JS -->
+                    </div>
+
                     <div class="visa-promo-section animate-in">
                         <h3>WE DO JAPAN WORK VISA TOO! 🇯🇵💼✈️</h3>
                         <p>Turn your Japan dream into a reality. Contact us for professional visa assistance.</p>
@@ -231,12 +236,17 @@
             
             <footer>
                 <div class="footer-content">
+                    <div id="footer-info" class="footer-info">
+                        <!-- Footer info injected by JS -->
+                    </div>
                     <p>&copy; 2024 DreamStay Tours. All rights reserved.</p>
                     <div class="footer-links">
                         <a href="#" data-lang-key="footerPrivacy">Privacy Policy</a>
                         <a href="#" data-lang-key="footerTerms">Terms of Service</a>
                     </div>
-                     <button id="footer-lang-toggle" data-lang-key="toggleLang">Switch Language</button>
+                    <div id="developer-credit" class="developer-credit">
+                        <!-- Developer credit injected by JS -->
+                    </div>
                 </div>
             </footer>
         </div>
@@ -361,8 +371,8 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
             <span id="cart-count-badge" class="cart-count-badge">0</span>
         </button>
-        <button id="currency-switcher-btn" class="currency-switcher-btn" aria-label="Switch currency">
-            USD
+        <button id="lang-switcher-btn" class="lang-switcher-btn" aria-label="Switch language">
+            EN
         </button>
         <button id="chatbot-sticky-btn" class="chatbot-sticky-btn" aria-label="Open chatbot">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM9.45 12.75L8.25 15l-1.2-2.25L4.5 10.5l2.25-1.2L9 7l2.25 2.25L13.5 7l2.25 2.25 2.25 1.2-2.25 2.25L15.75 15l-2.25-2.25L11.25 15l-1.8-2.25z"/></svg>
