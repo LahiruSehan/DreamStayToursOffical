@@ -6,7 +6,7 @@
 
 window.aboutConfig = {
     ADDRESS: "188, Pahala kottaramulla, Ihala kottaramulla, Nattandiya, Sri Lanka",
-    EMAIL: "tdreamstay@gmail.com",
+    EMAIL: "dreamstaynihon@gmail.com",
     INFO_POINTS: [
         { 
             en: "Dream Stay Tours is a local travel agency in Sri Lanka.", 
