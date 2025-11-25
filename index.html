@@ -100,7 +100,7 @@
                     
                     <div class="hero-buttons">
                         <button class="cta-secondary" id="gallery-btn">See Tour Photos</button>
-                        <button class="cta-secondary" id="packages-scroll-btn">Packages</button>
+                        <button class="cta-secondary" id="hero-packages-btn">Packages</button>
                         <a href="#" id="hero-whatsapp-btn" class="cta-secondary" target="_blank" rel="noopener noreferrer">WhatsApp</a>
                         <button class="cta-secondary" id="custom-plan-btn">Custom Plan</button>
                     </div>
@@ -331,7 +331,7 @@
         </div>
     </div>
 
-    <!-- NEW Packages Builder Modal -->
+    <!-- NEW Packages Builder Modal (Custom Plan) -->
     <div id="packages-builder-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="packages-builder-title">
       <div class="packages-builder-content">
         <header class="packages-builder-header">
@@ -344,6 +344,23 @@
           <!-- Content will be injected by JS -->
         </div>
       </div>
+    </div>
+
+    <!-- NEW Fixed Packages Modal (For the 4 main packages) -->
+    <div id="fixed-packages-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="fixed-packages-title">
+        <div class="fixed-packages-content">
+             <header class="fixed-packages-header">
+                <h2 id="fixed-packages-title">Our Best Selling Packages</h2>
+                <button class="modal-close-btn" aria-label="Close packages">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </header>
+            <div class="fixed-packages-body">
+                 <div id="fixed-packages-grid" class="fixed-packages-grid">
+                     <!-- 4 Packages injected here -->
+                 </div>
+            </div>
+        </div>
     </div>
     
     <!-- NEW Flyer Full Screen Modal -->
