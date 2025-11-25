@@ -31,10 +31,11 @@ window.packagesConfig = {
         },
         {
             id: 'temple_tour',
-            image: 'https://i.ibb.co/ccDMFyMZ/TEMPLETOUR.jpg',
+            image: 'https://i.ibb.co/ycpmJ3xK/TEMPLETOUR.png',
             title_en: 'Temple Tour',
             title_si: 'විහාර චාරිකාව',
             title_ja: '寺院ツアー'
         }
     ]
 };
+
