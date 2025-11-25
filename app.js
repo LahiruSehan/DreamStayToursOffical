@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- NEW PACKAGE BUILDER & CART ELEMENTS ---
-    const packagesScrollBtn = document.getElementById('packages-scroll-btn');
+    const heroPackagesBtn = document.getElementById('hero-packages-btn');
     const packagesBuilderModal = document.getElementById('packages-builder-modal');
     const cartFab = document.getElementById('cart-fab');
     const cartCountBadge = document.getElementById('cart-count-badge');
@@ -80,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const flyerModal = document.getElementById('flyer-modal');
     const flyerImageContainer = document.querySelector('.flyer-image-container');
     const flyerWhatsappBtn = document.querySelector('.flyer-whatsapp-btn');
+    // Fixed Packages Modal (New)
+    const fixedPackagesModal = document.getElementById('fixed-packages-modal');
+    const fixedPackagesGrid = document.getElementById('fixed-packages-grid');
 
 
     // Package Controls
@@ -1063,22 +1066,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const body = packagesBuilderModal.querySelector('.packages-builder-body');
         const countries = [...new Set(config.PACKAGES.map(p => p.country))];
 
+        // Updated: Removed Recommended Packages section
         let html = `
-            <h3 class="builder-section-title">Recommended Packages</h3>
-            <div class="flyer-grid">
-        `;
-        
-        window.packagesConfig.recommended.forEach(recPkg => {
-            html += `
-                <div class="flyer-card">
-                    <img src="${recPkg.image}" alt="${recPkg[`title_${currentLang}`]}" class="flyer-thumbnail" data-flyer-id="${recPkg.id}">
-                    <button class="flyer-see-more-btn" data-flyer-id="${recPkg.id}">${config.STRINGS[currentLang].viewPhotos || 'See More Info'}</button>
-                </div>
-            `;
-        });
-
-        html += `</div>
-            <h3 class="builder-section-title">Or, Build Your Own Package</h3>
+            <h3 class="builder-section-title">Select Country to Add Locations</h3>
             <div class="custom-builder-controls">
                 ${countries.map((c, i) => `<button class="filter-tab ${i === 0 ? 'active' : ''}" data-country="${c}">${c}</button>`).join('')}
             </div>
@@ -1087,6 +1077,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         body.innerHTML = html;
         renderCustomLocationsForBuilder(countries[0]);
+    };
+
+    const renderFixedPackagesModal = () => {
+        const container = document.getElementById('fixed-packages-grid');
+        let html = '';
+        
+        window.packagesConfig.recommended.forEach(recPkg => {
+            html += `
+                <div class="flyer-card">
+                    <img src="${recPkg.image}" alt="${recPkg[`title_${currentLang}`]}" class="flyer-thumbnail" data-flyer-id="${recPkg.id}">
+                    <button class="flyer-see-more-btn" data-flyer-id="${recPkg.id}">${seeMoreTranslations[currentLang] || 'See More Info'}</button>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
     };
 
     const renderCustomLocationsForBuilder = (country) => {
@@ -1117,6 +1122,12 @@ document.addEventListener('DOMContentLoaded', () => {
         stickyActionsContainer.classList.remove('fab-hidden');
     };
 
+    const openFixedPackagesModal = () => {
+        renderFixedPackagesModal();
+        fixedPackagesModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
     const openFlyerModal = (flyerId) => {
         const pkg = window.packagesConfig.recommended.find(p => p.id === flyerId);
         if(!pkg) return;
@@ -1127,9 +1138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         flyerWhatsappBtn.href = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
         flyerModal.classList.remove('hidden');
-        // We do NOT add modal-open class here if it's already open from the builder to prevent scrolling issues on close
-        // But since builder is already open, we're good. If opened directly, add it.
-        // Assuming builder stays open behind it.
+        // We do not add modal-open here if opened from another modal to keep scrolling behavior consistent or let it layer
     };
     
     // --- Event Listeners ---
@@ -1261,6 +1270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!packageModal.classList.contains('hidden')) closeModal(packageModal);
             if (!mediaLightbox.classList.contains('hidden')) closeModal(mediaLightbox);
             if (!flyerModal.classList.contains('hidden')) closeModal(flyerModal);
+            if (!fixedPackagesModal.classList.contains('hidden')) closeModal(fixedPackagesModal);
             // Close builder only if flyer is not open to avoid closing everything
             else if (!packagesBuilderModal.classList.contains('hidden')) closeModal(packagesBuilderModal);
             
@@ -1326,14 +1336,8 @@ document.addEventListener('DOMContentLoaded', () => {
         customPlanBtn.addEventListener('click', openPackagesBuilderModal);
     }
 
-    if (packagesScrollBtn) {
-        packagesScrollBtn.addEventListener('click', () => {
-             // If currently on Dashboard, switch to Sri Lanka to show packages
-             if (currentView === 'Dashboard') {
-                 switchView('Sri Lanka');
-             }
-             document.getElementById('packages').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
+    if (heroPackagesBtn) {
+        heroPackagesBtn.addEventListener('click', openFixedPackagesModal);
     }
 
     if (heroInfoBtn) {
@@ -1363,13 +1367,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === packagesBuilderModal || e.target.closest('.modal-close-btn')) {
             closeModal(packagesBuilderModal);
         }
-        
-        // Handle "See More Info" clicks for flyers
-        if (e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail')) {
-            const btn = e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail');
-            const flyerId = btn.dataset.flyerId;
-            openFlyerModal(flyerId);
-        }
 
         if (e.target.closest('.custom-builder-controls .filter-tab')) {
             const tab = e.target.closest('.custom-builder-controls .filter-tab');
@@ -1386,6 +1383,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 mainPageBtn.classList.toggle('added', btn.classList.contains('added'));
                 mainPageBtn.innerHTML = btn.innerHTML;
             }
+        }
+    });
+
+    fixedPackagesModal.addEventListener('click', e => {
+        if (e.target === fixedPackagesModal || e.target.closest('.modal-close-btn')) {
+            closeModal(fixedPackagesModal);
+        }
+
+        // Handle "See More Info" clicks for flyers
+        if (e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail')) {
+            const btn = e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail');
+            const flyerId = btn.dataset.flyerId;
+            openFlyerModal(flyerId);
         }
     });
 
