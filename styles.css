@@ -1937,20 +1937,20 @@ body.theme-srilanka .package-card {
 /* New Flyer Grid (used in Fixed Packages Modal) */
 .fixed-packages-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
+    grid-template-columns: repeat(2, 1fr); /* Always 2 columns */
+    gap: 0.8rem;
+    padding: 0.5rem;
+    max-width: 600px; /* Limit width on large screens to keep images from getting too huge */
+    margin: 0 auto; /* Center grid */
 }
-@media (min-width: 600px) {
-    .fixed-packages-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+
 .flyer-card {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    align-items: center;
 }
+
 .flyer-thumbnail {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -1960,21 +1960,18 @@ body.theme-srilanka .package-card {
     transition: transform 0.3s ease;
     cursor: pointer;
 }
-.flyer-thumbnail:hover {
-    transform: scale(1.02);
-}
+
 .flyer-see-more-btn {
     background: var(--accent);
     color: var(--button-text);
-    padding: 0.6rem;
+    padding: 0.5rem 0.2rem;
     border-radius: var(--radius-md);
     font-weight: 600;
     text-align: center;
     width: 100%;
     transition: opacity 0.2s ease;
-}
-.flyer-see-more-btn:hover {
-    opacity: 0.9;
+    font-size: 0.8rem; /* Smaller font */
+    line-height: 1;
 }
 
 /* NEW Fixed Packages Modal Content Styles */
@@ -1983,8 +1980,9 @@ body.theme-srilanka .package-card {
     border: 1px solid var(--card-border);
     border-radius: var(--radius-lg);
     width: 100%;
-    max-width: 900px;
-    height: 90vh;
+    max-width: 500px; /* Reduce max width to keep it compact */
+    max-height: 90vh; /* Cap height */
+    height: auto; /* Allow auto height to fit content rather than forced 90vh */
     display: flex;
     flex-direction: column;
     position: relative;
@@ -2013,6 +2011,10 @@ body.theme-srilanka .package-card {
     flex-grow: 1;
     overflow-y: auto;
     padding: 1.5rem;
+    /* Center the content vertically if space allows */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .fixed-packages-header .modal-close-btn {
     position: static; /* Override absolute positioning from global .modal-close-btn */
