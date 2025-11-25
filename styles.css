@@ -1953,7 +1953,7 @@ body.theme-srilanka .package-card {
 
 .flyer-thumbnail {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     border-radius: var(--radius-md);
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
