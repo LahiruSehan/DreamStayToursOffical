@@ -1,2574 +1,1443 @@
-/* --- GLOBAL STYLES & VARIABLES --- */
-:root {
-    --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    --font-quote-1: 'Playfair Display', serif;
-    --font-quote-2: 'Merriweather', serif;
-    --font-quote-3: 'Lobster', cursive;
-    --font-quote-4: 'Pacifico', cursive;
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- All data is now loaded from config.js ---
+
+    // --- DOM Elements ---
+    const preloader = document.getElementById('preloader');
+    const langModal = document.getElementById('language-modal');
+    const langButtonsContainer = document.querySelector('.lang-buttons');
+    const langButtons = document.querySelectorAll('.lang-btn');
+    const appWrapper = document.getElementById('app-wrapper');
+    const mainContent = document.getElementById('main-content');
+    const galleryPage = document.getElementById('gallery-page');
+    const galleryBtn = document.getElementById('gallery-btn');
+    const backToMainBtn = document.getElementById('back-to-main-btn');
+    const galleryGrid = document.getElementById('gallery-grid');
+    const galleryLayoutControls = document.querySelector('#gallery-controls .layout-controls');
+    const detailsSection = document.getElementById('details-section');
+    const packagesGrid = document.getElementById('packages-grid');
+    const mainFilterNav = document.querySelector('.filter-nav');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const thailandNav = document.getElementById('thailand-nav');
+    const thailandNavDashboard = document.getElementById('thailand-nav-dashboard');
+    const thailandNavHotels = document.getElementById('thailand-nav-hotels');
+    const thailandNavOther = document.getElementById('thailand-nav-other');
+    const packageModal = document.getElementById('package-modal');
+    const packageModalBody = document.getElementById('package-modal-body');
+    const stickyContactBtn = document.getElementById('contact-sticky-btn');
+    const heroWhatsappBtn = document.getElementById('hero-whatsapp-btn');
+    const faqAccordion = document.querySelector('.faq-accordion');
+    const reviewsWrapper = document.querySelector('.reviews-carousel-wrapper');
+    const reviewsGrid = document.getElementById('reviews-grid');
+    const heroTitle = document.querySelector('.hero-title-main');
+    const mediaLightbox = document.getElementById('media-lightbox');
+    const mediaLightboxBody = document.getElementById('media-lightbox-body');
+    const mediaLightboxTitle = document.getElementById('media-lightbox-title');
+    // Chatbot elements
+    const chatbotStickyBtn = document.getElementById('chatbot-sticky-btn');
+    const chatbotModal = document.getElementById('chatbot-modal');
+    const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
+    const chatbotMessages = document.getElementById('chatbot-messages');
+    const chatbotQuestions = document.getElementById('chatbot-questions');
+    // Music elements
+    const backgroundMusic = document.getElementById('background-music');
+    // Language switcher
+    const langSwitcherBtn = document.getElementById('lang-switcher-btn');
+    // Hotel elements
+    const hotelToggleContainer = document.getElementById('hotel-toggle-container');
+    const showHotelsBtn = document.getElementById('show-hotels-btn');
+    const thailandHotelsSection = document.getElementById('thailand-hotels');
+    const hotelGrid = document.getElementById('hotel-grid');
+    // New Elements from update
+    const stickyActionsContainer = document.querySelector('.sticky-actions-container');
+    const heroSection = document.querySelector('.hero');
+    const customPlanBtn = document.getElementById('custom-plan-btn'); // Renamed from about
+    const heroDestinationsContainer = document.querySelector('.hero-destinations');
+    const heroInfoBtn = document.getElementById('hero-info-btn');
+    const aboutModal = document.getElementById('about-modal');
+    const aboutModalBody = document.getElementById('about-modal-body');
+    // New preloader elements
+    const sakuraContainer = document.getElementById('sakura-container');
+    const progressContainer = document.getElementById('progress-container');
+    const progressBar = document.getElementById('progress-bar');
+    // New info containers
+    const dashboardInfoContainer = document.getElementById('dashboard-info-container');
+    const footerInfo = document.getElementById('footer-info');
+    const developerCredit = document.getElementById('developer-credit');
+
+
+    // --- NEW PACKAGE BUILDER & CART ELEMENTS ---
+    const packagesScrollBtn = document.getElementById('packages-scroll-btn');
+    const packagesBuilderModal = document.getElementById('packages-builder-modal');
+    const cartFab = document.getElementById('cart-fab');
+    const cartCountBadge = document.getElementById('cart-count-badge');
+    const cartModal = document.getElementById('cart-modal');
+    const cartModalBody = document.getElementById('cart-modal-body');
+    const cartClearBtn = document.getElementById('cart-clear-btn');
+    const cartSendBtn = document.getElementById('cart-send-btn');
+    // Flyer Modal
+    const flyerModal = document.getElementById('flyer-modal');
+    const flyerImageContainer = document.querySelector('.flyer-image-container');
+    const flyerWhatsappBtn = document.querySelector('.flyer-whatsapp-btn');
+
+
+    // Package Controls
+    const packageControls = document.getElementById('package-controls');
+    const layoutControls = document.querySelector('.layout-controls');
+    const filterCitySelect = document.getElementById('filter-city');
+    const sortPackagesSelect = document.getElementById('sort-packages');
+
+    // --- State ---
+    let currentLang = 'en';
+    let audioContextUnlocked = false;
+    let currentView = 'Dashboard';
+    let heroQuoteIntervalId;
+    let reviewCarouselIntervalId;
+    let currentReviewIndex = 0;
+    let currentLayout = '2';
+    let currentCityFilter = 'all';
+    let currentSort = 'default';
+    let hotelsRendered = false;
+    let customPackageCart = [];
+    let isHeroVisible = true;
+    const seeMoreTranslations = {
+        en: "See More",
+        si: "තව බලන්න",
+        ja: "もっと見る"
+    };
+
+    // --- New Gallery Data ---
+    const TOTAL_TOUR_IMAGES = 107;
+    const tourImages = [];
+    for (let i = 1; i <= TOTAL_TOUR_IMAGES; i++) {
+        tourImages.push({
+            url: `images/dreamstayimage (${i}).jpg`,
+            title_en: `Tour Photo ${i}`,
+            type: 'photo'
+        });
+    }
+
+    // --- Background Canvas Animation ---
+    const canvas = document.getElementById('background-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationFrameId;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
     
-    /* Default Theme (Dashboard) - Natural Day Theme */
-    --bg: linear-gradient(170deg, #f0f9ff, #cce7ff, #e3f2fd);
-    --accent: #ff7043; /* Deep Orange */
-    --text-primary: #0d47a1; /* Dark Blue */
-    --text-secondary: #1565c0; /* Medium Blue */
-    --card-bg: rgba(255, 255, 255, 0.7);
-    --card-border: rgba(0, 0, 0, 0.1);
-    --button-bg: var(--accent);
-    --button-text: #ffffff;
-    --shadow-color: rgba(255, 112, 67, 0.4);
-
-    --radius-md: 14px;
-    --radius-lg: 18px;
-    --transition-fast: 0.3s ease;
-    --transition-slow: 0.6s ease;
-}
-
-body.theme-srilanka {
-    --bg: linear-gradient(180deg, #1e3a8a, #172554);
-    --accent: #60a5fa;
-    --text-primary: #eff6ff;
-    --text-secondary: #dbeafe;
-    --card-bg: rgba(219, 234, 254, 0.1);
-    --card-border: rgba(96, 165, 250, 0.3);
-    --button-text: #1e3a8a;
-    --shadow-color: rgba(96, 165, 250, 0.2);
-}
-
-body.theme-thailand {
-    --bg: linear-gradient(180deg, #583101, #331200);
-    --accent: #ffb84d;
-    --text-primary: #fff4e6;
-    --text-secondary: #ffecd1;
-    --card-bg: rgba(255, 244, 230, 0.1);
-    --card-border: rgba(255, 184, 77, 0.3);
-    --button-text: #583101;
-    --shadow-color: rgba(255, 184, 77, 0.2);
-}
-
-body.theme-japan {
-    --bg: linear-gradient(180deg, #4c0033, #15000b);
-    --accent: #ff6fa3;
-    --text-primary: #ffeef7;
-    --text-secondary: #ffdbe6;
-    --card-bg: rgba(255, 238, 247, 0.1);
-    --card-border: rgba(255, 111, 163, 0.3);
-    --button-text: #4c0033;
-    --shadow-color: rgba(255, 111, 163, 0.2);
-}
-
-body.theme-malaysia {
-    --bg: linear-gradient(180deg, #013220, #001f14);
-    --accent: #15d39a;
-    --text-primary: #e9fff8;
-    --text-secondary: #d6fff0;
-    --card-bg: rgba(22, 211, 154, 0.08);
-    --card-border: rgba(22, 211, 154, 0.2);
-    --button-text: #013220;
-    --shadow-color: rgba(21, 211, 154, 0.2);
-}
-
-body.theme-india {
-    --bg: linear-gradient(180deg, #4a2511, #2b1205);
-    --accent: #ff6b00;
-    --text-primary: #fff7e6;
-    --text-secondary: #fff0d9;
-    --card-bg: rgba(255, 247, 230, 0.1);
-    --card-border: rgba(255, 107, 0, 0.3);
-    --button-text: #4a2511;
-    --shadow-color: rgba(255, 107, 0, 0.2);
-}
-
-
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    height: 100%;
-}
-
-body {
-    font-family: var(--font-primary);
-    background-image: var(--bg);
-    color: var(--text-primary);
-    overflow-x: hidden;
-    background-size: 200% 200%;
-    animation: gradientShift 15s ease infinite;
-    min-height: 100vh; /* Fallback for older browsers */
-    min-height: 100svh; /* More accurate viewport height for mobile */
-    display: flex;
-    flex-direction: column;
-}
-
-#app-wrapper {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-#main-content, #gallery-page {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-#gallery-page > main {
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
-body.modal-open {
-    overflow: hidden;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-
-button, a {
-    cursor: pointer;
-    font-family: inherit;
-    color: inherit;
-    border: none;
-    background: none;
-    text-decoration: none;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* --- ANIMATIONS --- */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInScaleUp {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 var(--shadow-color); }
-    50% { transform: scale(1.05); box-shadow: 0 0 20px 10px rgba(0,0,0,0); }
-}
-
-@keyframes continuous-shake {
-    0%, 100% { transform: rotate(0); }
-    25% { transform: rotate(-2.5deg); }
-    75% { transform: rotate(2.5deg); }
-}
-
-@keyframes glow {
-  from {
-    box-shadow: 0 0 10px -5px var(--shadow-color), 0 0 0 2px var(--card-border);
-  }
-  to {
-    box-shadow: 0 0 25px 8px var(--shadow-color), 0 0 0 2px var(--accent);
-  }
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
+    function createParticles(config) {
+        particles = [];
+        if (!config || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        
+        const count = config.count;
+        for (let i = 0; i < count; i++) {
+             particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * (config.vx[1] - config.vx[0]) + config.vx[0],
+                vy: Math.random() * (config.vy[1] - config.vy[0]) + config.vy[0],
+                size: Math.random() * (config.size[1] - config.size[0]) + config.size[0],
+                char: Array.isArray(config.chars) ? config.chars[Math.floor(Math.random() * config.chars.length)] : config.char,
+                color: Array.isArray(config.colors) ? config.colors[Math.floor(Math.random() * config.colors.length)] : config.color,
+            });
+        }
     }
-    40% {
-        transform: translateY(-15px);
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x > canvas.width + p.size) p.x = -p.size;
+            if (p.y > canvas.height + p.size) p.y = -p.size;
+            if (p.x < -p.size) p.x = canvas.width + p.size;
+            if (p.y < -p.size) p.y = canvas.height + p.size;
+
+
+            ctx.fillStyle = p.color;
+            ctx.font = `${p.size}px serif`;
+            ctx.fillText(p.char, p.x, p.y);
+        });
+        animationFrameId = requestAnimationFrame(animateParticles);
     }
-    60% {
-        transform: translateY(-7px);
+    
+    const themeParticles = {
+        Dashboard: { count: 0 },
+        Japan: { count: 30, vx: [-0.2, 0.2], vy: [0.3, 0.8], size: [10, 20], char: '🌸', color: 'rgba(255, 182, 193, 0.5)' },
+        Thailand: { count: 20, vx: [-0.1, 0.1], vy: [-0.5, -0.2], size: [15, 25], char: '🏮', color: 'rgba(255, 184, 77, 0.4)' },
+        Malaysia: { count: 40, vx: [-0.3, 0.3], vy: [0.1, 0.5], size: [10, 20], char: '🌙', color: 'rgba(230, 230, 250, 0.6)' },
+        India: { count: 35, vx: [-0.2, 0.2], vy: [0.2, 0.7], size: [15, 25], chars: ['🕉️', '☪️', '✝️', '☸️', '☬'], colors: ['rgba(255, 153, 51, 0.7)', 'rgba(19, 141, 117, 0.7)', 'rgba(88, 144, 255, 0.7)', 'rgba(255, 215, 0, 0.7)', 'rgba(240, 178, 122, 0.7)'] },
+        "Sri Lanka": { count: 30, vx: [-0.2, 0.2], vy: [0.3, 0.8], size: [15, 25], char: '🌊', color: 'rgba(96, 165, 250, 0.5)' }
+    };
+
+    // --- Audio Functions ---
+    const playAudio = () => {
+        if (!audioContextUnlocked) {
+            console.log("Audio context not unlocked. Cannot play.");
+            return;
+        }
+        if (backgroundMusic.paused) {
+            backgroundMusic.volume = 0.3; // A safe, non-jarring volume
+            const playPromise = backgroundMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("✅ Audio playback started successfully.");
+                }).catch(error => {
+                    console.error("❌ Audio playback failed:", error);
+                });
+            }
+        }
+    };
+    
+    // --- Core App Functions ---
+    const createSakuraPetals = () => {
+        if (!sakuraContainer) return;
+        const petalCount = 75;
+        const petalImage = 'https://i.ibb.co/ymK8Dcdz/Pngtree-a_single_delicate_pink_cherry-23112589.png';
+        for (let i = 0; i < petalCount; i++) {
+            const petal = document.createElement('img');
+            petal.src = petalImage;
+            petal.className = 'sakura-petal';
+            petal.style.left = `${Math.random() * 100}vw`;
+            const size = Math.random() * 20 + 15;
+            petal.style.width = `${size}px`;
+            petal.style.height = 'auto';
+            petal.style.animationDuration = `${Math.random() * 5 + 7}s`; // 7-12s
+            petal.style.animationDelay = `${Math.random() * 7}s`;
+            petal.style.opacity = Math.random() * 0.5 + 0.3;
+            petal.style.transform = `rotate(${Math.random() * 360}deg)`;
+            sakuraContainer.appendChild(petal);
+        }
+    };
+
+    const initPreloaderAnimation = () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            langButtonsContainer.classList.remove('hidden');
+            langButtons.forEach(btn => btn.style.opacity = 1);
+            return;
+        }
+    
+        createSakuraPetals();
+        langButtonsContainer.parentElement.classList.add('hidden'); // Hide language modal initially
+        
+        setTimeout(() => {
+            progressContainer.classList.remove('hidden');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = `${progress}%`;
+    
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    progressContainer.style.transition = 'opacity 0.5s ease';
+                    progressContainer.style.opacity = '0';
+                    setTimeout(() => {
+                        progressContainer.classList.add('hidden');
+                        langButtonsContainer.parentElement.classList.remove('hidden');
+                        langButtons.forEach((btn, index) => {
+                            btn.style.animation = `button-fade-in-up 0.5s ease ${index * 0.15}s forwards`;
+                        });
+                    }, 500);
+                }
+            }, 50); // 50ms * 100 = 5000ms = 5 seconds
+        }, 1500); // Wait 1.5s for logo to animate in
+    };
+    
+    const showPreloader = () => {
+        preloader.classList.remove('hidden');
+        initPreloaderAnimation();
+    };
+
+    const startApp = (selectedLanguage) => {
+        // If the selected language differs from the pre-rendered one (English), re-render content
+        if (selectedLanguage !== 'en') {
+            setLanguage(selectedLanguage);
+        }
+    
+        preloader.classList.add('fade-out');
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+        }, 500);
+    
+        appWrapper.classList.remove('hidden');
+        document.body.classList.add('app-loaded'); // Signals that the main app is visible now
+    
+        switchView('Dashboard', true);
+        startHeroQuoteAnimation();
+        startReviewCarousel();
+    };
+    
+    const setLanguage = (lang) => {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        translateUI(currentLang);
+        updateWhatsappLinks();
+        renderFAQ();
+        renderReviews();
+        if(dashboardInfoContainer) renderCompanyInfo(dashboardInfoContainer);
+        if(aboutModalBody) renderCompanyInfo(aboutModalBody);
+        renderFooter();
+        if (currentView === 'Dashboard') {
+            renderDashboard();
+        } else {
+            renderPackages();
+            if(currentView === 'Thailand' && hotelsRendered){
+                renderHotels();
+            }
+        }
+    };
+
+    const translateUI = (lang) => {
+        const elements = document.querySelectorAll('[data-lang-key]');
+        elements.forEach(el => {
+            const key = el.dataset.langKey;
+            if (config.STRINGS[lang] && config.STRINGS[lang][key]) {
+                el.textContent = config.STRINGS[lang][key];
+            }
+        });
+    };
+
+    const updateWhatsappLinks = () => {
+        const message = config.STRINGS[currentLang].whatsappMsg("");
+        const url = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message.replace('"" ', ''))}`;
+        stickyContactBtn.href = url;
+        if (heroWhatsappBtn) {
+            heroWhatsappBtn.href = url;
+        }
+    };
+    
+    const renderPackages = () => {
+        packagesGrid.innerHTML = '';
+        
+        let packagesToRender = config.PACKAGES.filter(p => p.country === currentView);
+    
+        if (currentView === 'Thailand' && currentCityFilter !== 'all') {
+            packagesToRender = packagesToRender.filter(p => p.city === currentCityFilter);
+        }
+
+        if (currentSort === 'popularity') {
+            packagesToRender.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+        }
+
+        packagesToRender.forEach((pkg, index) => {
+            const card = document.createElement('div');
+
+            if (pkg.comingSoon) {
+                card.className = 'package-card coming-soon-card';
+                card.innerHTML = `
+                    <div class="coming-soon-content">
+                        <h3>${pkg[`title_${currentLang}`]}</h3>
+                        <p>✨</p>
+                    </div>
+                `;
+                packagesGrid.appendChild(card);
+                return;
+            }
+
+            card.className = 'package-card animate-in';
+            card.dataset.id = pkg.id;
+            card.style.setProperty('--animation-delay', `${index * 50}ms`);
+
+
+            const images = config.LOCATION_IMAGES[pkg.id] || ['https://source.unsplash.com/800x600/?travel,placeholder'];
+            const isComingSoon = pkg.country === 'Sri Lanka' || pkg.country === 'Japan';
+            const isInCart = customPackageCart.some(item => item.id === pkg.id);
+            const addBtnClass = isInCart ? 'card-add-btn added' : 'card-add-btn';
+            const addBtnContent = isInCart ? '✓' : '➕';
+
+            const cardButtonHTML = isComingSoon
+                ? `<span class="card-notice-coming-soon">${config.STRINGS[currentLang].comingSoonNotice}</span>`
+                : `<div class="card-button">${seeMoreTranslations[currentLang]}</div>`;
+            
+            card.innerHTML = `
+                <div class="card-image-container">
+                    <img src="${images[0]}" alt="${pkg[`title_${currentLang}`]}" class="card-image" loading="lazy">
+                    <button class="${addBtnClass}" data-id="${pkg.id}" aria-label="Add ${pkg[`title_${currentLang}`]} to plan">${addBtnContent}</button>
+                </div>
+                <div class="card-content">
+                    <p class="card-country">${pkg.country}</p>
+                    <h3 class="card-title">${pkg[`title_${currentLang}`]}</h3>
+                    <p class="card-details-short">${pkg[`short_desc_${currentLang}`]}</p>
+                    <div class="card-details">
+                        <span>${pkg.city || ''}</span>
+                        <span class="card-rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: gold;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                            ${pkg.rating}
+                        </span>
+                    </div>
+                    ${cardButtonHTML}
+                </div>
+            `;
+            
+            const contentPart = card.querySelector('.card-content');
+            if (contentPart) {
+                contentPart.addEventListener('click', () => openPackageModal(pkg.id));
+            }
+            
+            packagesGrid.appendChild(card);
+        });
+
+        if (packagesToRender.length === 0) {
+            packagesGrid.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; padding: 2rem;">No locations match the current filters.</p>`;
+        }
+        setupIntersectionObserver('.package-card.animate-in');
+    };
+    
+    const switchView = (view, forceParticles = false) => {
+        const oldView = currentView;
+        currentView = view;
+
+        filterTabs.forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.country === view);
+        });
+        
+        const themeClass = view === 'Dashboard' ? '' : `theme-${view.toLowerCase().replace(' ', '')}`;
+        document.body.className = ``; 
+        if (view !== 'Dashboard') {
+            document.body.classList.add('country-view', themeClass);
+            
+            packageControls.classList.remove('hidden');
+            mainFilterNav.classList.toggle('hidden', view === 'Thailand');
+            thailandNav.classList.toggle('hidden', view !== 'Thailand');
+            filterCitySelect.classList.toggle('hidden', view !== 'Thailand');
+            sortPackagesSelect.classList.toggle('hidden', view === 'Thailand');
+            
+            hotelToggleContainer.classList.toggle('hidden', view !== 'Thailand');
+            if (view !== 'Thailand') {
+                thailandHotelsSection.classList.add('hidden');
+                showHotelsBtn.textContent = config.STRINGS[currentLang].seeThailandHotels;
+            }
+            
+            filterCitySelect.value = 'all';
+            currentCityFilter = 'all';
+            sortPackagesSelect.value = 'default';
+            currentSort = 'default';
+            
+            currentLayout = '2';
+            packagesGrid.className = 'packages-grid'; 
+            packagesGrid.classList.add(`columns-${currentLayout}`);
+            layoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            layoutControls.querySelector(`button[data-layout='2']`).classList.add('active');
+
+            renderPackages();
+        } else {
+             packageControls.classList.add('hidden');
+             hotelToggleContainer.classList.add('hidden');
+             thailandHotelsSection.classList.add('hidden');
+             mainFilterNav.classList.remove('hidden');
+             thailandNav.classList.add('hidden');
+        }
+
+        if (oldView !== view || forceParticles) {
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+            const particleConfig = themeParticles[view];
+            if (particleConfig && particleConfig.count > 0) {
+                createParticles(particleConfig);
+                animateParticles();
+            } else {
+                particles = [];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+    };
+
+    const renderCompanyInfo = (container) => {
+        if (!container || !window.aboutConfig) return;
+        const lang = currentLang;
+        container.innerHTML = `
+            <div class="info-section animate-in">
+                <h3>DreamStay Tours Sri Lanka HQ</h3>
+                <div class="info-contact-grid">
+                    <div class="info-contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span>${window.aboutConfig.ADDRESS}</span>
+                    </div>
+                    <div class="info-contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <a href="mailto:${window.aboutConfig.EMAIL}">${window.aboutConfig.EMAIL}</a>
+                    </div>
+                </div>
+                <ul class="info-points-list">
+                    ${window.aboutConfig.INFO_POINTS.map(point => `
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <span>${point[lang] || point['en']}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </div>
+        `;
+        setupIntersectionObserver('.info-section.animate-in');
+    };
+    
+    const renderDashboard = () => {
+        const detailsGrid = detailsSection.querySelector('.details-grid');
+        const sponsorsGrid = detailsSection.querySelector('.sponsors-grid');
+        const servicesContainer = document.getElementById('services-section-container');
+
+        detailsGrid.innerHTML = '';
+        sponsorsGrid.innerHTML = '';
+        servicesContainer.innerHTML = '';
+
+        config.DETAILS_STATS.forEach((stat, index) => {
+            const card = document.createElement('div');
+            card.className = 'stat-card animate-in';
+            card.style.setProperty('--animation-delay', `${index * 100}ms`);
+            card.innerHTML = `
+                <div class="stat-number" data-target="${stat.value}">0</div>
+                <div class="stat-label">${stat[`label_${currentLang}`]}</div>
+            `;
+            detailsGrid.appendChild(card);
+        });
+        
+        renderCompanyInfo(dashboardInfoContainer);
+        
+        const servicesHTML = `
+            <div class="services-section">
+                <h3 class="services-title animate-in">${config.STRINGS[currentLang].servicesTitle}</h3>
+                <div class="services-grid">
+                    <div class="service-item animate-in" style="--animation-delay: 0ms;">
+                        <div class="service-icon">✈️</div>
+                        <p class="service-label">${config.STRINGS[currentLang].serviceAirTickets}</p>
+                    </div>
+                    <div class="service-item animate-in" style="--animation-delay: 100ms;">
+                        <div class="service-icon">🛂</div>
+                        <p class="service-label">${config.STRINGS[currentLang].serviceVisa}</p>
+                    </div>
+                    <div class="service-item animate-in" style="--animation-delay: 200ms;">
+                        <div class="service-icon">🚌</div>
+                        <p class="service-label">${config.STRINGS[currentLang].serviceTransport}</p>
+                    </div>
+                    <div class="service-item animate-in" style="--animation-delay: 300ms;">
+                        <div class="service-icon">🥐</div>
+                        <p class="service-label">${config.STRINGS[currentLang].serviceBreakfast}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        servicesContainer.innerHTML = servicesHTML;
+
+        config.SPONSORS.forEach((sponsor, index) => {
+            const link = document.createElement('a');
+            link.href = sponsor.url;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.innerHTML = `<img src="${sponsor.logoUrl}" alt="${sponsor.name}" class="sponsor-logo animate-in">`;
+            link.querySelector('img').style.setProperty('--animation-delay', `${index * 100}ms`);
+            sponsorsGrid.appendChild(link);
+        });
+        
+        setupIntersectionObserver('.animate-in');
+    };
+
+    const animateCountUp = (el) => {
+        const target = +el.dataset.target;
+        if (isNaN(target)) return;
+        
+        const duration = 2000;
+        const frameRate = 1000 / 60;
+        const totalFrames = Math.round(duration / frameRate);
+        let frame = 0;
+
+        const counter = setInterval(() => {
+            frame++;
+            const progress = frame / totalFrames;
+            const easeOutProgress = progress * (2 - progress);
+            const currentCount = Math.round(target * easeOutProgress);
+            
+            el.textContent = currentCount.toLocaleString(currentLang.startsWith('en') ? 'en-US' : 'si-LK');
+
+            if (frame === totalFrames) {
+                clearInterval(counter);
+                el.textContent = target.toLocaleString(currentLang.startsWith('en') ? 'en-US' : 'si-LK');
+            }
+        }, frameRate);
+    };
+    
+    const setupIntersectionObserver = (selector = '.animate-in') => {
+        const animatedElements = document.querySelectorAll(`${selector}:not(.is-visible)`);
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = entry.target.style.getPropertyValue('--animation-delay') || '0ms';
+                    setTimeout(() => {
+                        entry.target.classList.add('is-visible');
+                    
+                        const statNumberEl = entry.target.querySelector('.stat-number');
+                        if (statNumberEl) {
+                            animateCountUp(statNumberEl);
+                        } else if (entry.target.matches('.stat-number')) {
+                            animateCountUp(entry.target);
+                        }
+                    }, parseFloat(delay));
+
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        animatedElements.forEach(el => observer.observe(el));
+    };
+
+    const formatDescription = (text) => {
+        if (!text) return '';
+        let html = '';
+        const lines = text.split('\n');
+        let inList = false;
+
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('* ')) {
+                if (!inList) {
+                    html += '<ul>';
+                    inList = true;
+                }
+                const itemContent = trimmedLine.substring(2)
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                html += `<li>${itemContent}</li>`;
+            } else {
+                if (inList) {
+                    html += '</ul>';
+                    inList = false;
+                }
+                if (trimmedLine === '') {
+                    // We can ignore empty lines as the <p> tags will create space.
+                } else {
+                    const formattedLine = trimmedLine.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    html += `<p>${formattedLine}</p>`;
+                }
+            }
+        }
+
+        if (inList) {
+            html += '</ul>';
+        }
+        return html;
+    };
+
+    const openPackageModal = (packageId) => {
+        const pkg = config.PACKAGES.find(p => p.id === packageId);
+        if (!pkg) return;
+
+        const modalData = config.MODAL_CONTENT[packageId] || { smallImages: [], youtubeUrl: '' };
+        const whatsappMessage = config.STRINGS[currentLang].whatsappInquiry(pkg[`title_${currentLang}`]);
+        const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+        const images = config.LOCATION_IMAGES[pkg.id] || [];
+
+        let videoEmbedUrl = '';
+        if (modalData.youtubeUrl) {
+            const videoIdMatch = modalData.youtubeUrl.match(/(?:v=|\/embed\/|\/)([a-zA-Z0-9_-]{11})/);
+            if (videoIdMatch && videoIdMatch[1]) {
+                const videoId = videoIdMatch[1];
+                videoEmbedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playsinline=1&loop=1&playlist=${videoId}`;
+            }
+        }
+
+        const isComingSoon = pkg.country === 'Sri Lanka' || pkg.country === 'Japan';
+        const modalButtonHTML = isComingSoon
+            ? `<span class="cta-primary" style="width:100%; text-align:center; display:block; background: #e74c3c; cursor: not-allowed;">${config.STRINGS[currentLang].comingSoonNotice}</span>`
+            : `<a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactUs}</a>`;
+        
+        const formattedDesc = formatDescription(pkg[`desc_en`]);
+
+        const modalContentHTML = `
+            <div class="modal-image-carousel">
+                ${images.map(img => `<img src="${img}" alt="${pkg[`title_${currentLang}`]}" class="modal-image">`).join('')}
+            </div>
+            
+            ${modalData.smallImages && modalData.smallImages.length > 0 ? `
+            <div class="modal-small-images-container">
+                ${modalData.smallImages.map(img => `<img src="${img}" alt="Detail view" class="modal-small-image" loading="lazy">`).join('')}
+            </div>
+            ` : ''}
+
+            ${videoEmbedUrl ? `
+            <div class="modal-video-container">
+                <iframe src="${videoEmbedUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            ` : ''}
+
+            <h2 id="package-modal-title">${pkg[`title_${currentLang}`]}</h2>
+            <div class="modal-desc">${formattedDesc}</div>
+            <p class="modal-desc" style="font-style: italic; opacity: 0.7;">${pkg[`desc_si`]}</p>
+            <p class="modal-desc" style="font-style: italic; opacity: 0.7;">${pkg[`desc_ja`]}</p>
+            ${modalButtonHTML}
+        `;
+        
+        packageModalBody.innerHTML = modalContentHTML;
+        packageModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
+    const openHotelModal = (hotelId) => {
+        const hotel = config.THAILAND_HOTELS.find(h => h.id === hotelId);
+        if (!hotel) return;
+    
+        const whatsappMessage = config.STRINGS[currentLang].whatsappHotelInquiry(hotel.name);
+        const whatsappUrl = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+    
+        const modalContentHTML = `
+            <div class="modal-image-carousel">
+                ${hotel.images.map(img => `<img src="${img}" alt="${hotel.name}" class="modal-image">`).join('')}
+            </div>
+            <h2 id="package-modal-title">${hotel.name}</h2>
+            <div class="card-details" style="margin-bottom: 1.5rem; font-size: 1.1rem; justify-content: flex-start; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="color: gold;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                <b>${hotel.rating}</b>
+            </div>
+            <p class="modal-desc">${hotel[`desc_${currentLang}`]}</p>
+            <a href="${whatsappUrl}" class="cta-primary" target="_blank" rel="noopener noreferrer" style="width:100%; text-align:center; display:block;">${config.STRINGS[currentLang].contactUs}</a>
+        `;
+    
+        packageModalBody.innerHTML = modalContentHTML;
+        packageModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+    
+    const closeModal = (modal) => {
+        modal.classList.add('hidden');
+        document.body.classList.remove('modal-open');
+        stickyActionsContainer.classList.toggle('fab-hidden', isHeroVisible);
+        const modalBody = modal.querySelector('.modal-content > div');
+        if (modalBody && modal.id !== 'flyer-modal') {
+            modalBody.innerHTML = '';
+        }
+        // Flyer modal clear
+        if (modal.id === 'flyer-modal') {
+            const container = modal.querySelector('.flyer-image-container');
+            if(container) container.innerHTML = '';
+        }
     }
-}
+    
+    const openMediaLightbox = (mediaItem) => {
+        mediaLightboxBody.innerHTML = ''; 
+        const downloadBtn = document.getElementById('media-download-btn');
 
-@keyframes subtle-glow {
-    0%, 100% { box-shadow: 0 0 8px -2px var(--glow-color); }
-    50% { box-shadow: 0 0 16px 2px var(--glow-color); }
-}
+        if (mediaItem.type === 'photo') {
+            const img = document.createElement('img');
+            img.src = mediaItem.url;
+            img.alt = mediaItem.title_en; // Use a default title
+            mediaLightboxBody.appendChild(img);
+            downloadBtn.href = mediaItem.url;
+            downloadBtn.classList.remove('hidden');
+            mediaLightboxTitle.textContent = '';
+            mediaLightboxTitle.classList.add('hidden');
+        } else if (mediaItem.type === 'video') {
+            const iframe = document.createElement('iframe');
+            iframe.src = mediaItem.url;
+            iframe.title = mediaItem[`title_${currentLang}`];
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+            iframe.setAttribute('allowfullscreen', '');
+            mediaLightboxBody.appendChild(iframe);
+            downloadBtn.classList.add('hidden');
+            mediaLightboxTitle.textContent = mediaItem[`title_${currentLang}`];
+            mediaLightboxTitle.classList.remove('hidden');
+        }
 
-@keyframes button-glow {
-    0%, 100% { 
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.2); 
+        mediaLightbox.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
+    const openAboutModal = () => {
+        renderCompanyInfo(aboutModalBody);
+        aboutModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
+    const renderFAQ = () => {
+        faqAccordion.innerHTML = '';
+        config.FAQ_DATA.forEach(item => {
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.innerHTML = `
+                <button class="faq-question" aria-expanded="false">
+                    <span>${item[`q_${currentLang}`]}</span>
+                    <span class="faq-toggle">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>${item[`a_${currentLang}`]}</p>
+                </div>
+            `;
+            faqAccordion.appendChild(faqItem);
+        });
+    };
+
+    const renderReviews = () => {
+        if (!reviewsGrid) return;
+        reviewsGrid.innerHTML = '';
+        config.REVIEWS_DATA.forEach((review, index) => {
+            const card = document.createElement('div');
+            card.className = 'review-card animate-in';
+            card.style.setProperty('--animation-delay', `${index * 100}ms`);
+            card.innerHTML = `
+                <p class="review-quote">“${review[`quote_${currentLang}`]}”</p>
+                <div class="review-author">
+                    <img src="${review.avatar}" alt="${review.name}" class="review-author-img" loading="lazy">
+                    <div class="review-author-info">
+                        <h4>${review.name}</h4>
+                        <p>${review[`country_${currentLang}`]}</p>
+                    </div>
+                </div>
+                ${review.photos && review.photos.length > 0 ? `<button class="review-photos-btn" data-review-id="${review.name}">${config.STRINGS[currentLang].viewPhotos}</button>` : ''}
+            `;
+            reviewsGrid.appendChild(card);
+        });
+        setupIntersectionObserver('.review-card.animate-in');
+    };
+
+    const renderHotels = () => {
+        hotelGrid.innerHTML = '';
+        config.THAILAND_HOTELS.forEach((hotel, index) => {
+            const card = document.createElement('div');
+            card.className = 'hotel-card animate-in';
+            card.style.setProperty('--animation-delay', `${index * 50}ms`);
+            card.innerHTML = `
+                <div class="hotel-card-images">
+                    <img src="${hotel.images[0]}" alt="${hotel.name}" loading="lazy">
+                    <img src="${hotel.images[1]}" alt="${hotel.name}" loading="lazy">
+                    <img src="${hotel.images[2]}" alt="${hotel.name}" loading="lazy">
+                </div>
+                <div class="hotel-card-content">
+                    <h3 class="hotel-card-title">${hotel.name}</h3>
+                    <div class="hotel-card-rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="color: gold;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <b>${hotel.rating}</b>
+                    </div>
+                </div>
+            `;
+            card.addEventListener('click', () => openHotelModal(hotel.id));
+            hotelGrid.appendChild(card);
+        });
+        setupIntersectionObserver('.hotel-card.animate-in');
+    };
+
+    const renderGallery = () => {
+        galleryGrid.innerHTML = '';
+        tourImages.forEach(item => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item animate-in';
+            galleryItem.dataset.type = item.type;
+            galleryItem.innerHTML = `
+                <img src="${item.url}" alt="${item.title_en}" loading="lazy">
+                <div class="gallery-item-overlay"></div>
+            `;
+            galleryItem.addEventListener('click', () => openMediaLightbox(item));
+            galleryGrid.appendChild(galleryItem);
+        });
+        setupIntersectionObserver('.gallery-item.animate-in');
+    };
+
+    const renderFooter = () => {
+        if (!footerInfo || !developerCredit || !window.aboutConfig) return;
+        footerInfo.innerHTML = `
+            <p>${window.aboutConfig.ADDRESS}</p>
+            <p><a href="mailto:${window.aboutConfig.EMAIL}">${window.aboutConfig.EMAIL}</a></p>
+        `;
+        developerCredit.innerHTML = `
+            <a href="${window.aboutConfig.DEVELOPER.FB_URL}" target="_blank" rel="noopener noreferrer">
+                Developed by ${window.aboutConfig.DEVELOPER.NAME}
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.04c-5.5 0-10 4.49-10 10.02 0 5 3.66 9.15 8.44 9.9v-7.02h-2.53v-2.89h2.53v-2.19c0-2.5 1.49-3.88 3.78-3.88 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.89h-2.33v7.02c4.78-.75 8.44-4.9 8.44-9.9C22 6.53 17.5 2.04 12 2.04z"></path></svg>
+            </a>
+        `;
+    };
+
+    const showGalleryPage = () => {
+        mainContent.classList.add('hidden');
+        galleryPage.classList.remove('hidden');
+        galleryGrid.className = 'gallery-grid columns-3';
+        renderGallery();
+        document.body.className = ''; // Use default light theme
+        const galleryMain = galleryPage.querySelector('main');
+        galleryMain.scrollTo(0, 0);
+    };
+
+    const hideGalleryPage = () => {
+        galleryPage.classList.add('hidden');
+        mainContent.classList.remove('hidden');
+        
+        if (currentView !== 'Dashboard') {
+            const themeClass = `theme-${currentView.toLowerCase().replace(' ', '')}`;
+            document.body.className = `country-view ${themeClass}`;
+        } else {
+            document.body.className = '';
+        }
+        window.scrollTo(0, 0);
+    };
+
+    const startHeroQuoteAnimation = () => {
+        if (heroQuoteIntervalId) clearInterval(heroQuoteIntervalId);
+        if (!heroTitle) return;
+    
+        const quotes = config.HERO_QUOTES[currentLang];
+        
+        if (currentLang === 'en') {
+            const quoteToReplace = "Crafting memories, one journey at a time";
+            const index = quotes.indexOf(quoteToReplace);
+            if (index !== -1) {
+                quotes[index] = "Crafting Journeys & Memories";
+            }
+        }
+
+        let quoteIndex = 0;
+        heroTitle.textContent = quotes[quoteIndex];
+    
+        heroQuoteIntervalId = setInterval(() => {
+            heroTitle.style.opacity = '0';
+    
+            setTimeout(() => {
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+                heroTitle.textContent = quotes[quoteIndex];
+                heroTitle.style.opacity = '1';
+            }, 400);
+    
+        }, 5000);
+    };
+    
+    const startReviewCarousel = () => {
+        if (reviewCarouselIntervalId) clearInterval(reviewCarouselIntervalId);
+        const totalReviews = config.REVIEWS_DATA.length;
+        if (!reviewsGrid || totalReviews <= 1) return;
+
+        const reviews = reviewsGrid.querySelectorAll('.review-card');
+        if (reviews.length === 0) return;
+
+        let reviewWidth = 0;
+        const calculateReviewWidth = () => {
+            if(reviews.length > 0) {
+                 const card = reviews[0];
+                 const gap = parseFloat(getComputedStyle(reviewsGrid).gap);
+                 reviewWidth = card.offsetWidth + gap;
+            }
+        };
+        calculateReviewWidth();
+
+        reviewCarouselIntervalId = setInterval(() => {
+            currentReviewIndex = (currentReviewIndex + 1) % totalReviews;
+            reviewsGrid.style.transform = `translateX(-${reviewWidth * currentReviewIndex}px)`;
+
+            if (currentReviewIndex === totalReviews -1) {
+                setTimeout(() => {
+                    reviewsGrid.style.transition = 'none';
+                    currentReviewIndex = -1;
+                }, 800);
+                 setTimeout(() => {
+                    reviewsGrid.style.transform = `translateX(0)`;
+                    reviewsGrid.style.transition = 'transform 0.8s cubic-bezier(0.65, 0, 0.35, 1)';
+                 }, 850);
+            }
+
+        }, 2000);
+        
+        window.addEventListener('resize', calculateReviewWidth);
+    };
+
+    const stopReviewCarousel = () => {
+        clearInterval(reviewCarouselIntervalId);
+    };
+
+    // --- Chatbot Functions ---
+    const addMessageToChat = (text, type = 'bot') => {
+        const messageEl = document.createElement('div');
+        messageEl.className = `chat-message ${type}`;
+        messageEl.textContent = text;
+        chatbotMessages.appendChild(messageEl);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    };
+
+    const renderChatbot = () => {
+        chatbotMessages.innerHTML = '';
+        chatbotQuestions.innerHTML = '';
+
+        addMessageToChat(config.CHATBOT_DATA[`welcome_${currentLang}`]);
+        
+        config.CHATBOT_DATA.questions.forEach((q, index) => {
+            const questionBtn = document.createElement('button');
+            questionBtn.className = 'chatbot-question-btn';
+            questionBtn.textContent = q[`q_${currentLang}`];
+            questionBtn.dataset.index = index;
+            chatbotQuestions.appendChild(questionBtn);
+        });
+    };
+    
+    const handleQuestionClick = (e) => {
+        const btn = e.target.closest('.chatbot-question-btn');
+        if (!btn) return;
+        
+        const questionIndex = btn.dataset.index;
+        const questionData = config.CHATBOT_DATA.questions[questionIndex];
+        
+        addMessageToChat(questionData[`q_${currentLang}`], 'user');
+        
+        setTimeout(() => {
+            addMessageToChat(questionData[`a_${currentLang}`], 'bot');
+        }, 500);
+
+        chatbotQuestions.innerHTML = `
+            <button class="chatbot-question-btn" id="ask-another-btn">${config.STRINGS[currentLang].chatbotAskAnother}</button>
+        `;
+        document.getElementById('ask-another-btn').addEventListener('click', renderChatbot);
+    };
+
+    // --- NEW PACKAGE BUILDER & CART FUNCTIONS ---
+    const updateCartFab = () => {
+        const count = customPackageCart.length;
+        if (count > 0) {
+            cartFab.classList.remove('hidden');
+            cartCountBadge.textContent = count;
+        } else {
+            cartFab.classList.add('hidden');
+        }
+    };
+
+    const handleAddToCart = (packageId, buttonEl) => {
+        const alreadyInCart = customPackageCart.some(item => item.id === packageId);
+        if (alreadyInCart) {
+            // Remove from cart
+            customPackageCart = customPackageCart.filter(item => item.id !== packageId);
+            buttonEl.classList.remove('added');
+            buttonEl.innerHTML = '➕';
+        } else {
+            // Add to cart
+            const pkg = config.PACKAGES.find(p => p.id === packageId);
+            if (pkg) {
+                customPackageCart.push(pkg);
+                buttonEl.classList.add('added');
+                buttonEl.innerHTML = '✓';
+            }
+        }
+        updateCartFab();
+    };
+    
+    const openCartModal = () => {
+        cartModalBody.innerHTML = '';
+        if (customPackageCart.length === 0) {
+            cartModal.classList.remove('hidden');
+            return;
+        }
+
+        customPackageCart.forEach(pkg => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'cart-item';
+            itemEl.dataset.id = pkg.id;
+            itemEl.innerHTML = `
+                <img src="${config.LOCATION_IMAGES[pkg.id][0]}" class="cart-item-img" alt="${pkg.title_en}">
+                <div class="cart-item-info">
+                    <div class="cart-item-title">${pkg[`title_${currentLang}`]}</div>
+                    <div class="cart-item-country">${pkg.country}</div>
+                </div>
+                <button class="cart-item-remove-btn" aria-label="Remove ${pkg.title_en}">✖</button>
+            `;
+            cartModalBody.appendChild(itemEl);
+        });
+        cartModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+    };
+
+    const clearCart = () => {
+        customPackageCart = [];
+        updateCartFab();
+        openCartModal();
+        renderPackages(); // Re-render to update add buttons
+        document.querySelectorAll('.custom-location-card .card-add-btn').forEach(btn => {
+            btn.classList.remove('added');
+            btn.innerHTML = '➕';
+        });
+    };
+    
+    const sendCartToWhatsapp = () => {
+        if (customPackageCart.length === 0) return;
+        const locations = customPackageCart.map(p => `- ${p.title_en} (${p.country})`).join('\n');
+        const message = `Hello DreamStay Tours, I'm interested in a custom tour with the following locations:\n\n${locations}\n\nPlease provide me with a quote!`;
+        const url = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    };
+
+    const renderPackagesBuilderModal = () => {
+        const body = packagesBuilderModal.querySelector('.packages-builder-body');
+        const countries = [...new Set(config.PACKAGES.map(p => p.country))];
+
+        let html = `
+            <h3 class="builder-section-title">Recommended Packages</h3>
+            <div class="flyer-grid">
+        `;
+        
+        window.packagesConfig.recommended.forEach(recPkg => {
+            html += `
+                <div class="flyer-card">
+                    <img src="${recPkg.image}" alt="${recPkg[`title_${currentLang}`]}" class="flyer-thumbnail" data-flyer-id="${recPkg.id}">
+                    <button class="flyer-see-more-btn" data-flyer-id="${recPkg.id}">${config.STRINGS[currentLang].viewPhotos || 'See More Info'}</button>
+                </div>
+            `;
+        });
+
+        html += `</div>
+            <h3 class="builder-section-title">Or, Build Your Own Package</h3>
+            <div class="custom-builder-controls">
+                ${countries.map((c, i) => `<button class="filter-tab ${i === 0 ? 'active' : ''}" data-country="${c}">${c}</button>`).join('')}
+            </div>
+            <div id="custom-locations-container"></div>
+        `;
+
+        body.innerHTML = html;
+        renderCustomLocationsForBuilder(countries[0]);
+    };
+
+    const renderCustomLocationsForBuilder = (country) => {
+        const container = document.getElementById('custom-locations-container');
+        const locations = config.PACKAGES.filter(p => p.country === country && !p.comingSoon);
+        
+        let html = `<div class="custom-locations-grid">`;
+        locations.forEach(pkg => {
+            const isInCart = customPackageCart.some(item => item.id === pkg.id);
+            const addBtnClass = isInCart ? 'card-add-btn added' : 'card-add-btn';
+            const addBtnContent = isInCart ? '✓' : '➕';
+            html += `
+                <div class="custom-location-card">
+                    <img src="${config.LOCATION_IMAGES[pkg.id][0]}" loading="lazy" alt="${pkg.title_en}">
+                    <div class="custom-location-card-title">${pkg[`title_${currentLang}`]}</div>
+                    <button class="${addBtnClass}" data-id="${pkg.id}" aria-label="Add ${pkg.title_en}">${addBtnContent}</button>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        container.innerHTML = html;
+    };
+
+    const openPackagesBuilderModal = () => {
+        renderPackagesBuilderModal();
+        packagesBuilderModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+        stickyActionsContainer.classList.remove('fab-hidden');
+    };
+
+    const openFlyerModal = (flyerId) => {
+        const pkg = window.packagesConfig.recommended.find(p => p.id === flyerId);
+        if(!pkg) return;
+
+        flyerImageContainer.innerHTML = `<img src="${pkg.image}" alt="${pkg.title_en}">`;
+        
+        const message = `Hello DreamStay! I'm interested in the "${pkg.title_en}". Please send me more details.`;
+        flyerWhatsappBtn.href = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+        flyerModal.classList.remove('hidden');
+        // We do NOT add modal-open class here if it's already open from the builder to prevent scrolling issues on close
+        // But since builder is already open, we're good. If opened directly, add it.
+        // Assuming builder stays open behind it.
+    };
+    
+    // --- Event Listeners ---
+    langButtonsContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.lang-btn');
+        if (!btn) return;
+        
+        if (!audioContextUnlocked) {
+            audioContextUnlocked = true;
+            playAudio();
+        }
+
+        const selectedLang = btn.dataset.lang;
+        langButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        startApp(selectedLang);
+    });
+    
+    backgroundMusic.addEventListener('error', (e) => {
+        console.error("❌ EVENT: An error occurred with the audio element.", e);
+    });
+    
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const selectedCountry = tab.dataset.country;
+            if (selectedCountry === currentView) return;
+            switchView(selectedCountry);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    thailandNavDashboard.addEventListener('click', () => switchView('Dashboard'));
+    thailandNavOther.addEventListener('click', () => switchView('Dashboard'));
+    thailandNavHotels.addEventListener('click', () => {
+        if (thailandHotelsSection.classList.contains('hidden')) {
+            showHotelsBtn.click();
+        } else {
+             thailandHotelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+
+    packageModal.addEventListener('click', (e) => {
+        if (e.target === packageModal || e.target.closest('.modal-close-btn')) {
+            closeModal(packageModal);
+        }
+    });
+
+    mediaLightbox.addEventListener('click', (e) => {
+        if (e.target === mediaLightbox || e.target.closest('.modal-close-btn')) {
+            closeModal(mediaLightbox);
+        }
+    });
+
+    if(galleryBtn) galleryBtn.addEventListener('click', showGalleryPage);
+    if(backToMainBtn) backToMainBtn.addEventListener('click', hideGalleryPage);
+    
+    if (galleryLayoutControls) {
+        galleryLayoutControls.addEventListener('click', (e) => {
+            const btn = e.target.closest('button');
+            if (btn) {
+                const layout = btn.dataset.layout;
+                galleryLayoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                galleryGrid.className = 'gallery-grid'; // Reset
+                galleryGrid.classList.add(`columns-${layout}`);
+            }
+        });
     }
-    50% { 
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 25px rgba(255, 255, 255, 0.4); 
+
+    if(layoutControls) {
+        layoutControls.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                currentLayout = e.target.dataset.layout;
+                layoutControls.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                packagesGrid.className = 'packages-grid';
+                packagesGrid.classList.add(`columns-${currentLayout}`);
+            }
+        });
     }
-}
 
-@keyframes button-fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
+    if (filterCitySelect) {
+         filterCitySelect.addEventListener('change', (e) => {
+            currentCityFilter = e.target.value;
+            renderPackages();
+        });
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    if (sortPackagesSelect) {
+        sortPackagesSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            renderPackages();
+        });
     }
-}
 
-
-@keyframes wave-shake {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-@keyframes card-shine {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-
-@keyframes subtle-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-}
-
-@keyframes fall {
-    0% {
-        top: -10%;
-        transform: translateX(0) rotate(0deg) rotateY(0deg);
+    if(chatbotStickyBtn) chatbotStickyBtn.addEventListener('click', () => chatbotModal.classList.remove('hidden'));
+    if(chatbotCloseBtn) chatbotCloseBtn.addEventListener('click', () => chatbotModal.classList.add('hidden'));
+    if(chatbotQuestions) chatbotQuestions.addEventListener('click', handleQuestionClick);
+    
+    if (langSwitcherBtn) {
+        langSwitcherBtn.addEventListener('click', () => {
+            const langs = ['en', 'si', 'ja'];
+            const currentLangIndex = langs.indexOf(currentLang);
+            const nextLang = langs[(currentLangIndex + 1) % langs.length];
+            setLanguage(nextLang);
+            langSwitcherBtn.textContent = nextLang.toUpperCase();
+        });
     }
-    100% {
-        top: 110%;
-        transform: translateX(50px) rotate(360deg) rotateY(180deg);
+
+    if (showHotelsBtn) {
+        showHotelsBtn.addEventListener('click', () => {
+            const isHidden = thailandHotelsSection.classList.toggle('hidden');
+            if (!isHidden) {
+                if (!hotelsRendered) {
+                    renderHotels();
+                    hotelsRendered = true;
+                }
+                showHotelsBtn.textContent = config.STRINGS[currentLang].hideThailandHotels;
+                thailandHotelsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                showHotelsBtn.textContent = config.STRINGS[currentLang].seeThailandHotels;
+            }
+        });
     }
-}
 
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (!packageModal.classList.contains('hidden')) closeModal(packageModal);
+            if (!mediaLightbox.classList.contains('hidden')) closeModal(mediaLightbox);
+            if (!flyerModal.classList.contains('hidden')) closeModal(flyerModal);
+            // Close builder only if flyer is not open to avoid closing everything
+            else if (!packagesBuilderModal.classList.contains('hidden')) closeModal(packagesBuilderModal);
+            
+            if (!cartModal.classList.contains('hidden')) closeModal(cartModal);
+            if (!chatbotModal.classList.contains('hidden')) chatbotModal.classList.add('hidden');
+            if (!aboutModal.classList.contains('hidden')) closeModal(aboutModal);
+        }
+    });
 
-.animate-in {
-    opacity: 0;
-}
-.animate-in.is-visible {
-    animation: fadeInUp 0.8s ease forwards;
-}
+    faqAccordion.addEventListener('click', (e) => {
+        const questionBtn = e.target.closest('.faq-question');
+        if (questionBtn) {
+            const faqItem = questionBtn.parentElement;
+            faqItem.classList.toggle('open');
+            const isExpanded = faqItem.classList.contains('open');
+            questionBtn.setAttribute('aria-expanded', isExpanded);
+            questionBtn.querySelector('.faq-toggle').textContent = isExpanded ? '-' : '+';
+        }
+    });
 
-/* --- BACKGROUND CANVAS --- */
-#background-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-}
+    reviewsGrid.addEventListener('click', (e) => {
+        const photosBtn = e.target.closest('.review-photos-btn');
+        if (photosBtn) {
+            const reviewName = photosBtn.dataset.reviewId;
+            const review = config.REVIEWS_DATA.find(r => r.name === reviewName);
+            if (!review || !review.photos || review.photos.length === 0) return;
+            
+            openMediaLightbox({
+                type: 'photo',
+                url: review.photos[0],
+                title_en: config.STRINGS.en.photosBy.replace('{name}', review.name),
+                title_si: config.STRINGS.si.photosBy.replace('{name}', review.name),
+                title_ja: config.STRINGS.ja.photosBy.replace('{name}', review.name),
+            });
+        }
+    });
 
-
-/* --- PRELOADER & LANGUAGE MODAL --- */
-#preloader {
-    position: fixed;
-    inset: 0;
-    background-image: url('https://i.ibb.co/nsRYNMF8/Generated-Image-November-15-2025-5-01-PM.webp');
-    background-size: cover;
-    background-position: center;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.5s ease;
-    overflow: hidden;
-}
-
-#preloader.fade-out {
-    opacity: 0;
-    pointer-events: none;
-}
-
-#sakura-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.sakura-petal {
-    position: absolute;
-    pointer-events: none;
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-}
-
-.preloader-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    position: relative;
-    z-index: 1;
-}
-
-.preloader-logo {
-    height: 120px;
-    width: 120px;
-    opacity: 0;
-    animation: float 4s ease-in-out infinite, fadeInScaleUp 1s ease 0.5s forwards;
-}
-
-#language-modal {
-    background: none;
-    border: none;
-    padding: 0;
-    border-radius: 0;
-    text-align: center;
-    backdrop-filter: none;
-    max-width: 100%;
-    width: auto;
-    animation: none;
-    transform: scale(1);
-    opacity: 1;
-}
-
-#language-modal h2 {
-    display: none;
-}
-
-.lang-buttons {
-    display: flex;
-    flex-direction: row; /* Ensure horizontal layout */
-    gap: 1.5rem; /* Increased gap */
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.lang-btn {
-    padding: 0.7rem 1.5rem;
-    border-radius: 50px; /* Fully rounded */
-    background-color: transparent;
-    border: 1.5px solid rgba(255, 255, 255, 0.8);
-    color: #ffffff;
-    font-weight: 600;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-width: 120px;
-    justify-content: center;
-    opacity: 0; /* Hidden for animation */
-    animation: button-glow 4s ease-in-out infinite;
-}
-
-.lang-btn .fi {
-    font-size: 1.2rem;
-}
-
-.lang-btn:hover {
-    transform: translateY(-3px);
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-.lang-btn.active {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: #fff;
-}
-
-
-.progress-container {
-    width: 250px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    margin-top: 1rem;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.2);
-    position: absolute;
-    bottom: -40px;
-}
-
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #ff8fab, #e91e63, #ff6fa3);
-    background-size: 200% 100%;
-    border-radius: 10px;
-    transition: width 0.1s linear;
-    animation: gradientShift 3s ease infinite;
-}
-
-/* --- MAIN APP WRAPPER --- */
-#app-wrapper {
-    animation: fadeIn 1s ease;
-}
-#main-content.hidden { display: none; }
-
-/* --- HERO --- */
-body.country-view .hero {
-    display: none;
-}
-.hero {
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-    background-image: url(https://i.ibb.co/PvkqdJCW/background.png);
-    background-size: cover;
-    background-position: center center;
-    color: #fff;
-}
-
-/* Gradient Overlay */
-.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0px;
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.7) 0%, rgba(23, 23, 23, 0) 30%, rgba(240, 249, 255, 0) 60%, rgba(240, 249, 255, 0.95) 85%, rgb(240, 249, 255) 100%);
-    z-index: 1;
-}
-
-/* Blur Overlay */
-.hero::after {
-    content: '';
-    position: absolute;
-    inset: -10px; /* Overscan to prevent hard edges from blur */
-    z-index: 0;
-    background-image: url(https://i.ibb.co/PvkqdJCW/background.png);
-    background-size: cover;
-    background-position: center center;
-    filter: blur(4px);
-    transform: translateZ(0); /* Promotes to new layer to fix initial load bug */
-    -webkit-mask: linear-gradient(to bottom, 
-        black 0%, 
-        black 5%, 
-        transparent 15%, 
-        transparent 85%, 
-        black 95%, 
-        black 100%
+    if (reviewsWrapper) {
+        reviewsWrapper.addEventListener('mouseenter', stopReviewCarousel);
+        reviewsWrapper.addEventListener('mouseleave', startReviewCarousel);
+    }
+    
+    // --- NEW EVENT LISTENERS ---
+    const fabObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                isHeroVisible = entry.isIntersecting;
+                if (document.body.classList.contains('modal-open')) {
+                    return;
+                }
+                stickyActionsContainer.classList.toggle('fab-hidden', isHeroVisible);
+            });
+        },
+        { threshold: 0.1 }
     );
-    mask: linear-gradient(to bottom, 
-        black 0%, 
-        black 5%, 
-        transparent 15%, 
-        transparent 85%, 
-        black 95%, 
-        black 100%
-    );
-}
 
-/* NEW top bar */
-.hero-top-bar {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    width: 100%;
-    animation: fadeInUp 0.5s ease backwards;
-}
-.hero-logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    font-family: var(--font-quote-1);
-    color: #fff;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-}
-.hero-menu-btn {
-    background: rgba(0,0,0,0.3);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-}
-.hero-menu-btn svg {
-    stroke: white;
-}
-#hero-info-btn {
-    background: #e74c3c;
-    --shadow-color: rgba(231, 76, 60, 0.4);
-    animation: pulse 3s infinite;
-}
-#hero-info-btn:hover {
-    background: #c0392b;
-}
-
-
-/* NEW main content area */
-.hero-main-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    flex-grow: 1;
-    padding: 1rem 1.5rem;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-}
-.hero-logo-main-center {
-    height: 90px;
-    width: auto;
-    opacity: 0.9;
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeInScaleUp 0.6s ease 0.2s forwards;
-}
-
-/* NEW destinations selector */
-.hero-destinations {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.75rem;
-    width: 100%;
-    margin-bottom: 1.5rem;
-    padding: 0 1rem;
-}
-.hero-destinations .destination-card, .destination-card {
-    flex: 1;
-    max-width: 80px;
-    height: 100px;
-    border-radius: var(--radius-lg);
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 0.5rem;
-    color: white;
-    font-weight: bold;
-    font-size: 0.7rem;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
-    border: 1px solid rgba(255,255,255,0.3);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-    opacity: 0;
-    animation-name: fadeInUp, wave-shake;
-    animation-duration: 0.5s, 3s;
-    animation-timing-function: ease, ease-in-out;
-    animation-fill-mode: forwards, none;
-    animation-iteration-count: 1, infinite;
-}
-.hero-destinations .destination-card:nth-child(1) { animation-delay: 0.4s, 1.0s; }
-.hero-destinations .destination-card:nth-child(2) { animation-delay: 0.5s, 1.15s; }
-.hero-destinations .destination-card:nth-child(3) { animation-delay: 0.6s, 1.3s; }
-.hero-destinations .destination-card:nth-child(4) { animation-delay: 0.7s, 1.45s; }
-.hero-destinations .destination-card:nth-child(5) { animation-delay: 0.8s, 1.6s; }
-
-.destination-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-    border-radius: var(--radius-lg);
-    transition: background 0.3s ease;
-}
-.destination-card span {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-}
-.hero-destinations .destination-card:hover {
-    transform: translateY(-5px) scale(1.05);
-    border-color: white;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-    animation-play-state: paused; /* Pause wave on hover */
-}
-.hero-destinations .destination-card:hover::before {
-    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
-}
-
-
-/* NEW hero title styles */
-.hero-title-main {
-    font-family: var(--font-quote-1);
-    font-size: 2.5rem;
-    font-weight: 700;
-    line-height: 1.25;
-    color: #1a1a1a;
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff;
-    margin-bottom: 0.75rem;
-    max-width: 500px;
-    opacity: 0;
-    animation: fadeInUp 0.5s ease 1s forwards;
-    transition: opacity 0.4s ease;
-    height: 2.5em; /* Reserve space for 2 lines to prevent layout shift */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.hero-subtitle {
-    font-size: 1rem;
-    color: #555;
-    max-width: 550px;
-    margin: 0 auto 1.5rem auto; /* Reduced bottom margin */
-    line-height: 1.6;
-    opacity: 0;
-    animation: fadeInUp 0.5s ease 1.2s forwards;
-    font-weight: bold;
-}
-
-.cta-primary, .cta-secondary {
-    padding: 0.9rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all var(--transition-fast);
-    flex-shrink: 0;
-    min-width: 250px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-
-.cta-primary {
-    background-color: var(--button-bg);
-    color: var(--button-text);
-}
-
-.cta-primary:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px var(--shadow-color);
-}
-
-.cta-secondary {
-    border: 2px solid var(--accent);
-    color: var(--accent);
-    background-color: rgba(0,0,0,0.2);
-}
-.cta-secondary:hover {
-    background-color: var(--accent);
-    color: var(--button-text);
-}
-
-.cta-danger {
-    background-color: #e74c3c;
-    color: white;
-    border: 1px solid #c0392b;
-}
-.cta-danger:hover {
-    background-color: #c0392b;
-    border-color: #a52f22;
-}
-
-/* Re-using hero-buttons, but need to adapt styles for new background */
-.hero-buttons {
-    display: flex;
-    gap: 0.3rem; /* Reduced gap */
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    width: 100%;
-    max-width: 480px;
-    opacity: 0;
-    animation: fadeInUp 0.5s ease 1.4s forwards;
-}
-
-/* override cta button styles for hero */
-.hero .cta-primary, .hero .cta-secondary {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    min-width: unset;
-    flex: 1 1 0;
-    padding: 0.7rem 0.5rem;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    border: none;
-    color: #fff;
-    animation: subtle-glow 3s ease-in-out infinite;
-}
-
-.hero .cta-secondary:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-    color: #fff;
-}
-
-#gallery-btn {
-    --glow-color: rgba(52, 152, 219, 0.7);
-    background-color: #3498db;
-}
-#hero-packages-btn {
-    --glow-color: rgba(155, 89, 182, 0.7);
-    background-color: #9b59b6;
-}
-#hero-whatsapp-btn {
-    --glow-color: rgba(46, 204, 113, 0.7);
-    background-color: #2ecc71;
-}
-#custom-plan-btn {
-    --glow-color: rgba(52, 73, 94, 0.7);
-    background-color: #34495e;
-}
-
-
-/* NEW Scroll Down Prompt */
-.scroll-down-prompt {
-    margin-top: 1rem;
-    color: #555;
-    font-size: 0.8rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    opacity: 0;
-    animation: fadeInUp 0.5s ease 1.6s forwards;
-}
-.scroll-down-prompt svg {
-    animation: bounce 2s infinite;
-}
-
-/* --- FILTERS --- */
-#filters {
-    padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 100;
-    border-bottom: 1px solid var(--card-border);
-    transition: background var(--transition-slow), border-color var(--transition-slow);
-}
-
-/* Hide filters on the main dashboard/landing page view */
-body:not(.country-view) #filters {
-    display: none;
-}
-
-.filter-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0 1rem;
-}
-
-.filter-tab, #thailand-nav button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 50px;
-    background: var(--card-bg);
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: 1px solid transparent;
-    transition: all var(--transition-fast);
-    flex-shrink: 0;
-}
-
-.filter-tab .fi {
-    font-size: 1.2rem;
-    border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
-.filter-tab:hover, #thailand-nav button:hover {
-    color: var(--text-primary);
-    background: var(--card-border);
-}
-
-.filter-tab.active {
-    background: var(--accent);
-    color: var(--button-text);
-    border-color: var(--accent);
-}
-.filter-tab.active svg {
-    stroke: var(--button-text);
-}
-
-#thailand-nav button.cta-danger {
-    color: white;
-}
-#thailand-nav button.cta-danger:hover {
-    color: white;
-    background-color: #c0392b;
-}
-
-
-/* --- VIEW TOGGLING (DASHBOARD VS PACKAGES) --- */
-#details-section { display: block; }
-#packages { display: none; }
-
-body.country-view #details-section { display: none; }
-body.country-view #packages { display: block; }
-
-body.theme-thailand .filter-nav:not(#thailand-nav) {
-    display: none !important;
-}
-
-/* --- DASHBOARD --- */
-#details-section {
-    padding: 2rem 1rem;
-}
-
-.details-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-bottom: 3rem;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.stat-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem 1rem;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    transition: background var(--transition-slow), border-color var(--transition-slow), transform 0.3s ease;
-}
-.stat-card:hover {
-    transform: translateY(-5px);
-}
-.stat-card.animate-in.is-visible {
-    background: linear-gradient(
-      90deg,
-      var(--card-bg) 0%,
-      rgba(255, 255, 255, 0.9) 50%,
-      var(--card-bg) 100%
-    );
-    background-size: 250% 100%;
-    animation: fadeInScaleUp 0.6s ease forwards, card-shine 4s linear infinite 1s;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-    transition: color var(--transition-slow);
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-top: 0.5rem;
-    transition: color var(--transition-slow);
-}
-
-/* Info Section (New) */
-.info-section {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    margin: 3rem auto;
-    max-width: 900px;
-    backdrop-filter: blur(10px);
-    text-align: center;
-}
-.info-section h3 {
-    font-size: 1.8rem;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    font-family: var(--font-quote-1);
-}
-.info-contact-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    font-size: 1.1rem;
-}
-@media (min-width: 640px) {
-    .info-contact-grid {
-        grid-template-columns: repeat(2, 1fr);
+    if (heroSection) {
+        fabObserver.observe(heroSection);
     }
-}
-.info-contact-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    color: var(--text-secondary);
-}
-.info-contact-item a:hover {
-    text-decoration: underline;
-    color: var(--text-primary);
-}
-.info-contact-item svg {
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    color: var(--accent);
-}
-.info-points-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: left;
-    max-width: 600px;
-    margin: 0 auto;
-    border-top: 1px solid var(--card-border);
-    padding-top: 2rem;
-}
-.info-points-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-.info-points-list li svg {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    color: var(--accent);
-    margin-top: 4px;
-}
 
-
-/* Japan Visa Promo Section */
-.visa-promo-section {
-    background: linear-gradient(45deg, var(--accent), #ff9800);
-    color: white;
-    text-align: center;
-    padding: 2rem 1rem;
-    margin: 3rem auto;
-    max-width: 900px;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 10px 30px -10px var(--shadow-color);
-    animation: pulse 2.5s infinite;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
-}
-.visa-promo-section:hover {
-    transform: scale(1.03);
-}
-
-.visa-promo-section h3 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-}
-.visa-promo-section p {
-    font-size: 1rem;
-    opacity: 0.9;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* Services Section */
-.services-section {
-    text-align: center;
-    padding: 3rem 1rem;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.services-title {
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-    font-weight: 500;
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-}
-
-.service-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.service-item.animate-in.is-visible {
-    animation: fadeInUp 0.6s ease forwards;
-}
-
-.service-icon {
-    width: 60px;
-    height: 60px;
-    background: var(--card-bg);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    transition: all var(--transition-fast);
-    font-size: 2rem;
-    animation: continuous-shake 3s ease-in-out infinite, glow 2s ease-in-out infinite alternate;
-}
-
-.service-item:hover .service-icon {
-    transform: scale(1.1);
-}
-
-.service-icon svg {
-    width: 32px;
-    height: 32px;
-}
-
-.service-label {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.sponsors-section {
-    text-align: center;
-}
-
-.sponsors-title {
-    font-size: 1.5rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-}
-
-.sponsors-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-}
-
-.sponsor-logo {
-    height: 40px;
-    filter: grayscale(0%) opacity(0.7);
-    transition: filter var(--transition-fast), transform 0.3s ease;
-}
-
-.sponsor-logo.animate-in.is-visible {
-    animation: fadeInScaleUp 0.6s ease forwards, subtle-float 3s ease-in-out infinite;
-    animation-delay: var(--animation-delay), calc(var(--animation-delay) + 1.5s);
-}
-
-.sponsor-logo:hover {
-    filter: grayscale(0%) opacity(1);
-    transform: scale(1.1);
-    animation-play-state: running, paused;
-}
-
-
-/* --- PACKAGES GRID & CONTROLS --- */
-#package-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1rem;
-    margin: 1.5rem 0;
-    gap: 1rem;
-    flex-wrap: nowrap;
-}
-.layout-controls, .filter-controls {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-.filter-controls {
-    flex-grow: 1;
-    min-width: 0;
-}
-.layout-controls button, .filter-controls select {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    color: var(--text-secondary);
-    padding: 0.4rem 0.8rem;
-    border-radius: var(--radius-md);
-    font-size: 0.8rem;
-    font-family: inherit;
-    -webkit-appearance: none;
-    appearance: none;
-}
-.filter-controls select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 0.5rem center;
-    background-size: 1em 1em;
-    padding-right: 2rem;
-    max-width: 200px;
-}
-#filter-city {
-    width: 100%;
-}
-#sort-packages {
-    flex-shrink: 0;
-}
-
-
-.layout-controls button.active {
-    background: var(--accent);
-    color: var(--button-text);
-    border-color: var(--accent);
-}
-
-.packages-grid {
-    display: grid;
-    gap: 1rem;
-    padding: 1rem;
-    grid-template-columns: 1fr; /* Default mobile */
-}
-.packages-grid.columns-1 { grid-template-columns: 1fr; }
-.packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
-.packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
-
-.package-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    overflow: hidden;
-    position: relative;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-}
-
-.package-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px var(--shadow-color);
-}
-.package-card.animate-in.is-visible {
-    animation: fadeInScaleUp 0.6s ease forwards;
-}
-
-.card-image-container {
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    overflow: hidden;
-    margin-bottom: 0;
-    flex-shrink: 0;
-    position: relative;
-}
-.card-image {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-.package-card:hover .card-image {
-    transform: scale(1.1);
-}
-
-.card-add-btn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    width: 36px;
-    height: 36px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    transition: transform 0.2s ease, background-color 0.2s ease;
-    z-index: 5;
-}
-.card-add-btn:hover {
-    transform: scale(1.1);
-    background-color: var(--accent);
-}
-.card-add-btn.added {
-    background-color: #2ecc71;
-    color: white;
-    transform: scale(1.1);
-}
-
-.card-content {
-    padding: 0.75rem;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    cursor: pointer;
-}
-
-.card-country {
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--accent);
-    margin-bottom: 0.25rem;
-}
-
-.card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-    line-height: 1.2;
-}
-
-.card-price {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #ff4d4d;
-    margin-bottom: 0.5rem;
-}
-
-.card-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.75rem;
-}
-
-.card-details-short {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
-    flex-grow: 1;
-}
-
-.card-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.card-highlights {
-    display: none; /* Hide highlights on mobile to save space */
-}
-
-.card-button {
-    width: 100%;
-    padding: 0.6rem;
-    margin-top: auto;
-    background: var(--accent);
-    color: var(--button-text);
-    font-weight: 600;
-    font-size: 0.9rem;
-    border-radius: var(--radius-md);
-    transition: opacity var(--transition-fast);
-    flex-shrink: 0;
-    text-align: center;
-    display: inline-block;
-    cursor: pointer;
-}
-.card-button:hover {
-    opacity: 0.9;
-}
-
-.card-notice-coming-soon {
-    width: 100%;
-    padding: 0.6rem;
-    margin-top: auto;
-    background: #e74c3c;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border-radius: var(--radius-md);
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.coming-soon-card {
-    cursor: default;
-    background: repeating-linear-gradient(
-        45deg,
-        var(--card-bg),
-        var(--card-bg) 10px,
-        rgba(0,0,0,0.05) 10px,
-        rgba(0,0,0,0.05) 20px
-    );
-    border-style: dashed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 290px;
-    pointer-events: none; /* Make it unclickable */
-    padding: 1rem;
-}
-
-.coming-soon-card:hover {
-    transform: none;
-    box-shadow: none;
-}
-
-.coming-soon-content h3 {
-    color: var(--text-primary);
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.coming-soon-content p {
-    font-size: 2rem;
-}
-
-
-/* THEME-SPECIFIC CARD STYLES */
-body.theme-japan .package-card::after {
-    content: '🌸';
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    font-size: 3rem;
-    opacity: 0.1;
-    transform: rotate(15deg);
-}
-body.theme-india .package-card {
-    border-color: transparent;
-    box-shadow: 0 0 0 2px var(--accent);
-}
-body.theme-malaysia .package-card {
-    border-left: 4px solid var(--accent);
-}
-body.theme-srilanka .package-card {
-    border-bottom: 4px solid var(--accent);
-}
-
-/* --- HOTELS SECTION --- */
-.hotel-toggle-container {
-    text-align: center;
-    padding: 2rem 1rem 0;
-    transition: all 0.5s ease;
-}
-#thailand-hotels {
-    padding: 2rem 1rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    transition: all 0.5s ease;
-}
-.hotel-grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr;
-}
-.hotel-card {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-md);
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-}
-.hotel-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px var(--shadow-color);
-}
-.hotel-card-images {
-    display: flex;
-    gap: 0.2rem;
-    height: 100px;
-}
-.hotel-card-images img {
-    width: 33.333%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-.hotel-card:hover .hotel-card-images img {
-    transform: scale(1.05);
-}
-.hotel-card-content {
-    padding: 0.75rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-.hotel-card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
-}
-.hotel-card-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-top: auto;
-}
-
-/* --- REVIEWS --- */
-.reviews-section {
-    padding: 3rem 0;
-}
-.reviews-carousel-wrapper {
-    overflow: hidden;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-.reviews-grid {
-    display: flex;
-    gap: 1.5rem;
-    padding-bottom: 1.5rem;
-    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
-}
-.review-card {
-    flex-shrink: 0;
-    width: 85%;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-}
-.review-card.animate-in.is-visible {
-    animation: fadeInScaleUp 0.6s ease forwards;
-}
-
-@media (min-width: 768px) {
-    .review-card {
-        width: 40%;
+    // Logic for new buttons
+    if (customPlanBtn) {
+        customPlanBtn.addEventListener('click', openPackagesBuilderModal);
     }
-}
-.review-quote {
-    font-style: italic;
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-    flex-grow: 1;
-}
-.review-author {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-.review-author-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--accent);
-}
-.review-author-info h4 {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-.review-author-info p {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-.review-photos-btn {
-    margin-top: 1rem;
-    align-self: flex-start;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--accent);
-    text-decoration: underline;
-}
 
-/* --- GALLERY PAGE --- */
-#gallery-page {
-    animation: fadeIn 0.5s ease;
-    padding-bottom: 2rem;
-    height: 100vh; /* Ensure it takes full viewport height to contain scrollable main */
-}
-
-.gallery-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 1rem 1.5rem;
-    gap: 1rem;
-    position: sticky;
-    top: 0;
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    z-index: 100;
-    flex-shrink: 0;
-}
-.back-btn {
-    position: absolute;
-    top: 0.75rem;
-    left: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text-secondary);
-    transition: color var(--transition-fast);
-}
-.back-btn:hover {
-    color: var(--text-primary);
-}
-.gallery-header h1 {
-    font-size: 1.8rem;
-    color: var(--accent);
-    text-align: center;
-    margin: 0;
-    margin-top: 1.5rem;
-}
-.gallery-controls {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.gallery-grid {
-    padding: 1rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    column-gap: 1rem;
-    column-count: 1; /* Mobile default */
-}
-.gallery-grid.columns-2 {
-    column-count: 2;
-}
-.gallery-grid.columns-3 {
-    column-count: 3;
-}
-@media (max-width: 639px) {
-    .gallery-grid.columns-3 {
-        column-count: 2;
+    if (packagesScrollBtn) {
+        packagesScrollBtn.addEventListener('click', () => {
+             // If currently on Dashboard, switch to Sri Lanka to show packages
+             if (currentView === 'Dashboard') {
+                 switchView('Sri Lanka');
+             }
+             document.getElementById('packages').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
     }
-}
 
-.gallery-item {
-    margin-bottom: 1rem;
-    break-inside: avoid;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-.gallery-item:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 25px var(--shadow-color);
-}
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.gallery-item-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1rem;
-    color: white;
-    opacity: 0;
-    transition: opacity var(--transition-fast);
-}
-.gallery-item:hover .gallery-item-overlay {
-    opacity: 1;
-}
-.gallery-item-title {
-    font-weight: 600;
-    line-height: 1.2;
-    transform: translateY(10px);
-    opacity: 0;
-    transition: all var(--transition-fast);
-}
-.gallery-item:hover .gallery-item-title {
-    transform: translateY(0);
-    opacity: 1;
-}
-.gallery-item-play-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    width: 60px;
-    height: 60px;
-    background: rgba(0,0,0,0.5);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    opacity: 0;
-    transition: all var(--transition-fast);
-}
-.gallery-item[data-type="video"]:hover .gallery-item-play-icon {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-
-
-/* --- MODAL & LIGHTBOX --- */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.85);
-    z-index: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--transition-fast);
-    backdrop-filter: blur(5px);
-}
-
-.modal-overlay:not(.hidden) {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.modal-content {
-    background-image: var(--bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    padding: 1.5rem;
-    transform: scale(0.95);
-    transition: transform var(--transition-fast), background-image var(--transition-slow);
-}
-.modal-overlay:not(.hidden) .modal-content {
-    transform: scale(1);
-}
-
-.modal-content p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-}
-
-.modal-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.modal-close-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    color: var(--text-primary);
-    padding: 0.25rem;
-    z-index: 510;
-    background: rgba(0,0,0,0.1);
-    border-radius: 50%;
-}
-.modal-close-btn:hover {
-    transform: scale(1.1);
-}
-
-.modal-image-carousel {
-    display: flex;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
-    gap: 1rem;
-    border-radius: var(--radius-md);
-    margin-bottom: 1.5rem;
-}
-.modal-image {
-    width: 100%;
-    flex-shrink: 0;
-    height: 250px;
-    object-fit: cover;
-    scroll-snap-align: center;
-    border-radius: var(--radius-md);
-}
-
-#package-modal-title {
-    font-size: 1.8rem;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
-}
-.modal-price {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-}
-
-/* New/Updated styles for modal */
-.modal-small-images-container {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.modal-small-image {
-    flex: 1;
-    min-width: 0;
-    height: 80px;
-    object-fit: cover;
-    border-radius: var(--radius-md);
-}
-
-.modal-video-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
-    margin-bottom: 1.5rem;
-    border-radius: var(--radius-md);
-}
-
-.modal-video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.modal-desc {
-    line-height: 1.6;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-}
-.modal-desc p {
-    margin-bottom: 1em;
-}
-.modal-desc p:last-child {
-    margin-bottom: 0;
-}
-.modal-desc strong {
-    color: var(--text-primary);
-    display: block;
-    margin-bottom: 0.5em;
-    font-size: 1.1em;
-}
-.modal-desc ul {
-    list-style-type: '✨';
-    padding-left: 20px;
-    margin-bottom: 1em;
-}
-.modal-desc li {
-    margin-bottom: 0.5em;
-    padding-left: 0.5em;
-}
-
-/* New About Modal Styles */
-#about-modal .modal-content {
-    max-width: 600px;
-}
-#about-modal-body .info-section {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    backdrop-filter: none;
-    max-width: 100%;
-}
-#about-modal-body h2 {
-    font-size: 2rem;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    font-family: var(--font-quote-1);
-}
-#about-modal-body p {
-    margin-bottom: 1.5rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
-}
-
-/* Media Lightbox styles */
-.lightbox-content {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-.lightbox-content .modal-close-btn {
-    color: white;
-}
-.lightbox-download-btn {
-    position: absolute;
-    top: 1rem;
-    right: 4rem;
-    color: white;
-    padding: 0.5rem;
-    z-index: 510;
-    background: rgba(0,0,0,0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.lightbox-download-btn:hover {
-    transform: scale(1.1);
-    background: rgba(0,0,0,0.5);
-}
-.media-lightbox-body {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    height: 80%;
-}
-.media-lightbox-body img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-.media-lightbox-body iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-.lightbox-title {
-    color: white;
-    margin-top: 1rem;
-    font-size: 1.2rem;
-    text-align: center;
-    padding: 0 1rem;
-}
-
-/* NEW FLYER MODAL STYLES */
-.flyer-modal-content {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    padding: 2rem 1rem;
-}
-.flyer-image-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-height: 85vh;
-    overflow: hidden;
-    position: relative;
-}
-.flyer-image-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    border-radius: var(--radius-md);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-.flyer-actions {
-    margin-top: 1rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.flyer-whatsapp-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: #25D366;
-    color: white;
-    padding: 0.8rem 2rem;
-    border-radius: 50px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.flyer-whatsapp-btn:hover {
-    background-color: #128C7E;
-    transform: scale(1.05);
-}
-#flyer-modal .modal-close-btn {
-    top: 20px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#flyer-modal .modal-close-btn:hover {
-    background: rgba(0,0,0,0.8);
-}
-
-/* New Flyer Grid (used in Fixed Packages Modal) */
-.fixed-packages-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
-}
-@media (min-width: 600px) {
-    .fixed-packages-grid {
-        grid-template-columns: repeat(2, 1fr);
+    if (heroInfoBtn) {
+        heroInfoBtn.addEventListener('click', openAboutModal);
     }
-}
-.flyer-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-.flyer-thumbnail {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: var(--radius-md);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-.flyer-thumbnail:hover {
-    transform: scale(1.02);
-}
-.flyer-see-more-btn {
-    background: var(--accent);
-    color: var(--button-text);
-    padding: 0.6rem;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    text-align: center;
-    width: 100%;
-    transition: opacity 0.2s ease;
-}
-.flyer-see-more-btn:hover {
-    opacity: 0.9;
-}
-
-/* NEW Fixed Packages Modal Content Styles */
-#fixed-packages-modal .fixed-packages-content {
-    background-image: var(--bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 900px;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 0;
-    transform: scale(0.95);
-    transition: transform var(--transition-fast), background-image var(--transition-slow);
-}
-#fixed-packages-modal.modal-overlay:not(.hidden) .fixed-packages-content {
-    transform: scale(1);
-}
-.fixed-packages-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--card-border);
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.fixed-packages-header h2 {
-    font-size: 1.5rem;
-    color: var(--accent);
-    text-align: center;
-    flex-grow: 1;
-}
-.fixed-packages-body {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 1.5rem;
-}
-.fixed-packages-header .modal-close-btn {
-    position: static; /* Override absolute positioning from global .modal-close-btn */
-    margin-left: 1rem;
-}
-
-
-/* --- FAQ --- */
-.section-title {
-    font-size: 1.8rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    padding: 0 1.5rem;
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff;
-}
-.faq-section {
-    padding: 3rem 0;
-}
-.faq-accordion {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-.faq-item {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-md);
-    margin-bottom: 1rem;
-    overflow: hidden;
-}
-.faq-question {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: left;
-}
-.faq-toggle {
-    transition: transform var(--transition-fast);
-}
-.faq-item.open .faq-toggle {
-    transform: rotate(45deg);
-}
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height var(--transition-fast), padding var(--transition-fast);
-}
-.faq-answer p {
-    padding: 0 1.5rem 1.5rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-.faq-item.open .faq-answer {
-    max-height: 300px; /* Adjust as needed */
-}
-
-/* --- STICKY BUTTONS & CHATBOT --- */
-.sticky-actions-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 200;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-end;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.sticky-actions-container.fab-hidden {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px);
-}
-
-/* Elevate FABs when package builder is open so the cart button is visible */
-body:has(#packages-builder-modal:not(.hidden)) .sticky-actions-container {
-    z-index: 550;
-}
-
-.cart-fab {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #9b59b6; /* Purple to match packages button */
-    color: white;
-    box-shadow: 0 4px 15px rgba(155, 89, 182, 0.4);
-    transition: transform 0.2s ease, background-color var(--transition-slow);
-    position: relative;
-}
-.cart-fab:hover {
-    transform: scale(1.1);
-}
-.cart-count-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #e74c3c;
-    color: white;
-    border-radius: 50%;
-    width: 22px;
-    height: 22px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #9b59b6;
-}
-
-.lang-switcher-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #8e44ad; /* A distinct purple color */
-    color: white;
-    font-weight: 700;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(142, 68, 173, 0.4);
-    transition: transform 0.2s ease, background-color var(--transition-slow);
-}
-.lang-switcher-btn:hover {
-    transform: scale(1.1);
-}
-
-.contact-sticky-btn, .chatbot-sticky-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease, background-color var(--transition-slow);
-}
-.contact-sticky-btn:hover, .chatbot-sticky-btn:hover {
-    transform: scale(1.1);
-}
-
-.contact-sticky-btn {
-    background-color: #25D366;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-    animation: pulse 2s infinite;
-}
-
-.chatbot-sticky-btn {
-    background-color: var(--accent);
-    color: var(--button-text);
-    box-shadow: 0 4px 15px var(--shadow-color);
-}
-
-/* Chatbot Modal */
-.chatbot-modal {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 90%;
-    max-width: 350px;
-    height: 70vh;
-    max-height: 500px;
-    background-image: var(--bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    z-index: 400;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    transform: translateY(20px) scale(0.95);
-    transition: transform 0.3s ease, opacity 0.3s ease, background-image var(--transition-slow);
-    transform-origin: bottom right;
-}
-.chatbot-modal:not(.hidden) {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-}
-.chatbot-header {
-    padding: 0.75rem 1rem;
-    background: var(--card-bg);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-}
-.chatbot-header h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--accent);
-}
-.chatbot-close-btn {
-    color: var(--text-secondary);
-}
-.chatbot-messages {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-.chat-message {
-    padding: 0.5rem 0.8rem;
-    border-radius: var(--radius-md);
-    max-width: 80%;
-    line-height: 1.5;
-}
-.chat-message.bot {
-    background: var(--card-bg);
-    align-self: flex-start;
-}
-.chat-message.user {
-    background: var(--accent);
-    color: var(--button-text);
-    align-self: flex-end;
-}
-.chatbot-questions {
-    padding: 1rem;
-    border-top: 1px solid var(--card-border);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    flex-shrink: 0;
-}
-.chatbot-question-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-md);
-    text-align: left;
-    transition: background-color var(--transition-fast);
-}
-.chatbot-question-btn:hover {
-    background: var(--card-border);
-}
-
-
-/* --- FOOTER --- */
-footer {
-    padding: 2rem 1.5rem;
-    background: rgba(0,0,0,0.05);
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    transition: background-color var(--transition-slow), color var(--transition-slow);
-    margin-top: auto; /* Pushes footer to bottom */
-}
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-.footer-links a {
-    margin: 0 0.5rem;
-    text-decoration: underline;
-}
-.footer-info, .developer-credit {
-    margin-bottom: 1rem;
-    line-height: 1.6;
-}
-.footer-info a:hover {
-    text-decoration: underline;
-}
-.developer-credit a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    text-decoration: none;
-    transition: color var(--transition-fast);
-}
-.developer-credit a:hover {
-    color: var(--accent);
-    text-decoration: underline;
-}
-.developer-credit svg {
-    width: 20px;
-    height: 20px;
-}
-
-
-/* --- NEW PACKAGES BUILDER MODAL --- */
-#packages-builder-modal .packages-builder-content {
-    background-image: var(--bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 900px;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 0;
-    transform: scale(0.95);
-    transition: transform var(--transition-fast), background-image var(--transition-slow);
-}
-#packages-builder-modal.modal-overlay:not(.hidden) .packages-builder-content {
-    transform: scale(1);
-}
-.packages-builder-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--card-border);
-    flex-shrink: 0;
-}
-.packages-builder-header h2 {
-    font-size: 1.5rem;
-    color: var(--accent);
-    text-align: center;
-}
-.packages-builder-body {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 1.5rem;
-}
-.builder-section-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--card-border);
-}
-
-.custom-builder-controls {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-.custom-builder-controls .filter-tab {
-    padding: 0.6rem 1.2rem;
-}
-
-.custom-locations-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-}
-.custom-location-card {
-    border-radius: var(--radius-md);
-    border: 1px solid var(--card-border);
-    overflow: hidden;
-    background: var(--card-bg);
-    position: relative;
-}
-.custom-location-card img {
-    width: 100%;
-    height: 90px;
-    object-fit: cover;
-}
-.custom-location-card-title {
-    padding: 0.5rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-align: center;
-    color: var(--text-primary);
-}
-.custom-location-card .card-add-btn {
-    top: 4px;
-    right: 4px;
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
-}
-
-
-/* --- NEW CART MODAL --- */
-.cart-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 600;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--transition-fast);
-}
-.cart-modal-overlay:not(.hidden) {
-    opacity: 1;
-    pointer-events: all;
-}
-.cart-modal-content {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(15px);
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 380px;
-    max-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 -5px 30px rgba(0,0,0,0.2);
-    transform: translateY(20px);
-    transition: transform var(--transition-fast);
-}
-.cart-modal-overlay:not(.hidden) .cart-modal-content {
-    transform: translateY(0);
-}
-.cart-modal-header {
-    padding: 0.75rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--card-border);
-}
-.cart-modal-header h3 {
-    color: var(--text-primary);
-}
-.cart-modal-header .modal-close-btn {
-    position: static;
-    background: none;
-}
-.cart-modal-body {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 1rem;
-}
-#cart-modal-body:empty::after {
-    content: "Your plan is empty. Add locations to get started!";
-    display: block;
-    text-align: center;
-    color: var(--text-secondary);
-    padding: 2rem 0;
-}
-.cart-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--card-border);
-}
-.cart-item:last-child {
-    border-bottom: none;
-}
-.cart-item-img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: var(--radius-md);
-}
-.cart-item-info {
-    flex-grow: 1;
-}
-.cart-item-title {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--text-primary);
-}
-.cart-item-country {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-}
-.cart-item-remove-btn {
-    color: #e74c3c;
-    padding: 0.5rem;
-}
-.cart-modal-footer {
-    padding: 1rem;
-    display: flex;
-    gap: 1rem;
-    border-top: 1px solid var(--card-border);
-}
-.cart-modal-footer button {
-    flex-grow: 1;
-    width: 50%;
-    padding: 0.75rem;
-    min-width: 0;
-}
-
-
-/* --- RESPONSIVE ADJUSTMENTS --- */
-@media (max-width: 400px) {
-    .hero-destinations {
-        gap: 0.5rem;
+    if (aboutModal) {
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target === aboutModal || e.target.closest('.modal-close-btn')) {
+                closeModal(aboutModal);
+            }
+        });
     }
-    .hero-destinations .destination-card {
-        height: 90px;
-        font-size: 0.6rem;
-    }
-    .hero-buttons {
-        gap: 0.3rem;
-    }
-    .hero .cta-primary, .hero .cta-secondary {
-        font-size: 0.65rem;
-    }
-     .hero-title-main {
-        font-size: 2rem;
-    }
-}
 
+    if (heroDestinationsContainer) {
+        heroDestinationsContainer.addEventListener('click', (e) => {
+            const card = e.target.closest('.destination-card');
+            if (card && card.dataset.country) {
+                const country = card.dataset.country;
+                switchView(country);
+            }
+        });
+    }
 
-@media (min-width: 640px) {
-    .packages-grid.columns-2 { grid-template-columns: repeat(2, 1fr); }
-    .packages-grid.columns-3 { grid-template-columns: repeat(2, 1fr); }
-    .hotel-grid { grid-template-columns: repeat(2, 1fr); }
-    .hero-title-main { font-size: 3.5rem; max-width: 700px;}
-}
+    // --- NEW PACKAGE BUILDER & CART LISTENERS ---
+    
+    packagesBuilderModal.addEventListener('click', e => {
+        if (e.target === packagesBuilderModal || e.target.closest('.modal-close-btn')) {
+            closeModal(packagesBuilderModal);
+        }
+        
+        // Handle "See More Info" clicks for flyers
+        if (e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail')) {
+            const btn = e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail');
+            const flyerId = btn.dataset.flyerId;
+            openFlyerModal(flyerId);
+        }
 
-@media (min-width: 768px) {
-    .details-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    .sponsor-logo {
-        height: 50px;
-    }
-    .gallery-header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1.5rem 2rem;
-        gap: 1.5rem;
-    }
-    .gallery-header h1 {
-        margin-top: 0;
-    }
-    .back-btn {
-        position: static;
-        flex-shrink: 0;
-    }
-    .gallery-header h1 {
-        flex-grow: 1;
-        text-align: center;
-    }
-    .gallery-controls {
-        flex-shrink: 0;
-    }
-     .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
-     .modal-content {
-        padding: 2rem;
-    }
-}
+        if (e.target.closest('.custom-builder-controls .filter-tab')) {
+            const tab = e.target.closest('.custom-builder-controls .filter-tab');
+            document.querySelectorAll('.custom-builder-controls .filter-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            renderCustomLocationsForBuilder(tab.dataset.country);
+        }
 
-@media (min-width: 1024px) {
-    .packages-grid.columns-3 { grid-template-columns: repeat(3, 1fr); }
-     .hero-title-main { font-size: 4rem; max-width: 800px;}
-}
+        if (e.target.closest('.custom-location-card .card-add-btn')) {
+            const btn = e.target.closest('.card-add-btn');
+            handleAddToCart(btn.dataset.id, btn);
+            const mainPageBtn = document.querySelector(`.package-card .card-add-btn[data-id="${btn.dataset.id}"]`);
+            if (mainPageBtn) {
+                mainPageBtn.classList.toggle('added', btn.classList.contains('added'));
+                mainPageBtn.innerHTML = btn.innerHTML;
+            }
+        }
+    });
 
-/* --- ACCESSIBILITY --- */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+    // Flyer Modal Listener
+    flyerModal.addEventListener('click', e => {
+        if (e.target === flyerModal || e.target.closest('.modal-close-btn')) {
+            closeModal(flyerModal);
+        }
+    });
+
+    packagesGrid.addEventListener('click', e => {
+        if (e.target.closest('.card-add-btn')) {
+            const btn = e.target.closest('.card-add-btn');
+            handleAddToCart(btn.dataset.id, btn);
+        }
+    });
+
+    cartFab.addEventListener('click', openCartModal);
+    cartModal.addEventListener('click', e => {
+        if (e.target === cartModal || e.target.closest('.modal-close-btn')) {
+            closeModal(cartModal);
+        }
+        if (e.target.closest('.cart-item-remove-btn')) {
+            const itemEl = e.target.closest('.cart-item');
+            const packageId = itemEl.dataset.id;
+            const btnOnCard = document.querySelector(`.package-card .card-add-btn[data-id="${packageId}"]`);
+            if(btnOnCard) handleAddToCart(packageId, btnOnCard);
+            const btnInModal = document.querySelector(`.custom-location-card .card-add-btn[data-id="${packageId}"]`);
+            if(btnInModal) {
+                 btnInModal.classList.remove('added');
+                 btnInModal.innerHTML = '➕';
+            }
+            itemEl.remove();
+            if (customPackageCart.length === 0) closeModal(cartModal);
+        }
+    });
+
+    cartClearBtn.addEventListener('click', clearCart);
+    cartSendBtn.addEventListener('click', sendCartToWhatsapp);
+
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+    });
+
+    // --- Initial Load ---
+    const preRenderContent = () => {
+        setLanguage('en');
+        renderChatbot();
+        langSwitcherBtn.textContent = currentLang.toUpperCase();
+    };
+
+    resizeCanvas();
+    preRenderContent();
+    showPreloader();
+});
