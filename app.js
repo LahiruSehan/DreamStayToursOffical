@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- All data is now loaded from config.js ---
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // New Elements from update
     const stickyActionsContainer = document.querySelector('.sticky-actions-container');
     const heroSection = document.querySelector('.hero');
-    const aboutDreamstayBtn = document.getElementById('about-dreamstay-btn');
+    const customPlanBtn = document.getElementById('custom-plan-btn'); // Renamed from about
     const heroDestinationsContainer = document.querySelector('.hero-destinations');
     const heroInfoBtn = document.getElementById('hero-info-btn');
     const aboutModal = document.getElementById('about-modal');
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- NEW PACKAGE BUILDER & CART ELEMENTS ---
-    const packagesBuilderBtn = document.getElementById('packages-builder-btn');
+    const packagesScrollBtn = document.getElementById('packages-scroll-btn');
     const packagesBuilderModal = document.getElementById('packages-builder-modal');
     const cartFab = document.getElementById('cart-fab');
     const cartCountBadge = document.getElementById('cart-count-badge');
@@ -75,6 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartModalBody = document.getElementById('cart-modal-body');
     const cartClearBtn = document.getElementById('cart-clear-btn');
     const cartSendBtn = document.getElementById('cart-send-btn');
+    // Flyer Modal
+    const flyerModal = document.getElementById('flyer-modal');
+    const flyerImageContainer = document.querySelector('.flyer-image-container');
+    const flyerWhatsappBtn = document.querySelector('.flyer-whatsapp-btn');
 
 
     // Package Controls
@@ -700,8 +705,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('modal-open');
         stickyActionsContainer.classList.toggle('fab-hidden', isHeroVisible);
         const modalBody = modal.querySelector('.modal-content > div');
-        if (modalBody) {
+        if (modalBody && modal.id !== 'flyer-modal') {
             modalBody.innerHTML = '';
+        }
+        // Flyer modal clear
+        if (modal.id === 'flyer-modal') {
+            const container = modal.querySelector('.flyer-image-container');
+            if(container) container.innerHTML = '';
         }
     }
     
@@ -1055,20 +1065,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let html = `
             <h3 class="builder-section-title">Recommended Packages</h3>
-            <div class="recommended-packages-grid">
+            <div class="flyer-grid">
         `;
         
         window.packagesConfig.recommended.forEach(recPkg => {
             html += `
-                <div class="recommended-package-card" style="--theme-color: ${recPkg.themeColor}; --theme-icon: '${recPkg.icon}';">
-                    <h4 class="rec-pkg-title">${recPkg[`title_${currentLang}`]}</h4>
-                    <p class="rec-pkg-desc">${recPkg[`desc_${currentLang}`]}</p>
-                    <div class="rec-pkg-durations" data-package-id="${recPkg.id}">
-                        <button class="active" data-duration="4D/3N">4D/3N</button>
-                        <button data-duration="7D/6N">7D/6N</button>
-                        <button data-duration="10D/9N">10D/9N</button>
-                    </div>
-                    <button class="rec-pkg-cta" data-package-id="${recPkg.id}">Send Inquiry</button>
+                <div class="flyer-card">
+                    <img src="${recPkg.image}" alt="${recPkg[`title_${currentLang}`]}" class="flyer-thumbnail" data-flyer-id="${recPkg.id}">
+                    <button class="flyer-see-more-btn" data-flyer-id="${recPkg.id}">${config.STRINGS[currentLang].viewPhotos || 'See More Info'}</button>
                 </div>
             `;
         });
@@ -1111,6 +1115,21 @@ document.addEventListener('DOMContentLoaded', () => {
         packagesBuilderModal.classList.remove('hidden');
         document.body.classList.add('modal-open');
         stickyActionsContainer.classList.remove('fab-hidden');
+    };
+
+    const openFlyerModal = (flyerId) => {
+        const pkg = window.packagesConfig.recommended.find(p => p.id === flyerId);
+        if(!pkg) return;
+
+        flyerImageContainer.innerHTML = `<img src="${pkg.image}" alt="${pkg.title_en}">`;
+        
+        const message = `Hello DreamStay! I'm interested in the "${pkg.title_en}". Please send me more details.`;
+        flyerWhatsappBtn.href = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+        flyerModal.classList.remove('hidden');
+        // We do NOT add modal-open class here if it's already open from the builder to prevent scrolling issues on close
+        // But since builder is already open, we're good. If opened directly, add it.
+        // Assuming builder stays open behind it.
     };
     
     // --- Event Listeners ---
@@ -1241,7 +1260,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') {
             if (!packageModal.classList.contains('hidden')) closeModal(packageModal);
             if (!mediaLightbox.classList.contains('hidden')) closeModal(mediaLightbox);
-            if (!packagesBuilderModal.classList.contains('hidden')) closeModal(packagesBuilderModal);
+            if (!flyerModal.classList.contains('hidden')) closeModal(flyerModal);
+            // Close builder only if flyer is not open to avoid closing everything
+            else if (!packagesBuilderModal.classList.contains('hidden')) closeModal(packagesBuilderModal);
+            
             if (!cartModal.classList.contains('hidden')) closeModal(cartModal);
             if (!chatbotModal.classList.contains('hidden')) chatbotModal.classList.add('hidden');
             if (!aboutModal.classList.contains('hidden')) closeModal(aboutModal);
@@ -1299,11 +1321,18 @@ document.addEventListener('DOMContentLoaded', () => {
         fabObserver.observe(heroSection);
     }
 
-    if (aboutDreamstayBtn) {
-        aboutDreamstayBtn.addEventListener('click', () => {
-            if (dashboardInfoContainer) {
-                dashboardInfoContainer.scrollIntoView({ behavior: 'smooth' });
-            }
+    // Logic for new buttons
+    if (customPlanBtn) {
+        customPlanBtn.addEventListener('click', openPackagesBuilderModal);
+    }
+
+    if (packagesScrollBtn) {
+        packagesScrollBtn.addEventListener('click', () => {
+             // If currently on Dashboard, switch to Sri Lanka to show packages
+             if (currentView === 'Dashboard') {
+                 switchView('Sri Lanka');
+             }
+             document.getElementById('packages').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     }
 
@@ -1329,31 +1358,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- NEW PACKAGE BUILDER & CART LISTENERS ---
-    if (packagesBuilderBtn) packagesBuilderBtn.addEventListener('click', openPackagesBuilderModal);
     
     packagesBuilderModal.addEventListener('click', e => {
         if (e.target === packagesBuilderModal || e.target.closest('.modal-close-btn')) {
             closeModal(packagesBuilderModal);
         }
         
-        if (e.target.closest('.rec-pkg-durations button')) {
-            const btn = e.target.closest('.rec-pkg-durations button');
-            const parent = btn.parentElement;
-            parent.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-
-        if (e.target.closest('.rec-pkg-cta')) {
-            const btn = e.target.closest('.rec-pkg-cta');
-            const pkgId = btn.dataset.packageId;
-            const recPkg = window.packagesConfig.recommended.find(p => p.id === pkgId);
-            const durationEl = btn.parentElement.querySelector('.rec-pkg-durations button.active');
-            const duration = durationEl ? durationEl.dataset.duration : 'Not specified';
-            const country = document.querySelector('.custom-builder-controls .filter-tab.active')?.dataset.country || 'Any';
-
-            const message = `Hello DreamStay! I'm interested in the "${recPkg.title_en}" package for ${country}, with a duration of ${duration}. Could you provide more details and a quote?`;
-            const url = `https://wa.me/${config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
+        // Handle "See More Info" clicks for flyers
+        if (e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail')) {
+            const btn = e.target.closest('.flyer-see-more-btn') || e.target.closest('.flyer-thumbnail');
+            const flyerId = btn.dataset.flyerId;
+            openFlyerModal(flyerId);
         }
 
         if (e.target.closest('.custom-builder-controls .filter-tab')) {
@@ -1371,6 +1386,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 mainPageBtn.classList.toggle('added', btn.classList.contains('added'));
                 mainPageBtn.innerHTML = btn.innerHTML;
             }
+        }
+    });
+
+    // Flyer Modal Listener
+    flyerModal.addEventListener('click', e => {
+        if (e.target === flyerModal || e.target.closest('.modal-close-btn')) {
+            closeModal(flyerModal);
         }
     });
 
